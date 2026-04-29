@@ -1,3 +1,18 @@
+// Safe numeric rating extractor. Handles string ratings, NaN, null, undefined.
+// ?? catches only null/undefined; || 0 collapses NaN to 0.
+export function getPlayerRating(p) {
+  return Number(p?.rating ?? p?.overall ?? p?.ovr ?? 0) || 0;
+}
+
+// Sorts a player array highest→lowest rating (safe: coerces to Number, falls back to name).
+export function sortByRating(players) {
+  return [...players].sort(
+    (a, b) =>
+      getPlayerRating(b) - getPlayerRating(a) ||
+      String(a.name || '').localeCompare(String(b.name || ''))
+  );
+}
+
 // Single source of truth for rating tier thresholds, colors, and card styles.
 // Gold >= 75 | Silver 65–74 | Bronze <= 64 | Elite >= 85 (gold subclass)
 

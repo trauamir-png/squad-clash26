@@ -114,10 +114,29 @@
   }
 
   .formation-card {
-    padding: 16px;
+    padding: 14px 12px;
   }
 
   .formation-name {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .formations-grid {
+    gap: 8px;
+  }
+  .formation-selector-title {
+    font-size: clamp(20px, 7vw, 28px);
+  }
+  .formation-selector-subtitle {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  .formation-card {
+    padding: 10px 8px;
+  }
+  .formation-name {
+    font-size: 13px;
   }
 }

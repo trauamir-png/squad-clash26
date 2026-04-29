@@ -1,3 +1,7 @@
+html {
+  background: #000000;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -21,6 +25,7 @@ body {
 }
 
 .app {
+  width: 100%;
   min-height: 100vh;
   padding: 28px 24px;
   max-width: 1240px;
@@ -848,22 +853,23 @@ p {
   }
 
   .position-button {
-    width: 92px;
-    height: 112px;
-    padding: 8px 6px 24px;
+    width: 76px;
+    height: 96px;
+    padding: 8px 5px 12px;
     gap: 3px;
   }
 
   .bench-slot {
-    width: 60px;
-    height: 76px;
-    padding: 6px 3px 18px;
+    width: 56px;
+    height: 70px;
+    padding: 6px 3px 16px;
+    flex-shrink: 0;
   }
   .bench-slot.filled-card {
-    height: 100px;
+    height: 96px;
     padding: 6px 3px 5px;
   }
-  .bench-slot.filled-card .bench-img { height: 42px; }
+  .bench-slot.filled-card .bench-img { height: 40px; }
   .bench-slot.filled-card .bench-card-rating { font-size: 13px; }
 
   .picker-panel,
@@ -874,9 +880,14 @@ p {
   }
 
   .bench {
-    gap: 6px;
+    gap: 5px;
     padding: 12px 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    scrollbar-width: none;
   }
+  .bench::-webkit-scrollbar { display: none; }
 
   .picker-panel {
     padding: 14px;
@@ -898,36 +909,7 @@ p {
   }
 }
 
-@media (max-width: 640px) {
-  .position-button {
-    width: 92px;
-    height: 112px;
-    padding: 8px 6px 24px;
-    gap: 3px;
-  }
-
-  .bench-slot {
-    width: 60px;
-    height: 76px;
-    padding: 6px 3px 18px;
-  }
-  .bench-slot.filled-card {
-    height: 100px;
-    padding: 6px 3px 5px;
-  }
-  .bench-slot.filled-card .bench-img { height: 42px; }
-  .bench-slot.filled-card .bench-card-rating { font-size: 13px; }
-
-  .picker-panel {
-    padding: 14px;
-  }
-
-  .summary-row {
-    grid-template-columns: 72px 1fr 48px;
-    gap: 10px;
-  }
-
-}
+/* (duplicate 640px block removed — rules consolidated above) */
 
 /* ── Pack Opening Screen ─────────────────────────────────────── */
 
@@ -994,13 +976,36 @@ p {
   flex: 1; min-width: 200px; max-width: 260px;
   background: rgba(255,255,255,0.04);
   border: 2px solid; border-radius: 16px;
-  padding: 32px 20px;
+  padding: 20px 20px 24px;
   display: flex; flex-direction: column; align-items: center; gap: 10px;
   cursor: pointer; transition: transform 0.15s, background 0.15s;
 }
 .pack-choice-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.09); }
 
-.pack-choice-icon { font-size: 40px; line-height: 1; }
+/* Scaled-down pack visual inside the selection card */
+.pack-choice-visual {
+  width: 100%;
+  height: 108px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+  pointer-events: none;
+  margin-bottom: 2px;
+}
+.pack-choice-visual .ob-pack-wrapper {
+  transform: scale(0.44);
+  transform-origin: top center;
+  flex-shrink: 0;
+}
+.pack-choice-visual .ob-pack-glow {
+  opacity: 0.6;
+}
+.pack-choice-locked .pack-choice-visual {
+  opacity: 0.45;
+  filter: grayscale(0.35);
+}
+
 .pack-choice-label { font-size: 20px; font-weight: 800; letter-spacing: 0.3px; }
 .pack-choice-desc { font-size: 13px; color: #64748b; }
 
@@ -1618,6 +1623,26 @@ p {
   text-align: center;
   cursor: pointer;
 }
+
+.packs-not-enough {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  color: #fca5a5;
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin: 0 auto 16px;
+  max-width: 360px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  animation: ob-fadein 0.2s ease both;
+}
+.packs-not-enough::before { content: "⚠️"; font-size: 16px; }
 
 /* ── Match Result Screen ─────────────────────────────────────────── */
 .match-result-screen {
@@ -3484,21 +3509,42 @@ p {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  animation: ob-fadein 0.18s ease both;
 }
 
 .modal-box {
-  background: #0f1a0f;
-  border: 1px solid rgba(255, 214, 88, 0.3);
-  border-radius: 16px;
-  padding: 32px 28px 24px;
-  width: min(360px, 90vw);
+  background: #0a1208;
+  border: 1px solid rgba(255, 214, 88, 0.28);
+  border-radius: 20px;
+  padding: 0 28px 28px;
+  width: min(340px, 92vw);
   text-align: center;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+  animation: modal-pop 0.22s cubic-bezier(0.34, 1.3, 0.64, 1) both;
+}
+@keyframes modal-pop {
+  from { transform: scale(0.88); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+/* Scaled pack visual inside the confirmation modal */
+.modal-pack-visual {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  height: 120px;
+  margin-bottom: 4px;
+  pointer-events: none;
+}
+.modal-pack-visual .ob-pack-wrapper {
+  transform: scale(0.48);
+  transform-origin: top center;
+  flex-shrink: 0;
 }
 
 .modal-title {
@@ -4102,6 +4148,101 @@ p {
   transform: translateY(0);
 }
 
+/* ── Splash screen ────────────────────────────────────────────────────────── */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 50% 40%, #0a1f3a 0%, #000000 70%);
+  cursor: pointer;
+  z-index: 9999;
+  animation: splash-fadein 0.6s ease both;
+}
+@keyframes splash-fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 24px;
+  animation: splash-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+@keyframes splash-rise {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.splash-logo {
+  width: min(320px, 78vw);
+  height: auto;
+  filter: drop-shadow(0 0 40px rgba(30, 100, 255, 0.35)) drop-shadow(0 0 80px rgba(255, 180, 0, 0.2));
+  animation: splash-logo-glow 3s ease-in-out infinite alternate;
+  user-select: none;
+}
+@keyframes splash-logo-glow {
+  from { filter: drop-shadow(0 0 28px rgba(30, 100, 255, 0.3)) drop-shadow(0 0 60px rgba(255, 180, 0, 0.15)); }
+  to   { filter: drop-shadow(0 0 52px rgba(30, 140, 255, 0.55)) drop-shadow(0 0 100px rgba(255, 210, 30, 0.35)); }
+}
+.splash-tagline {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(255, 220, 80, 0.85);
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(255, 200, 30, 0.5);
+  margin: 0;
+}
+.splash-btn {
+  margin-top: 20px;
+  padding: 14px 48px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #1e40af, #2563eb, #1d4ed8);
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.4), 0 8px 32px rgba(37, 99, 235, 0.5);
+  transition: transform 0.12s, box-shadow 0.12s, opacity 0.12s;
+  animation: splash-btn-pulse 2.4s ease-in-out infinite;
+}
+@keyframes splash-btn-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(96,165,250,0.4), 0 8px 32px rgba(37,99,235,0.5); }
+  50%       { box-shadow: 0 0 0 3px rgba(96,165,250,0.5), 0 8px 44px rgba(37,99,235,0.75); }
+}
+.splash-btn:hover  { transform: translateY(-2px); opacity: 0.9; }
+.splash-btn:active { transform: translateY(0); opacity: 1; }
+
+/* ── Main screen header with logo ─────────────────────────────────────────── */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 6px 0 2px;
+  margin-bottom: 4px;
+}
+.main-header-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(255, 180, 0, 0.4));
+}
+.main-header-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+  line-height: 1;
+}
+
 /* ── Best card spotlight ──────────────────────────────────────────────────── */
 .spotlight-overlay {
   position: fixed;
@@ -4292,4 +4433,290 @@ p {
     animation: ob-fadein 0.3s ease both;
     animation-delay: calc(var(--i, 0) * 20ms);
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVENESS — comprehensive fixes for ≤480px / ≤390px
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1 — Prevent horizontal overflow globally */
+html, body, #root {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* 2 — App container: tighter side padding on phones */
+@media (max-width: 480px) {
+  .app {
+    padding: 20px 12px;
+  }
+}
+
+/* 3 — Position buttons: scale down to avoid card overlap on small fields */
+@media (max-width: 480px) {
+  .position-button {
+    width: 64px;
+    height: 82px;
+    padding: 7px 4px 10px;
+    gap: 2px;
+  }
+  .pitch-card .mini-card-image {
+    width: 36px;
+    height: 36px;
+    margin-top: 10px;
+  }
+  .mini-rating { font-size: 17px; }
+  .mini-position { font-size: 10px; }
+  .pitch-card .mini-card-name { font-size: 9px; }
+}
+
+@media (max-width: 390px) {
+  .position-button {
+    width: 58px;
+    height: 74px;
+    padding: 6px 3px 8px;
+  }
+  .mini-rating { font-size: 15px; }
+  .pitch-card .mini-card-image {
+    width: 32px;
+    height: 32px;
+    margin-top: 8px;
+  }
+}
+
+/* 4 — Pack / onboarding card typography in 2-col layout */
+@media (max-width: 480px) {
+  .pack-card-rating,
+  .pack-card-pos {
+    font-size: 20px;
+  }
+  .pack-card-name {
+    font-size: 13px;
+    height: 40px;
+  }
+  .pack-card-img,
+  .ob-card-img {
+    height: 110px;
+  }
+  .pack-player-card {
+    height: auto;
+    min-height: 260px;
+  }
+  .ob-player-card {
+    height: auto;
+    min-height: 255px;
+  }
+  .ob-card-rating,
+  .ob-card-pos {
+    font-size: 17px;
+  }
+  .ob-card-name {
+    font-size: 13px;
+    height: 40px;
+  }
+  .packs-screen {
+    padding: 16px 12px 48px;
+    gap: 18px;
+  }
+  .packs-title {
+    font-size: clamp(18px, 6vw, 28px);
+  }
+  .packs-topbar {
+    gap: 10px;
+  }
+  .pack-choice-price {
+    font-size: 12px;
+  }
+}
+
+/* 5 — My Club screen */
+@media (max-width: 480px) {
+  .mc-screen {
+    padding: 0 10px 40px;
+  }
+  .mc-topbar {
+    padding: 14px 0 18px;
+    gap: 10px;
+  }
+  .mc-title {
+    font-size: clamp(18px, 5.5vw, 26px);
+  }
+  .mc-back-btn {
+    font-size: 13px;
+    padding: 7px 11px;
+  }
+  .mc-card-rating {
+    font-size: 18px;
+  }
+}
+/* mc-card-pos was unstyled — add base size */
+.mc-card-pos {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: inherit;
+  opacity: 0.8;
+  line-height: 1;
+}
+
+/* 6 — Match result screen */
+@media (max-width: 480px) {
+  .match-result-screen {
+    padding: 28px 12px;
+    gap: 18px;
+  }
+  .match-score-card {
+    padding: 20px 20px;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .match-goals-for,
+  .match-goals-against {
+    font-size: 56px;
+    min-width: 54px;
+  }
+  .match-score-sep { font-size: 36px; }
+  .match-result-label { font-size: 22px; }
+  .match-reward-card { min-width: 0; width: 100%; }
+  .match-bottom-row { flex-direction: column; }
+  .match-stats-card { min-width: 0; width: 100%; }
+}
+
+/* 7 — Onboarding pack screen */
+@media (max-width: 480px) {
+  .ob-screen {
+    padding: 32px 12px 36px;
+  }
+  .ob-title {
+    font-size: clamp(22px, 8vw, 34px);
+  }
+  .ob-subtitle {
+    font-size: 14px;
+  }
+  .ob-continue-btn {
+    padding: 14px 32px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* 8 — Match preview screen */
+@media (max-width: 480px) {
+  .preview-screen {
+    padding: 28px 12px;
+    gap: 20px;
+  }
+  .preview-matchup {
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .preview-team {
+    min-width: 80px;
+  }
+  .preview-team-name {
+    font-size: 17px;
+  }
+  .preview-stats-row {
+    flex-direction: column;
+  }
+  .preview-stats-card {
+    padding: 14px;
+  }
+  .preview-actions {
+    max-width: 100%;
+  }
+  .preview-lineup {
+    padding: 14px 14px;
+  }
+  .preview-lineup-row {
+    grid-template-columns: 38px 1fr 1fr 30px;
+    gap: 6px;
+  }
+}
+
+/* 9 — Live match screen */
+@media (max-width: 480px) {
+  .live-screen {
+    padding: 28px 12px 48px;
+  }
+  .live-header {
+    font-size: 12px;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .live-score-digit {
+    font-size: 62px;
+    min-width: 56px;
+  }
+  .live-score-sep { font-size: 38px; }
+  .live-score-row { gap: 14px; }
+}
+
+/* 10 — Stats comparison */
+@media (max-width: 480px) {
+  .stats-comparison {
+    padding: 14px 14px;
+  }
+  .stats-comp-row {
+    grid-template-columns: 38px 1fr 38px;
+  }
+  .stats-comp-val { font-size: 14px; }
+}
+
+/* 11 — Formation selector */
+@media (max-width: 480px) {
+  .formation-selector-container {
+    padding: 24px 12px 32px;
+  }
+}
+
+/* 12 — Modal: ensure it doesn't clip on small screens */
+@media (max-width: 480px) {
+  .modal-box {
+    width: min(320px, 96vw);
+    padding: 0 18px 22px;
+  }
+  .modal-title { font-size: 18px; }
+  .modal-body  { font-size: 14px; margin-bottom: 18px; }
+}
+
+/* 13 — Dev mode button: shrink on small screens */
+@media (max-width: 480px) {
+  .app > div[style*="position: absolute"] button {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
+/* 14 — General touch targets: all interactive buttons min 44px tall */
+@media (max-width: 480px) {
+  .packs-back-btn,
+  .pack-open-another-btn,
+  .mc-back-btn,
+  .ob-continue-btn,
+  .match-continue-btn,
+  .preview-start-btn,
+  .preview-back-btn,
+  .continue-button,
+  .select-player-btn {
+    min-height: 44px;
+  }
+  .packs-back-btn,
+  .pack-open-another-btn {
+    padding: 10px 18px;
+  }
+}
+
+/* 15 — Summary panel row on very small phones */
+@media (max-width: 380px) {
+  .summary-row {
+    grid-template-columns: 58px 1fr 40px;
+    gap: 8px;
+  }
+  .summary-position { font-size: 11px; }
+  .summary-player   { font-size: 13px; }
 }

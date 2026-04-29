@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getCardRatingColor, getRatingCardStyle, getRatingCardClass } from './ratingUtils';
+import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, sortByRating } from './ratingUtils';
 import { PlayerImage } from './PlayerImage';
 import { getClubLogo } from './utils/imageResolvers';
 import { getAllPlayers } from './data/csvPlayerStore';
@@ -42,17 +42,12 @@ export function MyClubScreen({ clubPlayers, selectedPlayers, currentFormation, s
 
   const usedCount = xiIds.size + benchIds.size;
 
-  const STATUS_ORDER = { xi: 0, bench: 1, free: 2 };
-
-  const players = [...clubPlayers]
-    .map(p => ({
+  const players = sortByRating(
+    clubPlayers.map(p => ({
       ...p,
       status: xiIds.has(p.id) ? 'xi' : benchIds.has(p.id) ? 'bench' : 'free',
     }))
-    .sort((a, b) =>
-      STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
-      b.rating - a.rating
-    );
+  );
 
   const clubLogo = getClubLogo(clubName);
 

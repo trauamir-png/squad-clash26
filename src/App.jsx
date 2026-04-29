@@ -16,6 +16,7 @@ import { getRatingColor, getCardRatingColor, getRatingCardStyle, getRatingCardCl
 import { getClubLogo, getLeagueLogo } from "./utils/imageResolvers";
 import { generateMatchEvents } from "./data/matchSimulator";
 import { PlayerImage } from "./PlayerImage";
+import { SplashScreen } from "./SplashScreen";
 
 function getFormationAdjacency(formation) {
   const THRESHOLD = 40;
@@ -454,6 +455,7 @@ function App() {
   const [matchResult, setMatchResult] = useState(null);
   const [selectedOpponent, setSelectedOpponent]           = useState(null);
   const [selectedOpponentSquad, setSelectedOpponentSquad] = useState([]);
+  const [showSplash, setShowSplash] = useState(true);
 
   const addPackToClub = (type) => {
     const price = PACK_PRICES[type]; // undefined for starter (free)
@@ -587,11 +589,12 @@ function App() {
   };
 
 
-  // Dev mode: automatically create default club and skip onboarding
+  // Dev mode: auto-create a club so the Create Club form is skipped.
+  // Only sets `club` — formationSelected and hasOpenedStarterPack are left
+  // as-is so the rest of the onboarding flow works normally.
   useEffect(() => {
     if (devMode && !club) {
       setClub({ name: "Dev Team", logo: "red-shield", country: "England" });
-      setHasOpenedStarterPack(true);
     }
   }, [devMode, club]);
 
@@ -614,128 +617,78 @@ function App() {
   };
 
   const handleResetClubAndPack = () => {
-    setClubPlayers([]);
-    setSelectedPlayers({});
-    setHasOpenedStarterPack(false);
-    console.log('%c🔄 Dev reset: club players cleared, starter pack reset', 'color: #f87171; font-weight: bold');
+    // Save only the club (name/logo/country) so user lands on FormationSelector
+    // (step 2) rather than Club Creation (step 1) after reload.
+    saveGameState({
+      club,
+      selectedFormation: "4-3-3",
+      formationSelected: false,
+      hasOpenedStarterPack: false,
+      clubPlayers: [],
+      selectedPlayers: {},
+      coins: 0,
+    });
+    console.log('%c🔄 Reset: saved clean state, reloading to FormationSelector', 'color: #f87171; font-weight: bold');
+    window.location.reload();
   };
   const formations = {
     "4-3-3": [
-      { id: "GK", x: 50, y: 90 },
-      { id: "LB", x: 18, y: 77 },
-      { id: "CB1", x: 38, y: 77 },
-      { id: "CB2", x: 62, y: 77 },
-      { id: "RB", x: 82, y: 77 },
-      { id: "CM1", x: 30, y: 50 },
-      { id: "CM2", x: 50, y: 50 },
-      { id: "CM3", x: 70, y: 50 },
-      { id: "LW", x: 22, y: 18 },
-      { id: "ST", x: 50, y: 18 },
-      { id: "RW", x: 78, y: 18 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "LB",  x: 14, y: 68 }, { id: "CB1", x: 36, y: 68 }, { id: "CB2", x: 64, y: 68 }, { id: "RB",  x: 86, y: 68 },
+      { id: "CM1", x: 24, y: 50 }, { id: "CM2", x: 50, y: 50 }, { id: "CM3", x: 76, y: 50 },
+      { id: "LW",  x: 18, y: 19 }, { id: "ST",  x: 50, y: 19 }, { id: "RW",  x: 82, y: 19 },
     ],
     "4-4-2": [
-      { id: "GK", x: 50, y: 90 },
-      { id: "LB", x: 18, y: 77 },
-      { id: "CB1", x: 38, y: 77 },
-      { id: "CB2", x: 62, y: 77 },
-      { id: "RB", x: 82, y: 77 },
-      { id: "LM", x: 20, y: 52 },
-      { id: "CM1", x: 36, y: 52 },
-      { id: "CM2", x: 64, y: 52 },
-      { id: "RM", x: 80, y: 52 },
-      { id: "ST1", x: 36, y: 18 },
-      { id: "ST2", x: 64, y: 18 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "LB",  x: 14, y: 68 }, { id: "CB1", x: 36, y: 68 }, { id: "CB2", x: 64, y: 68 }, { id: "RB",  x: 86, y: 68 },
+      { id: "LM",  x: 12, y: 50 }, { id: "CM1", x: 37, y: 50 }, { id: "CM2", x: 63, y: 50 }, { id: "RM",  x: 88, y: 50 },
+      { id: "ST1", x: 35, y: 19 }, { id: "ST2", x: 65, y: 19 },
     ],
     "5-3-2": [
-      { id: "GK", x: 50, y: 92 },
-      { id: "LWB", x: 12, y: 88 },
-      { id: "CB1", x: 30, y: 88 },
-      { id: "CB2", x: 50, y: 88 },
-      { id: "CB3", x: 70, y: 88 },
-      { id: "RWB", x: 88, y: 88 },
-      { id: "CM1", x: 30, y: 56 },
-      { id: "CM2", x: 50, y: 56 },
-      { id: "CM3", x: 70, y: 56 },
-      { id: "ST1", x: 40, y: 20 },
-      { id: "ST2", x: 60, y: 20 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "LWB", x: 10, y: 68 }, { id: "CB1", x: 28, y: 68 }, { id: "CB2", x: 50, y: 68 }, { id: "CB3", x: 72, y: 68 }, { id: "RWB", x: 90, y: 68 },
+      { id: "CM1", x: 25, y: 50 }, { id: "CM2", x: 50, y: 50 }, { id: "CM3", x: 75, y: 50 },
+      { id: "ST1", x: 35, y: 19 }, { id: "ST2", x: 65, y: 19 },
     ],
     "4-2-3-1": [
-      { id: "GK", x: 50, y: 90 },
-      { id: "LB", x: 18, y: 77 },
-      { id: "CB1", x: 38, y: 77 },
-      { id: "CB2", x: 62, y: 77 },
-      { id: "RB", x: 82, y: 77 },
-      { id: "CDM1", x: 36, y: 58 },
-      { id: "CDM2", x: 64, y: 58 },
-      { id: "LAM", x: 22, y: 38 },
-      { id: "CAM", x: 50, y: 38 },
-      { id: "RAM", x: 78, y: 38 },
-      { id: "ST", x: 50, y: 18 },
+      { id: "GK",   x: 50, y: 80 },
+      { id: "LB",   x: 14, y: 65 }, { id: "CB1",  x: 36, y: 65 }, { id: "CB2", x: 64, y: 65 }, { id: "RB",  x: 86, y: 65 },
+      { id: "CDM1", x: 36, y: 52 }, { id: "CDM2", x: 64, y: 52 },
+      { id: "LAM",  x: 18, y: 37 }, { id: "CAM",  x: 50, y: 37 }, { id: "RAM", x: 82, y: 37 },
+      { id: "ST",   x: 50, y: 18 },
     ],
     "4-1-4-1": [
-      { id: "GK", x: 50, y: 90 },
-      { id: "LB", x: 18, y: 77 },
-      { id: "CB1", x: 38, y: 77 },
-      { id: "CB2", x: 62, y: 77 },
-      { id: "RB", x: 82, y: 77 },
-      { id: "CDM", x: 50, y: 58 },
-      { id: "LM", x: 20, y: 50 },
-      { id: "CM1", x: 36, y: 50 },
-      { id: "CM2", x: 64, y: 50 },
-      { id: "RM", x: 80, y: 50 },
-      { id: "ST", x: 50, y: 18 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "LB",  x: 14, y: 65 }, { id: "CB1", x: 36, y: 65 }, { id: "CB2", x: 64, y: 65 }, { id: "RB",  x: 86, y: 65 },
+      { id: "CDM", x: 50, y: 52 },
+      { id: "LM",  x: 12, y: 37 }, { id: "CM1", x: 37, y: 37 }, { id: "CM2", x: 63, y: 37 }, { id: "RM",  x: 88, y: 37 },
+      { id: "ST",  x: 50, y: 18 },
     ],
     "3-5-2": [
-      { id: "GK", x: 50, y: 92 },
-      { id: "CB1", x: 25, y: 88 },
-      { id: "CB2", x: 50, y: 88 },
-      { id: "CB3", x: 75, y: 88 },
-      { id: "LWB", x: 10, y: 70 },
-      { id: "CM1", x: 30, y: 56 },
-      { id: "CM2", x: 50, y: 56 },
-      { id: "CM3", x: 70, y: 56 },
-      { id: "RWB", x: 90, y: 70 },
-      { id: "ST1", x: 38, y: 20 },
-      { id: "ST2", x: 62, y: 20 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "CB1", x: 25, y: 68 }, { id: "CB2", x: 50, y: 68 }, { id: "CB3", x: 75, y: 68 },
+      { id: "LWB", x: 10, y: 50 }, { id: "CM1", x: 30, y: 50 }, { id: "CM2", x: 50, y: 50 }, { id: "CM3", x: 70, y: 50 }, { id: "RWB", x: 90, y: 50 },
+      { id: "ST1", x: 35, y: 19 }, { id: "ST2", x: 65, y: 19 },
     ],
     "4-3-3 DM": [
-      { id: "GK", x: 50, y: 90 },
-      { id: "LB", x: 18, y: 77 },
-      { id: "CB1", x: 38, y: 77 },
-      { id: "CB2", x: 62, y: 77 },
-      { id: "RB", x: 82, y: 77 },
-      { id: "DM", x: 50, y: 60 },
-      { id: "CM1", x: 30, y: 50 },
-      { id: "CM2", x: 70, y: 50 },
-      { id: "LW", x: 22, y: 18 },
-      { id: "ST", x: 50, y: 18 },
-      { id: "RW", x: 78, y: 18 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "LB",  x: 14, y: 65 }, { id: "CB1", x: 36, y: 65 }, { id: "CB2", x: 64, y: 65 }, { id: "RB",  x: 86, y: 65 },
+      { id: "DM",  x: 50, y: 52 },
+      { id: "CM1", x: 30, y: 37 }, { id: "CM2", x: 70, y: 37 },
+      { id: "LW",  x: 18, y: 18 }, { id: "ST",  x: 50, y: 18 }, { id: "RW",  x: 82, y: 18 },
     ],
     "4-3-3 AM": [
-      { id: "GK", x: 50, y: 90 },
-      { id: "LB", x: 18, y: 77 },
-      { id: "CB1", x: 38, y: 77 },
-      { id: "CB2", x: 62, y: 77 },
-      { id: "RB", x: 82, y: 77 },
-      { id: "CM1", x: 30, y: 52 },
-      { id: "CM2", x: 70, y: 52 },
-      { id: "AM", x: 50, y: 40 },
-      { id: "LW", x: 22, y: 18 },
-      { id: "ST", x: 50, y: 18 },
-      { id: "RW", x: 78, y: 18 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "LB",  x: 14, y: 65 }, { id: "CB1", x: 36, y: 65 }, { id: "CB2", x: 64, y: 65 }, { id: "RB",  x: 86, y: 65 },
+      { id: "CM1", x: 28, y: 52 }, { id: "CM2", x: 72, y: 52 },
+      { id: "AM",  x: 50, y: 37 },
+      { id: "LW",  x: 18, y: 18 }, { id: "ST",  x: 50, y: 18 }, { id: "RW",  x: 82, y: 18 },
     ],
     "3-4-3": [
-      { id: "GK", x: 50, y: 92 },
-      { id: "CB1", x: 25, y: 88 },
-      { id: "CB2", x: 50, y: 88 },
-      { id: "CB3", x: 75, y: 88 },
-      { id: "LM", x: 14, y: 56 },
-      { id: "CM1", x: 38, y: 56 },
-      { id: "CM2", x: 62, y: 56 },
-      { id: "RM", x: 86, y: 56 },
-      { id: "LW", x: 18, y: 22 },
-      { id: "ST", x: 50, y: 20 },
-      { id: "RW", x: 82, y: 22 },
+      { id: "GK",  x: 50, y: 80 },
+      { id: "CB1", x: 25, y: 68 }, { id: "CB2", x: 50, y: 68 }, { id: "CB3", x: 75, y: 68 },
+      { id: "LM",  x: 12, y: 50 }, { id: "CM1", x: 37, y: 50 }, { id: "CM2", x: 63, y: 50 }, { id: "RM",  x: 88, y: 50 },
+      { id: "LW",  x: 18, y: 19 }, { id: "ST",  x: 50, y: 19 }, { id: "RW",  x: 82, y: 19 },
     ],
   };
   const currentFormation = formations[selectedFormation];
@@ -832,6 +785,10 @@ function App() {
       setClub(clubForm);
     }
   };
+
+  if (showSplash) {
+    return <SplashScreen onStart={() => setShowSplash(false)} />;
+  }
 
   if (!club) {
     return (
@@ -1176,7 +1133,10 @@ function App() {
           Dev Mode: {devMode ? "ON" : "OFF"}
         </button>
       </div>
-      <h1>Squad Battle</h1>
+      <div className="main-header">
+        <img src="/logo.png" alt="Squad Clash 26" className="main-header-logo" />
+        <span className="main-header-title">Squad Clash 26</span>
+      </div>
 
       {/* ── Picker Drawer ── */}
       {selectedPosition && (

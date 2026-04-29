@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { getCardRatingColor, getRatingCardStyle, getRatingCardClass } from './ratingUtils';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, sortByRating, getPlayerRating } from './ratingUtils';
 import { PlayerImage } from './PlayerImage';
 import { PackOpeningVisual, BestCardSpotlight } from './PackReveal';
 
@@ -7,40 +7,32 @@ const PACK_META = {
   starter: {
     label: "Starter Pack",
     desc: "25 players to start your club",
-    cardBg: "linear-gradient(160deg, #111827, #1e293b)",
     headerColor: "#ffffff",
     border: "#6b7280",
-    statColor: "#9ca3af",
   },
   bronze: {
     label: "Bronze Pack",
     desc: "12 players · OVR 64 or below",
-    cardBg: "linear-gradient(160deg, #1c0a00, #2d1200)",
     headerColor: "#fcd34d",
     border: "#92400e",
-    statColor: "#fbbf24",
   },
   silver: {
     label: "Silver Pack",
     desc: "12 players · OVR 65–74",
-    cardBg: "linear-gradient(160deg, #0f172a, #1e293b)",
     headerColor: "#e2e8f0",
     border: "#475569",
-    statColor: "#94a3b8",
   },
   gold: {
     label: "Gold Pack",
     desc: "12 players · OVR 75+",
-    cardBg: "linear-gradient(160deg, #1a0a00, #2d1800)",
     headerColor: "#ffd700",
     border: "#d97706",
-    statColor: "#fbbf24",
   },
 };
 
 const STATS = ["pac", "sho", "pas", "dri", "def", "phy"];
 
-function PackPlayerCard({ player, isDuplicate, packType, index = 0 }) {
+function PackPlayerCard({ player, isDuplicate, index = 0 }) {
   const cardStyle = getRatingCardStyle(player.rating);
   return (
     <div
@@ -52,9 +44,7 @@ function PackPlayerCard({ player, isDuplicate, packType, index = 0 }) {
         '--i': index,
       }}
     >
-      {isDuplicate && (
-        <div className="pack-card-owned-badge">Already Owned</div>
-      )}
+      {isDuplicate && <div className="pack-card-owned-badge">Already Owned</div>}
       <div className="pack-card-header">
         <span className="pack-card-rating" style={{ color: getCardRatingColor(player.rating) }}>
           {player.rating}
@@ -87,12 +77,15 @@ function PurchaseModal({ packType, price, onConfirm, onCancel }) {
   return (
     <div className="modal-overlay" onClick={onCancel}>
       <div className="modal-box" onClick={e => e.stopPropagation()}>
+        <div className="modal-pack-visual" aria-hidden="true">
+          <PackOpeningVisual type={packType} opening={false} />
+        </div>
         <h2 className="modal-title" style={{ color: meta.headerColor }}>{meta.label}</h2>
         <p className="modal-body">
-          Purchase this pack for <span className="modal-price">🪙 {price.toLocaleString()}</span>?
+          Purchase for <span className="modal-price">🪙 {price.toLocaleString()}</span>?
         </p>
         <div className="modal-actions">
-          <button className="modal-confirm-btn" onClick={onConfirm}>Confirm</button>
+          <button className="modal-confirm-btn" onClick={onConfirm}>Confirm Purchase</button>
           <button className="modal-cancel-btn" onClick={onCancel}>Cancel</button>
         </div>
       </div>
@@ -102,30 +95,54 @@ function PurchaseModal({ packType, price, onConfirm, onCancel }) {
 
 export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult, coins = 0, packPrices = {}, errorMsg, onClearError }) {
   const [pendingPackType, setPendingPackType] = useState(null);
-
-  // ── Pack reveal animation phases ────────────────────────────────────────────
-  // 'idle' | 'opening' | 'spotlight' | 'revealed'
-  const [packPhase, setPackPhase] = useState('idle');
-  const prevResultRef = useRef(null);
+  const [notEnoughCoins, setNotEnoughCoins] = useState(false);
+  const notEnoughTimerRef = useRef(null);
 
   useEffect(() => {
+    return () => { if (notEnoughTimerRef.current) clearTimeout(notEnoughTimerRef.current); };
+  }, []);
+
+  // 'idle' | 'sealed' | 'opening' | 'spotlight' | 'revealed'
+  const [packPhase, setPackPhase] = useState('idle');
+
+  // Initialised to the current packOpenResult so that a re-mounted existing
+  // result is recognised as "already seen" and goes straight to 'revealed'.
+  const prevResultRef = useRef(packOpenResult);
+
+  // useLayoutEffect fires before the browser paints, preventing the
+  // one-frame flash of the revealed card grid that useEffect would cause.
+  useLayoutEffect(() => {
     if (!packOpenResult) {
       setPackPhase('idle');
       prevResultRef.current = null;
       return;
     }
-    // Same result object seen again (e.g. re-mount) — skip straight to revealed
     if (packOpenResult === prevResultRef.current) {
+      // Re-mount with the same result — skip straight to revealed
       setPackPhase('revealed');
       return;
     }
+    // New result — show the sealed pack so the user can tap to open it
     prevResultRef.current = packOpenResult;
-    setPackPhase('opening');
-    const t = setTimeout(() => setPackPhase('spotlight'), 900);
-    return () => clearTimeout(t);
+    setPackPhase('sealed');
   }, [packOpenResult]);
 
-  // ── Pack opening animation screen ───────────────────────────────────────────
+  function handleOpenSealed() {
+    setPackPhase('opening');
+    setTimeout(() => setPackPhase('spotlight'), 900);
+  }
+
+  // ── Sealed pack — tap to open ─────────────────────────────────────────────
+  if (packOpenResult && packPhase === 'sealed') {
+    return (
+      <div className="ob-screen ob-screen-center" onClick={handleOpenSealed}>
+        <PackOpeningVisual type={packOpenResult.type} opening={false} />
+        <span className="ob-pack-cta">Tap to open</span>
+      </div>
+    );
+  }
+
+  // ── Pack opening animation ─────────────────────────────────────────────────
   if (packOpenResult && packPhase === 'opening') {
     return (
       <div className="ob-screen ob-screen-center">
@@ -135,7 +152,7 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
     );
   }
 
-  // ── Best card spotlight ──────────────────────────────────────────────────────
+  // ── Best card spotlight ────────────────────────────────────────────────────
   if (packOpenResult && packPhase === 'spotlight') {
     return (
       <BestCardSpotlight
@@ -145,10 +162,16 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
     );
   }
 
-  // ── Pack selection screen ────────────────────────────────────────────────────
+  // ── Pack selection screen ──────────────────────────────────────────────────
   const handlePackClick = (type) => {
     const price = packPrices[type];
-    if (coins < price) { onOpenPack(type); return; }
+    if (coins < price) {
+      if (notEnoughTimerRef.current) clearTimeout(notEnoughTimerRef.current);
+      setNotEnoughCoins(true);
+      notEnoughTimerRef.current = setTimeout(() => setNotEnoughCoins(false), 2800);
+      return;
+    }
+    setNotEnoughCoins(false);
     setPendingPackType(type);
   };
 
@@ -179,6 +202,12 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
           </div>
         )}
 
+        {notEnoughCoins && (
+          <div className="packs-not-enough" onClick={() => setNotEnoughCoins(false)}>
+            Not enough coins to buy that pack
+          </div>
+        )}
+
         {pendingPackType && (
           <PurchaseModal
             packType={pendingPackType}
@@ -200,7 +229,9 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
                 style={{ borderColor: meta.border }}
                 onClick={() => handlePackClick(type)}
               >
-                <span className="pack-choice-icon" style={{ color: meta.headerColor }}>🎴</span>
+                <div className="pack-choice-visual" aria-hidden="true">
+                  <PackOpeningVisual type={type} opening={false} />
+                </div>
                 <span className="pack-choice-label" style={{ color: meta.headerColor }}>
                   {meta.label}
                 </span>
@@ -216,11 +247,14 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
     );
   }
 
-  // ── Revealed state: staggered result grid ────────────────────────────────────
+  // ── Revealed state: staggered result grid ─────────────────────────────────
   const { type, players, duplicateIds } = packOpenResult;
   const meta = PACK_META[type];
   const newCount = players.length - duplicateIds.size;
   const btnDelay = `${players.length * 60 + 500}ms`;
+
+  const displayPlayers = sortByRating(players);
+  console.log("SORT CHECK ratings:", displayPlayers.map(p => p.rating));
 
   return (
     <div className="packs-screen">
@@ -238,18 +272,17 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
       </div>
 
       <div className="pack-cards-grid">
-        {players.map((player, i) => (
+        {displayPlayers.map((player, i) => (
           <PackPlayerCard
             key={player.id}
             player={player}
             isDuplicate={duplicateIds.has(player.id)}
-            packType={type}
             index={i}
           />
         ))}
       </div>
 
-      <div className="packs-actions" style={{ animationDelay: btnDelay, animation: `ob-fadein 0.4s ease both` }}>
+      <div className="packs-actions" style={{ animationDelay: btnDelay, animation: 'ob-fadein 0.4s ease both' }}>
         <button className="pack-open-another-btn" onClick={onClearResult}>
           Open Another Pack
         </button>
