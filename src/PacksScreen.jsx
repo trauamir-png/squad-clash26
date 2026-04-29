@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, sortByRating, getPlayerRating } from './ratingUtils';
+import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, getPlayerRating } from './ratingUtils';
 import { PlayerImage } from './PlayerImage';
 import { PackOpeningVisual, BestCardSpotlight } from './PackReveal';
 
@@ -253,9 +253,6 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
   const newCount = players.length - duplicateIds.size;
   const btnDelay = `${players.length * 60 + 500}ms`;
 
-  const displayPlayers = sortByRating(players);
-  console.log("SORT CHECK ratings:", displayPlayers.map(p => p.rating));
-
   return (
     <div className="packs-screen">
       <div className="packs-topbar" style={{ animation: 'ob-fadein 0.4s ease both' }}>
@@ -272,7 +269,7 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
       </div>
 
       <div className="pack-cards-grid">
-        {displayPlayers.map((player, i) => (
+        {[...players].sort((a, b) => getPlayerRating(b) - getPlayerRating(a)).map((player, i) => (
           <PackPlayerCard
             key={player.id}
             player={player}

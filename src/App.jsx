@@ -617,19 +617,22 @@ function App() {
   };
 
   const handleResetClubAndPack = () => {
-    // Save only the club (name/logo/country) so user lands on FormationSelector
-    // (step 2) rather than Club Creation (step 1) after reload.
-    saveGameState({
-      club,
-      selectedFormation: "4-3-3",
-      formationSelected: false,
-      hasOpenedStarterPack: false,
-      clubPlayers: [],
-      selectedPlayers: {},
-      coins: 0,
-    });
-    console.log('%c🔄 Reset: saved clean state, reloading to FormationSelector', 'color: #f87171; font-weight: bold');
-    window.location.reload();
+    resetGameSave();
+    setClub(null);
+    setClubForm({ name: "", logo: "red-shield", country: "" });
+    setShowSplash(true);
+    setFormationSelected(false);
+    setSelectedFormation("4-3-3");
+    setHasOpenedStarterPack(false);
+    setClubPlayers([]);
+    setSelectedPlayers({});
+    setCoins(0);
+    setCurrentScreen("squad");
+    setMatchResult(null);
+    setPackOpenResult(null);
+    setPackError(null);
+    setSelectedOpponent(null);
+    setSelectedOpponentSquad([]);
   };
   const formations = {
     "4-3-3": [
@@ -786,11 +789,10 @@ function App() {
     }
   };
 
-  if (showSplash) {
-    return <SplashScreen onStart={() => setShowSplash(false)} />;
-  }
-
   if (!club) {
+    if (showSplash) {
+      return <SplashScreen onStart={() => setShowSplash(false)} />;
+    }
     return (
       <div
         style={{

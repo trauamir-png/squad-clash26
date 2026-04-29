@@ -1,15 +1,16 @@
 /* Minimal base reset — all app styles live in App.css */
-body {
+html, body, #root {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  background: #000;
 }
 
 #root {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  overflow-x: hidden;
 }

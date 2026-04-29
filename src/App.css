@@ -1,9 +1,4 @@
-html {
-  background: #000000;
-}
-
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
   color: #f8f0d4;
   background:
@@ -26,10 +21,10 @@ body {
 
 .app {
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
   padding: 28px 24px;
-  max-width: 1240px;
-  margin: 0 auto;
   text-align: center;
 }
 
@@ -826,7 +821,7 @@ p {
   overflow: visible;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
   .game-area {
     flex-direction: column;
     align-items: center;
@@ -880,14 +875,17 @@ p {
   }
 
   .bench {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 5px;
     padding: 12px 10px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    justify-content: flex-start;
-    scrollbar-width: none;
+    overflow: hidden;
+    justify-content: unset;
   }
-  .bench::-webkit-scrollbar { display: none; }
+  .bench-slot,
+  .bench-slot.filled-card {
+    width: 100%;
+  }
 
   .picker-panel {
     padding: 14px;
@@ -914,6 +912,9 @@ p {
 /* ── Pack Opening Screen ─────────────────────────────────────── */
 
 .packs-screen {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
   background: linear-gradient(160deg, #000 0%, #0a1f0a 50%, #000 100%);
   padding: 24px 20px 60px;
@@ -1098,6 +1099,9 @@ p {
 /* ── Onboarding Starter Pack Screen ─────────────────────────────── */
 /* ── Onboarding screen shell ─────────────────────────────────── */
 .ob-screen {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -4439,14 +4443,7 @@ p {
    MOBILE RESPONSIVENESS — comprehensive fixes for ≤480px / ≤390px
    ═══════════════════════════════════════════════════════════════════ */
 
-/* 1 — Prevent horizontal overflow globally */
-html, body, #root {
-  overflow-x: hidden;
-  max-width: 100%;
-  width: 100%;
-}
-
-/* 2 — App container: tighter side padding on phones */
+/* 1 — App container: tighter side padding on phones */
 @media (max-width: 480px) {
   .app {
     padding: 20px 12px;

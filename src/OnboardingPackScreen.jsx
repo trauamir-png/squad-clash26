@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { openStarterPack } from './data/packService';
-import { getCardRatingColor, getRatingTier, getRatingCardStyle, getRatingCardClass, getPlayerRating, sortByRating } from './ratingUtils';
+import { getCardRatingColor, getRatingTier, getRatingCardStyle, getRatingCardClass, getPlayerRating } from './ratingUtils';
 import { PlayerImage } from './PlayerImage';
 import { PackOpeningVisual, BestCardSpotlight } from './PackReveal';
 
@@ -84,9 +84,6 @@ export function OnboardingPackScreen({ onComplete }) {
   const goldCount   = players.filter(p => getRatingTier(p.rating) === 'gold').length;
   const btnDelay    = `${players.length * 70 + 600}ms`;
 
-  const displayPlayers = sortByRating(players);
-  console.log("SORT CHECK ratings:", displayPlayers.map(p => p.rating));
-
   return (
     <div className="ob-screen">
       <div className="ob-reveal-header">
@@ -98,7 +95,7 @@ export function OnboardingPackScreen({ onComplete }) {
         </div>
       </div>
       <div className="ob-player-grid">
-        {displayPlayers.map((p, i) => <OnboardingPlayerCard key={p.id} player={p} index={i} />)}
+        {[...players].sort((a, b) => getPlayerRating(b) - getPlayerRating(a)).map((p, i) => <OnboardingPlayerCard key={p.id} player={p} index={i} />)}
       </div>
       <button
         className="ob-continue-btn"
