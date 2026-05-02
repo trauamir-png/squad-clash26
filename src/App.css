@@ -5111,3 +5111,38 @@ p {
 @media (prefers-reduced-motion: reduce) {
   .mc-card-inner { transition: none; }
 }
+
+/* ─── Drag-and-drop: pitch + bench slot states ─────────────────────────────── */
+
+/* Source slot: dimmed placeholder while the ghost floats above */
+.position-button.is-drag-source {
+  opacity: 0.28;
+  filter: none;
+  transition: opacity 0.1s ease;
+}
+.bench-slot.is-drag-source {
+  opacity: 0.28;
+  filter: none;
+  transition: opacity 0.1s ease;
+}
+
+/* Drop target: white ring pulse to invite the drop */
+.position-button.is-drag-target,
+.bench-slot.is-drag-target {
+  outline: 2.5px solid rgba(255,255,255,0.92);
+  outline-offset: 3px;
+  filter: brightness(1.12);
+  transition: outline 0.07s ease, filter 0.07s ease;
+}
+
+/* Landing snap — uses CSS `scale` property so it composes with transform cleanly */
+@keyframes slot-land {
+  0%   { scale: 1.10; }
+  52%  { scale: 0.95; }
+  78%  { scale: 1.03; }
+  100% { scale: 1; }
+}
+.position-button.just-dropped,
+.bench-slot.just-dropped {
+  animation: slot-land 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}

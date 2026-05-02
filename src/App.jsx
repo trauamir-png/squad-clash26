@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import { openPack, openStarterPack } from "./data/packService";
 import { PacksScreen } from "./PacksScreen";
@@ -458,6 +458,10 @@ function App() {
   const [selectedOpponentSquad, setSelectedOpponentSquad] = useState([]);
   const [showSplash, setShowSplash] = useState(true);
   const [, setLogoVersion] = useState(0);
+  const [dragState, setDragState] = useState(null); // { fromId, isDragging, toId }
+  const [droppedIds, setDroppedIds] = useState(new Set());
+  const dragRef = useRef(null);
+  const ghostRef = useRef(null);
 
   const addPackToClub = (type) => {
     const price = PACK_PRICES[type]; // undefined for starter (free)
@@ -723,6 +727,118 @@ function App() {
     const updatedPlayers = { ...selectedPlayers };
     delete updatedPlayers[positionId];
     setSelectedPlayers(updatedPlayers);
+  };
+
+  const handleSlotPointerDown = (e, positionId) => {
+    if (!selectedPlayers[positionId]) return;
+    e.preventDefault();
+    e.currentTarget.setPointerCapture(e.pointerId);
+
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    // Build a floating ghost that visually represents the dragged card.
+    // Direct DOM so position updates bypass React re-renders entirely.
+    const ghost = e.currentTarget.cloneNode(true);
+    ghost.removeAttribute('data-slot-id');
+    Object.assign(ghost.style, {
+      position: 'fixed',
+      pointerEvents: 'none',
+      zIndex: '9999',
+      left: `${rect.left}px`,
+      top: `${rect.top}px`,
+      width: `${rect.width}px`,
+      height: `${rect.height}px`,
+      transform: 'scale(1)',
+      transformOrigin: 'center center',
+      margin: '0',
+      willChange: 'left, top, transform',
+      transition: 'transform 0.13s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.13s ease',
+      boxShadow: '0 18px 56px rgba(0,0,0,0.78), 0 0 28px rgba(255,215,0,0.5)',
+      filter: 'brightness(1.18)',
+      opacity: '0.96',
+    });
+    document.body.appendChild(ghost);
+    ghostRef.current = ghost;
+
+    // Peel-off: ramp scale up on next frame so the transition fires
+    requestAnimationFrame(() => {
+      if (ghostRef.current === ghost) ghost.style.transform = 'scale(1.07)';
+    });
+
+    dragRef.current = {
+      fromId: positionId,
+      startX: e.clientX,
+      startY: e.clientY,
+      originLeft: rect.left,
+      originTop: rect.top,
+      isDragging: false,
+      toId: null,
+    };
+    setDragState({ fromId: positionId, isDragging: false, toId: null });
+  };
+
+  const handleSlotPointerMove = (e) => {
+    const drag = dragRef.current;
+    if (!drag) return;
+    const dx = e.clientX - drag.startX;
+    const dy = e.clientY - drag.startY;
+    if (!drag.isDragging && Math.sqrt(dx * dx + dy * dy) < 6) return;
+    if (!drag.isDragging) {
+      drag.isDragging = true;
+      // Disable transition so ghost tracks pointer without lag
+      if (ghostRef.current) ghostRef.current.style.transition = 'box-shadow 0.1s ease';
+      setDragState(prev => prev ? { ...prev, isDragging: true } : null);
+    }
+
+    // Move ghost via direct DOM — zero re-render overhead
+    if (ghostRef.current) {
+      ghostRef.current.style.left = `${drag.originLeft + dx}px`;
+      ghostRef.current.style.top  = `${drag.originTop  + dy}px`;
+    }
+
+    // Detect drop target (ghost has pointer-events:none so elementFromPoint skips it)
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const slotEl = el?.closest('[data-slot-id]');
+    const toId = slotEl?.dataset.slotId ?? null;
+    if (toId !== drag.toId) {
+      drag.toId = toId;
+      setDragState(prev => prev ? { ...prev, toId } : null);
+    }
+  };
+
+  const handleSlotPointerUp = (e, positionId) => {
+    const drag = dragRef.current;
+    dragRef.current = null;
+    if (ghostRef.current) { ghostRef.current.remove(); ghostRef.current = null; }
+    if (!drag) return;
+
+    if (!drag.isDragging) {
+      setDragState(null);
+      setActiveRemoveId(activeRemoveId === positionId ? null : positionId);
+      return;
+    }
+
+    setDragState(null);
+
+    if (drag.toId && drag.toId !== drag.fromId) {
+      const updated = { ...selectedPlayers };
+      const fromPlayer = updated[drag.fromId];
+      const toPlayer = updated[drag.toId] ?? null;
+      const landed = new Set([drag.toId]);
+      if (toPlayer) { updated[drag.fromId] = toPlayer; landed.add(drag.fromId); }
+      else          { delete updated[drag.fromId]; }
+      updated[drag.toId] = fromPlayer;
+      setSelectedPlayers(updated);
+      setActiveRemoveId(null);
+      setDroppedIds(landed);
+      setTimeout(() => setDroppedIds(new Set()), 420);
+    }
+  };
+
+  const handleSlotPointerCancel = () => {
+    dragRef.current = null;
+    if (ghostRef.current) { ghostRef.current.remove(); ghostRef.current = null; }
+    setDragState(null);
   };
   const subSlots = Array.from({ length: 7 }, (_, i) => ({
     id: `SUB${i + 1}`,
@@ -1360,24 +1476,25 @@ function App() {
               const slotPos = position.id.replace(/\d+$/, "");
               const fitScore = selectedPlayer ? getPositionFit(selectedPlayer.position, slotPos) : null;
               const fitBadge = fitScore !== null && fitScore < 100 ? getFitBadge(fitScore) : null;
+              const isDragSrc = dragState?.fromId === position.id;
+              const isDragTgt = dragState?.isDragging && dragState?.toId === position.id && !isDragSrc;
 
               return (
                 <button
                   key={position.id}
-                  className={`position-button ${selectedPlayer ? `filled-card ${getRatingCardClass(selectedPlayer.rating)}` : ''}`}
+                  data-slot-id={position.id}
+                  className={`position-button ${selectedPlayer ? `filled-card ${getRatingCardClass(selectedPlayer.rating)}` : ''}${isDragSrc ? ' is-drag-source' : ''}${isDragTgt ? ' is-drag-target' : ''}${droppedIds.has(position.id) ? ' just-dropped' : ''}`}
                   style={{
                     top: `${position.y}%`,
                     left: `${position.x}%`,
                     ...(selectedPlayer ? getRatingCardStyle(selectedPlayer.rating) : {}),
+                    touchAction: selectedPlayer ? 'none' : undefined,
                   }}
-                  onClick={() => {
-                    if (selectedPlayer) {
-                      setActiveRemoveId(activeRemoveId === position.id ? null : position.id);
-                    } else {
-                      setActiveRemoveId(null);
-                      handlePositionClick(position);
-                    }
-                  }}
+                  onClick={selectedPlayer ? undefined : () => { setActiveRemoveId(null); handlePositionClick(position); }}
+                  onPointerDown={selectedPlayer ? (e) => handleSlotPointerDown(e, position.id) : undefined}
+                  onPointerMove={selectedPlayer ? handleSlotPointerMove : undefined}
+                  onPointerUp={selectedPlayer ? (e) => handleSlotPointerUp(e, position.id) : undefined}
+                  onPointerCancel={selectedPlayer ? handleSlotPointerCancel : undefined}
                 >
                   {selectedPlayer ? (
                     <div className="mini-card pitch-card">
@@ -1443,16 +1560,17 @@ function App() {
                     </button>
                   )}
                   <button
-                    className={`bench-slot ${player ? `filled-card ${getRatingCardClass(player.rating)}` : ""}`}
-                    style={player ? getRatingCardStyle(player.rating) : undefined}
-                    onClick={() => {
-                      if (player) {
-                        setActiveRemoveId(isActive ? null : slot.id);
-                      } else {
-                        setActiveRemoveId(null);
-                        handlePositionClick(slot);
-                      }
+                    data-slot-id={slot.id}
+                    className={`bench-slot ${player ? `filled-card ${getRatingCardClass(player.rating)}` : ""}${dragState?.fromId === slot.id ? ' is-drag-source' : ''}${dragState?.isDragging && dragState?.toId === slot.id && dragState?.fromId !== slot.id ? ' is-drag-target' : ''}${droppedIds.has(slot.id) ? ' just-dropped' : ''}`}
+                    style={{
+                      ...(player ? getRatingCardStyle(player.rating) : undefined),
+                      touchAction: player ? 'none' : undefined,
                     }}
+                    onClick={player ? undefined : () => { setActiveRemoveId(null); handlePositionClick(slot); }}
+                    onPointerDown={player ? (e) => handleSlotPointerDown(e, slot.id) : undefined}
+                    onPointerMove={player ? handleSlotPointerMove : undefined}
+                    onPointerUp={player ? (e) => handleSlotPointerUp(e, slot.id) : undefined}
+                    onPointerCancel={player ? handleSlotPointerCancel : undefined}
                   >
                     {player ? (
                       <>
