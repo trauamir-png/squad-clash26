@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, sortByRating } from './ratingUtils';
-import { PlayerImage } from './PlayerImage';
 import { getClubLogo } from './utils/imageResolvers';
 import { getAllPlayers } from './data/csvPlayerStore';
+import { FutCard } from './FutCard';
 
 const STAT_KEYS = ['PAC', 'SHO', 'PAS', 'DRI', 'DEF', 'PHY'];
 
@@ -82,37 +82,29 @@ export function MyClubScreen({ clubPlayers, selectedPlayers, currentFormation, s
       ) : (
         <div className="mc-grid">
           {players.map(player => {
-            const faceClass = `mc-card mc-card-${player.status} ${getRatingCardClass(player.rating)}`;
-            const faceStyle = getRatingCardStyle(player.rating);
             const isFlipped = flippedId === player.id;
 
             return (
               <div
                 key={player.id}
-                className={`mc-card-wrapper${isFlipped ? ' is-flipped' : ''}`}
+                className={`mc-card-wrapper`}
                 onClick={() => handleCardClick(player.id)}
-                title="Click to see stats"
+                title="Tap to see stats"
               >
-                <div className="mc-card-inner">
-
-                  {/* ── Front ── */}
-                  <div className={`${faceClass} mc-card-front`} style={faceStyle}>
-                    <div className="mc-card-top">
-                      <div className="mc-card-top-left">
-                        <span className="mc-card-rating" style={{ color: getCardRatingColor(player.rating) }}>
-                          {player.rating}
-                        </span>
-                        <span className="mc-card-pos">{player.position}</span>
-                      </div>
-                      <StatusBadge status={player.status} />
-                    </div>
-                    <PlayerImage player={player} className="mc-card-img" />
-                    <div className="mc-card-name">{player.name}</div>
-                    <div className="mc-card-meta">{player.club}</div>
+                <div className={`mc-card-inner${isFlipped ? ' is-flipped' : ''}`}>
+                  {/* Front: FUT card */}
+                  <div className="mc-face mc-face-front">
+                    <FutCard
+                      player={player}
+                      size="md"
+                      extra={<StatusBadge status={player.status} />}
+                    />
                   </div>
-
-                  {/* ── Back ── */}
-                  <div className={`${faceClass} mc-card-back`} style={faceStyle}>
+                  {/* Back: stat bars */}
+                  <div
+                    className={`mc-face mc-face-back ${getRatingCardClass(player.rating)}`}
+                    style={getRatingCardStyle(player.rating)}
+                  >
                     <div className="mc-back-header">
                       <div className="mc-card-top">
                         <div className="mc-card-top-left">
@@ -125,7 +117,6 @@ export function MyClubScreen({ clubPlayers, selectedPlayers, currentFormation, s
                       </div>
                       <div className="mc-back-player-name">{player.name}</div>
                     </div>
-
                     <div className="mc-back-stats">
                       {STAT_KEYS.map(key => {
                         const val = resolveStats(player)[key.toLowerCase()];
@@ -135,17 +126,13 @@ export function MyClubScreen({ clubPlayers, selectedPlayers, currentFormation, s
                             <span className="mc-stat-label">{key}</span>
                             <span className="mc-stat-val">{val}</span>
                             <div className="mc-stat-bar-track">
-                              <div
-                                className="mc-stat-bar-fill"
-                                style={{ width: `${Math.round((val / 99) * 100)}%`, background: fill }}
-                              />
+                              <div className="mc-stat-bar-fill" style={{ width: `${Math.round((val/99)*100)}%`, background: fill }} />
                             </div>
                           </div>
                         );
                       })}
                     </div>
                   </div>
-
                 </div>
               </div>
             );

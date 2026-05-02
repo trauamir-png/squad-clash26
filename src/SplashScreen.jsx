@@ -1,4 +1,11 @@
+import { useEffect } from 'react';
+
 export function SplashScreen({ onStart }) {
+  useEffect(() => {
+    const t = setTimeout(onStart, 1500);
+    return () => clearTimeout(t);
+  }, [onStart]);
+
   return (
     <div className="splash-screen" onClick={onStart}>
       <div className="splash-content">

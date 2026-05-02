@@ -17,6 +17,7 @@ import { getClubLogo, getLeagueLogo } from "./utils/imageResolvers";
 import { generateMatchEvents } from "./data/matchSimulator";
 import { PlayerImage } from "./PlayerImage";
 import { SplashScreen } from "./SplashScreen";
+import { FutCard } from "./FutCard";
 
 function getFormationAdjacency(formation) {
   const THRESHOLD = 40;
@@ -791,10 +792,11 @@ function App() {
     }
   };
 
+  if (showSplash) {
+    return <SplashScreen onStart={() => setShowSplash(false)} />;
+  }
+
   if (!club) {
-    if (showSplash) {
-      return <SplashScreen onStart={() => setShowSplash(false)} />;
-    }
     return (
       <div
         style={{
@@ -1181,30 +1183,19 @@ function App() {
                     key={playerKey}
                     className={`picker-row ${alreadySelected ? 'picker-row-disabled' : ''}`}
                   >
-                    <div
-                      className={`picker-shield ${expandedPlayer === player.name ? 'picker-shield-active' : ''} ${getRatingCardClass(player.rating)}`}
-                      style={getRatingCardStyle(player.rating)}
-                      onClick={() => {
-                        if (!alreadySelected) {
-                          setExpandedPlayer(expandedPlayer === player.name ? null : player.name);
-                        }
-                      }}
-                    >
-                      <span className="picker-rating" style={{ color: getCardRatingColor(player.rating) }}>{player.rating}</span>
-                      <span className="picker-pos">{player.position}</span>
-                      {(() => {
+                    <FutCard
+                      player={player}
+                      size="sm"
+                      className={expandedPlayer === player.name ? 'fut-card-active' : ''}
+                      extra={(() => {
                         const badge = getFitBadge(player._fit ?? 100);
-                        return badge ? (
-                          <span className="picker-fit-badge" style={{ background: badge.color }}>{badge.text}</span>
-                        ) : null;
+                        return badge ? <span className="picker-fit-badge" style={{ background: badge.color }}>{badge.text}</span> : null;
                       })()}
-                      <PlayerImage player={player} className="picker-image" />
-                      <span className="picker-name">{player.name}</span>
-                      <span className="picker-club">{player.club}</span>
-                      {alreadySelected && (
-                        <span className="already-selected-label">Already selected</span>
-                      )}
-                    </div>
+                      overlayLabel={alreadySelected ? 'In XI' : null}
+                      onClick={() => {
+                        if (!alreadySelected) setExpandedPlayer(expandedPlayer === player.name ? null : player.name);
+                      }}
+                    />
                     {expandedPlayer === player.name && (
                       <div className="picker-stats-panel">
                         <div className="picker-stats-grid">

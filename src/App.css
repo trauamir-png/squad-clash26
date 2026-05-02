@@ -425,9 +425,9 @@ p {
   position: absolute;
   top: 8px;
   right: 8px;
-  font-size: 12px;
+  font-size: 18px;
   font-weight: bold;
-  color: #94a3b8;
+  line-height: 1;
 }
 
 .picker-fit-badge {
@@ -445,7 +445,7 @@ p {
 
 .picker-image {
   width: 92px;
-  height: 76px;
+  height: 66px;
   border-radius: 4px;
   object-fit: contain;
   object-position: center;
@@ -471,13 +471,23 @@ p {
 
 .picker-club {
   font-size: 9px;
-  color: #94a3b8;
   text-align: center;
   margin-top: 2px;
   max-width: 101px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.picker-league {
+  font-size: 8px;
+  text-align: center;
+  opacity: 0.65;
+  max-width: 101px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
 .picker-club-logo {
@@ -3344,6 +3354,7 @@ p {
 .card-tier-gold .ob-card-club,      .card-tier-silver .ob-card-club,
 .card-tier-gold .ob-stat-key,       .card-tier-silver .ob-stat-key,
 .card-tier-gold .picker-club,       .card-tier-silver .picker-club,
+.card-tier-gold .picker-league,     .card-tier-silver .picker-league,
 .card-tier-gold .mini-position,     .card-tier-silver .mini-position {
   color: inherit;
   opacity: 0.72;
@@ -3353,6 +3364,7 @@ p {
 .card-tier-bronze .pack-card-meta,    .card-tier-bronze .pack-card-stat-key,
 .card-tier-bronze .ob-card-club,      .card-tier-bronze .ob-stat-key,
 .card-tier-bronze .picker-club,
+.card-tier-bronze .picker-league,
 .card-tier-bronze .mini-position {
   color: inherit;
   opacity: 0.82;
@@ -4716,4 +4728,278 @@ p {
   }
   .summary-position { font-size: 11px; }
   .summary-player   { font-size: 13px; }
+}
+
+/* ================================================================
+   FUT CARD — shared card component
+   ================================================================ */
+
+.fut-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.fut-card:hover { transform: translateY(-3px); }
+
+/* Tier text colors */
+.fut-card.card-tier-gold,
+.fut-card.card-tier-silver { color: #1a1a1a; }
+.fut-card.card-tier-bronze  { color: #fff; }
+
+/* Radial burst texture */
+.fut-burst {
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(
+    from 0deg at 50% 30%,
+    rgba(255,255,255,0.11) 0deg 3.5deg,
+    transparent 3.5deg 11deg
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+.fut-card.card-tier-bronze .fut-burst { opacity: 0.45; }
+
+/* Rating + Position — absolute top-left */
+.fut-top-left {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  z-index: 2;
+}
+.fut-rating {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1;
+}
+.fut-pos {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+/* Extra slot (fit badge, status badge) — absolute top-right */
+.fut-extra-slot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+/* Player image */
+.fut-img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  object-fit: contain;
+  object-position: bottom;
+  flex-shrink: 0;
+}
+
+/* Fallback avatar sizing */
+.player-img-fallback.fut-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background: transparent;
+}
+
+/* Name */
+.fut-name {
+  position: relative;
+  z-index: 1;
+  font-weight: 800;
+  text-align: center;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  line-height: 1.2;
+  max-width: 94%;
+  margin-top: 3px;
+}
+
+/* Stats */
+.fut-stats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  border-top: 1px solid rgba(0,0,0,0.13);
+  padding: 4px 4px 0;
+  margin-top: 5px;
+}
+.fut-card.card-tier-bronze .fut-stats { border-top-color: rgba(255,255,255,0.2); }
+.fut-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.fut-stat-val {
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
+.fut-stat-key {
+  font-size: 6px;
+  font-weight: 700;
+  text-transform: uppercase;
+  opacity: 0.65;
+  line-height: 1;
+}
+
+/* Badges */
+.fut-badges {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+.fut-flag { font-size: 15px; line-height: 1; }
+.fut-badge-abbr {
+  font-size: 6px;
+  font-weight: 900;
+  text-transform: uppercase;
+  opacity: 0.7;
+  line-height: 1;
+  max-width: 36px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.fut-club-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 900;
+  line-height: 1;
+}
+.fut-card.card-tier-bronze .fut-club-dot { background: rgba(255,255,255,0.18); }
+
+/* Overlay (duplicate / already selected) */
+.fut-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 10;
+}
+
+/* ── Size: lg (pack reveal grids) ─────────────────── */
+.fut-card-lg { padding: 48px 10px 30px; }
+.fut-card-lg .fut-rating  { font-size: 30px; }
+.fut-card-lg .fut-pos     { font-size: 13px; }
+.fut-card-lg .fut-img,
+.fut-card-lg .player-img-fallback.fut-img { width: 80%; height: 95px; }
+.fut-card-lg .fut-name    { font-size: 14px; }
+.fut-card-lg .fut-stat-val{ font-size: 13px; }
+.fut-card-lg .fut-stat-key{ font-size: 7px; }
+.fut-card-lg .fut-flag    { font-size: 18px; }
+.fut-card-lg .fut-badge-abbr { font-size: 7px; }
+.fut-card-lg .fut-club-dot { width: 18px; height: 18px; font-size: 10px; }
+
+/* ── Size: md (my club grid) ──────────────────────── */
+.fut-card-md { padding: 40px 9px 28px; }
+.fut-card-md .fut-rating  { font-size: 24px; }
+.fut-card-md .fut-pos     { font-size: 11px; }
+.fut-card-md .fut-img,
+.fut-card-md .player-img-fallback.fut-img { width: 78%; height: 82px; }
+.fut-card-md .fut-name    { font-size: 12px; }
+.fut-card-md .fut-stat-val{ font-size: 11px; }
+.fut-card-md .fut-stat-key{ font-size: 6.5px; }
+
+/* ── Size: sm (picker sidebar) ────────────────────── */
+.fut-card-sm {
+  width: 115px;
+  flex-shrink: 0;
+  padding: 34px 7px 24px;
+}
+.fut-card-sm .fut-rating  { font-size: 20px; }
+.fut-card-sm .fut-pos     { font-size: 10px; }
+.fut-card-sm .fut-img,
+.fut-card-sm .player-img-fallback.fut-img { width: 76%; height: 64px; }
+.fut-card-sm .fut-name    { font-size: 9px; }
+.fut-card-sm .fut-stat-val{ font-size: 9px; }
+.fut-card-sm .fut-stat-key{ font-size: 5.5px; }
+.fut-card-sm .fut-flag    { font-size: 13px; }
+.fut-card-sm .fut-club-dot { width: 13px; height: 13px; font-size: 7px; }
+.fut-card-sm .fut-badges  { gap: 4px; }
+
+/* Picker active highlight */
+.fut-card-sm.fut-card-active {
+  outline: 2px solid rgba(255,255,255,0.5);
+  outline-offset: 2px;
+}
+
+/* ── Fly-in animation ─────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .fut-card {
+    animation: fut-fly-in 0.45s cubic-bezier(0.34, 1.28, 0.64, 1) both;
+    animation-delay: calc(var(--i, 0) * 65ms);
+  }
+}
+@keyframes fut-fly-in {
+  from { opacity: 0; transform: translateY(40px) scale(0.78); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* My Club flip card — front uses FutCard, back uses flat stat sheet */
+.mc-card-wrapper { cursor: pointer; }
+.mc-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.mc-card-inner.is-flipped { transform: rotateY(180deg); }
+
+.mc-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.mc-face-front { display: block; }
+.mc-face-back {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mc-card-inner { transition: none; }
 }

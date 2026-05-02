@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, getPlayerRating } from './ratingUtils';
-import { PlayerImage } from './PlayerImage';
+import { getPlayerRating } from './ratingUtils';
 import { PackOpeningVisual, BestCardSpotlight } from './PackReveal';
+import { FutCard } from './FutCard';
 
 const PACK_META = {
   starter: {
@@ -29,48 +29,6 @@ const PACK_META = {
     border: "#d97706",
   },
 };
-
-const STATS = ["pac", "sho", "pas", "dri", "def", "phy"];
-
-function PackPlayerCard({ player, isDuplicate, index = 0 }) {
-  const cardStyle = getRatingCardStyle(player.rating);
-  return (
-    <div
-      className={`pack-player-card ${isDuplicate ? '' : getRatingCardClass(player.rating)}`}
-      style={{
-        ...cardStyle,
-        ...(isDuplicate && { border: '1px solid #374151', boxShadow: 'none' }),
-        opacity: isDuplicate ? 0.55 : 1,
-        '--i': index,
-      }}
-    >
-      {isDuplicate && <div className="pack-card-owned-badge">Already Owned</div>}
-      <div className="pack-card-header">
-        <span className="pack-card-rating" style={{ color: getCardRatingColor(player.rating) }}>
-          {player.rating}
-        </span>
-        <span className="pack-card-pos">{player.position}</span>
-      </div>
-      <PlayerImage player={player} className="pack-card-img" />
-      <div className="pack-card-name">{player.name}</div>
-      <div className="pack-card-meta">
-        <span>{player.club}</span>
-        <span className="pack-card-dot">·</span>
-        <span>{player.nationality}</span>
-      </div>
-      {player.stats && (
-        <div className="pack-card-stats">
-          {STATS.map(s => (
-            <div key={s} className="pack-card-stat">
-              <span className="pack-card-stat-val">{player.stats[s]}</span>
-              <span className="pack-card-stat-key">{s.toUpperCase()}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
 
 function PurchaseModal({ packType, price, onConfirm, onCancel }) {
   const meta = PACK_META[packType];
@@ -270,11 +228,13 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
 
       <div className="pack-cards-grid">
         {[...players].sort((a, b) => getPlayerRating(b) - getPlayerRating(a)).map((player, i) => (
-          <PackPlayerCard
+          <FutCard
             key={player.id}
             player={player}
-            isDuplicate={duplicateIds.has(player.id)}
+            size="lg"
             index={i}
+            dimmed={duplicateIds.has(player.id)}
+            overlayLabel={duplicateIds.has(player.id) ? 'Already Owned' : null}
           />
         ))}
       </div>

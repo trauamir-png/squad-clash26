@@ -1,37 +1,8 @@
 import { useState } from 'react';
 import { openStarterPack } from './data/packService';
-import { getCardRatingColor, getRatingTier, getRatingCardStyle, getRatingCardClass, getPlayerRating } from './ratingUtils';
-import { PlayerImage } from './PlayerImage';
+import { getRatingTier, getPlayerRating } from './ratingUtils';
 import { PackOpeningVisual, BestCardSpotlight } from './PackReveal';
-
-const STATS = ['pac', 'sho', 'pas', 'dri', 'def', 'phy'];
-
-function OnboardingPlayerCard({ player, index }) {
-  return (
-    <div
-      className={`ob-player-card ${getRatingCardClass(player.rating)}`}
-      style={{ ...getRatingCardStyle(player.rating), '--i': index }}
-    >
-      <div className="ob-card-top">
-        <span className="ob-card-rating" style={{ color: getCardRatingColor(player.rating) }}>{player.rating}</span>
-        <span className="ob-card-pos">{player.position}</span>
-      </div>
-      <PlayerImage player={player} className="ob-card-img" />
-      <div className="ob-card-name">{player.name}</div>
-      <div className="ob-card-club">{player.club}</div>
-      {player.stats && (
-        <div className="ob-card-stats">
-          {STATS.map(s => (
-            <div key={s} className="ob-card-stat">
-              <span className="ob-stat-val">{player.stats[s]}</span>
-              <span className="ob-stat-key">{s.toUpperCase()}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+import { FutCard } from './FutCard';
 
 export function OnboardingPackScreen({ onComplete }) {
   // 'idle' | 'opening' | 'spotlight' | 'revealed'
@@ -95,7 +66,9 @@ export function OnboardingPackScreen({ onComplete }) {
         </div>
       </div>
       <div className="ob-player-grid">
-        {[...players].sort((a, b) => getPlayerRating(b) - getPlayerRating(a)).map((p, i) => <OnboardingPlayerCard key={p.id} player={p} index={i} />)}
+        {[...players].sort((a, b) => getPlayerRating(b) - getPlayerRating(a)).map((p, i) => (
+          <FutCard key={p.id} player={p} size="lg" index={i} />
+        ))}
       </div>
       <button
         className="ob-continue-btn"
