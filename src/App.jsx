@@ -1157,7 +1157,7 @@ function App() {
             {selectedPosition
               ? selectedPosition.isSub
                 ? `Pick Sub ${selectedPosition.id.replace('SUB', '')}`
-                : `Choose ${selectedPosition.id}`
+                : `Choose ${String(selectedPosition.id).replace(/\d+$/, '')}`
               : ''}
           </span>
           <button
