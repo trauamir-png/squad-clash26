@@ -1168,6 +1168,8 @@ function App() {
             ✕
           </button>
         </div>
+
+        {/* Scrollable card grid */}
         <div className="picker-drawer-body">
           {selectedPosition && (
             clubPlayers.length === 0 ? (
@@ -1175,15 +1177,13 @@ function App() {
                 No players in club. Open packs to get started.
               </p>
             ) : filteredPlayers.length > 0 ? (
-              filteredPlayers.map((player) => {
-                const playerKey = `${player.name}__${player.club}`;
-                const alreadySelected = selectedPlayersLookup.has(playerKey);
-                return (
-                  <div
-                    key={playerKey}
-                    className={`picker-row ${alreadySelected ? 'picker-row-disabled' : ''}`}
-                  >
+              <div className="picker-grid">
+                {filteredPlayers.map((player) => {
+                  const playerKey = `${player.name}__${player.club}`;
+                  const alreadySelected = selectedPlayersLookup.has(playerKey);
+                  return (
                     <FutCard
+                      key={playerKey}
                       player={player}
                       size="sm"
                       className={expandedPlayer === player.name ? 'fut-card-active' : ''}
@@ -1196,35 +1196,9 @@ function App() {
                         if (!alreadySelected) setExpandedPlayer(expandedPlayer === player.name ? null : player.name);
                       }}
                     />
-                    {expandedPlayer === player.name && (
-                      <div className="picker-stats-panel">
-                        <div className="picker-stats-grid">
-                          {[
-                            ['PAC', player.stats.pac],
-                            ['SHO', player.stats.sho],
-                            ['PAS', player.stats.pas],
-                            ['DRI', player.stats.dri],
-                            ['DEF', player.stats.def],
-                            ['PHY', player.stats.phy],
-                          ].map(([label, val]) => (
-                            <div key={label} className="picker-stat-item">
-                              <span className="picker-stat-value">{val}</span>
-                              <span className="picker-stat-label">{label}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <button
-                          className={`select-player-btn ${alreadySelected ? 'disabled' : ''}`}
-                          disabled={alreadySelected}
-                          onClick={() => handlePlayerSelect(player)}
-                        >
-                          {alreadySelected ? 'Already selected' : 'Select player'}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                );
-              })
+                  );
+                })}
+              </div>
             ) : (
               <p style={{ color: '#94a3b8', textAlign: 'center', padding: '20px 0' }}>
                 No club players for this position. Open a pack to get some.
@@ -1232,6 +1206,29 @@ function App() {
             )
           )}
         </div>
+
+        {/* Select panel — sticky footer, outside scroll area */}
+        {expandedPlayer && selectedPosition && (() => {
+          const p = filteredPlayers.find(pl => pl.name === expandedPlayer);
+          if (!p) return null;
+          const playerKey = `${p.name}__${p.club}`;
+          const alreadySelected = selectedPlayersLookup.has(playerKey);
+          return (
+            <div className="picker-select-panel">
+              <div className="picker-select-info">
+                <span className="picker-select-name">{p.name}</span>
+                <span className="picker-select-meta">OVR {p.rating} · {p.position}</span>
+              </div>
+              <button
+                className={`select-player-btn${alreadySelected ? ' disabled' : ''}`}
+                disabled={alreadySelected}
+                onClick={() => handlePlayerSelect(p)}
+              >
+                {alreadySelected ? 'In XI' : 'Select →'}
+              </button>
+            </div>
+          );
+        })()}
       </div>
 
       <div className="game-area">
