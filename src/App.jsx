@@ -13,7 +13,7 @@ import { generateOpponentSquad, calculateOpponentPower } from "./data/opponentSq
 import { MyClubScreen } from "./MyClubScreen";
 import { loadGameSave, saveGameState, resetGameSave } from "./data/saveService";
 import { getRatingColor, getCardRatingColor, getRatingCardStyle, getRatingCardClass } from "./ratingUtils";
-import { getClubLogo, getLeagueLogo } from "./utils/imageResolvers";
+import { getClubLogo, getLeagueLogo, initClubLogos } from "./utils/imageResolvers";
 import { generateMatchEvents } from "./data/matchSimulator";
 import { PlayerImage } from "./PlayerImage";
 import { SplashScreen } from "./SplashScreen";
@@ -457,6 +457,7 @@ function App() {
   const [selectedOpponent, setSelectedOpponent]           = useState(null);
   const [selectedOpponentSquad, setSelectedOpponentSquad] = useState([]);
   const [showSplash, setShowSplash] = useState(true);
+  const [, setLogoVersion] = useState(0);
 
   const addPackToClub = (type) => {
     const price = PACK_PRICES[type]; // undefined for starter (free)
@@ -600,6 +601,13 @@ function App() {
       setClub({ name: "Dev Team", logo: "red-shield", country: "England" });
     }
   }, [devMode, club, showSplash]);
+
+  // Kick off club logo enrichment from football-data.org API (7-day localStorage cache).
+  // onReady triggers a re-render so FutCard picks up API-sourced logos for clubs
+  // not covered by the static FUTBin map.
+  useEffect(() => {
+    initClubLogos(() => setLogoVersion(v => v + 1));
+  }, []);
 
   // Log save state on first mount
   useEffect(() => {

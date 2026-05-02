@@ -1,17 +1,5 @@
 import { getAllPlayers } from '../data/csvPlayerStore';
 
-/**
- * Image resolver — the single source of truth for all image URLs.
- *
- * Provider contract
- * ─────────────────
- * UI components call getPlayerImage / getClubLogo / getLeagueLogo and receive
- * a URL string or null.  They must not contain any CDN or path logic themselves.
- *
- * To switch providers, edit the private builder functions below.
- * The public API (function signatures and null-on-miss contract) never changes.
- */
-
 // ─── Shared normalisation ─────────────────────────────────────────────────────
 
 const CHAR_MAP = [
@@ -33,26 +21,17 @@ export function normalizeKey(str) {
     .replace(/\s+/g, ' ');
 }
 
-// Backward-compatible alias used by playerImages.js
 export const normalizePlayerName = normalizeKey;
 
 
 // ─── Player images ────────────────────────────────────────────────────────────
 
-// Change ONLY this function to switch the player photo CDN / local path.
 function buildPlayerCdnUrl(eaId) {
   return `https://cdn.futbin.com/content/fifa24/img/players/${eaId}.png`;
 }
 
-// Manual overrides — normalizeKey(name) → explicit URL.
-// Takes priority over eaId CDN lookup.
-const PLAYER_IMAGE_MAP = {
-  // Example: 'cristiano ronaldo': '/assets/players/ronaldo.png',
-};
+const PLAYER_IMAGE_MAP = {};
 
-// Lazy index: player.id → eaId, built once from the CSV store on first use.
-// Lets getPlayerImage recover the eaId for players whose snapshot was saved
-// before eaId was added to the schema (stale localStorage saves).
 let _eaIdByPlayerId = null;
 function getEaIdIndex() {
   if (!_eaIdByPlayerId) {
@@ -64,150 +43,252 @@ function getEaIdIndex() {
 export function getPlayerImage(player) {
   if (!player) return null;
   const key = normalizeKey(player.name);
-
-  // 1. Manual override
   if (PLAYER_IMAGE_MAP[key]) return PLAYER_IMAGE_MAP[key];
-
-  // 2. CDN via eaId — prefer field on object, fall back to CSV index for
-  //    players saved before eaId was added to the schema (stale localStorage).
   const eaId = player.eaId || getEaIdIndex().get(player.id);
   if (eaId) return buildPlayerCdnUrl(eaId);
-
-  // 3. Legacy ui-avatars field (non-CSV / fictional opponent players)
   return player.image ?? null;
 }
 
 
-// ─── Club logos ───────────────────────────────────────────────────────────────
+// ─── Club logos — static FUTBin map ──────────────────────────────────────────
+// Keys are normalizeKey(clubName). Values are EA Sports club IDs for FUTBin CDN.
+// Includes CSV-exact name aliases so short/abbreviated names in the dataset match.
 
-// Change ONLY this function to switch the club badge CDN / local path.
 function buildClubLogoUrl(eaClubId) {
-  // Same CDN as player images — consistent, reliable, no CORS issues.
-  // To switch: return `https://api-football.com/clubs/${eaClubId}.png`;
-  // To use local: return `/assets/clubs/${eaClubId}.png`;
   return `https://cdn.futbin.com/content/fifa24/img/clubs/${eaClubId}.png`;
 }
 
-// Maps normalizeKey(clubName) → EA club ID.
-// All IDs verified against the FUTBin CDN (FIFA 24).
-// Unknown clubs return null — callers must handle missing logos gracefully.
 const CLUB_ID_MAP = {
-  // ── Premier League ──────────────────────────────────────────────────────────
-  'arsenal':                   1,
-  'tottenham hotspur':         5,
-  'tottenham':                 5,
-  'liverpool':                 9,
-  'manchester city':           10,
-  'manchester united':         11,
-  'chelsea':                   18,
-  'everton':                   6,
-  'newcastle united':          4,
-  'aston villa':               420,
-  'brentford':                 456,
-  'crystal palace':            457,
-  'brighton hove albion':      405,
-  'brighton':                  405,
-  'fulham':                    423,
-  'nottingham forest':         12,
-  'nottm forest':              12,
-  'wolverhampton wanderers':   415,
-  'wolves':                    415,
-  'leicester city':            13,
-  'ipswich town':              14,
-  'west ham united':           37,
-  'west ham':                  37,
-  'bournemouth':               416,
-  'afc bournemouth':           416,
+  // ── Premier League ───────────────────────────────────────────────────────────
+  'arsenal':                    1,
+  'tottenham hotspur':          5,
+  'tottenham':                  5,
+  'spurs':                      5,    // CSV: "Spurs"
+  'everton':                    6,
+  'liverpool':                  9,
+  'manchester city':            10,
+  'manchester united':          11,
+  'man utd':                    11,   // CSV: "Man Utd"
+  'chelsea':                    18,
+  'southampton':                20,
+  'newcastle united':           4,
+  'newcastle utd':              4,    // CSV: "Newcastle Utd"
+  'nottingham forest':          12,
+  'nottm forest':               12,
+  'nott m forest':              12,   // normalizeKey("Nott'm Forest")
+  'leicester city':             13,
+  'ipswich town':               14,
+  'ipswich':                    14,   // CSV: "Ipswich"
+  'west ham united':            37,
+  'west ham':                   37,
+  'wolverhampton wanderers':    415,
+  'wolves':                     415,
+  'aston villa':                420,
+  'bournemouth':                416,
+  'afc bournemouth':            416,
+  'brighton hove albion':       405,
+  'brighton':                   405,
+  'fulham':                     423,
+  'crystal palace':             457,
+  'brentford':                  456,
 
-  // ── La Liga ─────────────────────────────────────────────────────────────────
-  'real madrid':               243,
-  'fc barcelona':              241,
-  'barcelona':                 241,
-  'atletico de madrid':        240,
-  'sevilla fc':                58,
-  'sevilla':                   58,
-  'real sociedad':             148,
-  'real betis':                95,
-  'villarreal cf':             449,
-  'athletic club':             102,
-  'athletic bilbao':           102,
-  'valencia cf':               97,
-  'valencia':                  97,
-  'getafe cf':                 456,
-  'celta de vigo':             149,
-  'rayo vallecano':            460,
-  'osasuna':                   162,
-  'ca osasuna':                162,
+  // ── La Liga ──────────────────────────────────────────────────────────────────
+  'real madrid':                243,
+  'fc barcelona':               241,
+  'barcelona':                  241,
+  'atletico de madrid':         240,
+  'atletico madrid':            240,
+  'sevilla fc':                 58,
+  'sevilla':                    58,
+  'real sociedad':              148,
+  'real betis':                 95,
+  'villarreal cf':              449,
+  'villarreal':                 449,
+  'athletic club':              102,
+  'athletic bilbao':            102,
+  'valencia cf':                97,
+  'valencia':                   97,
+  'rayo vallecano':             460,
+  'ca osasuna':                 162,
+  'osasuna':                    162,
+  'celta de vigo':              149,
+  'rc celta':                   149,  // CSV: "RC Celta"
+  'rcd espanyol':               93,   // CSV: "RCD Espanyol"
+  // Getafe, Girona, Alavés, Mallorca, Las Palmas, Leganés, Valladolid → API
 
   // ── Bundesliga ───────────────────────────────────────────────────────────────
-  'fc bayern munchen':         21,
-  'fc bayern münchen':         21,
-  'borussia dortmund':         73,
-  'leverkusen':                80,
-  'bayer 04 leverkusen':       80,
-  'rb leipzig':                81,
-  'eintracht frankfurt':       82,
-  'vfb stuttgart':             22,
-  'borussia monchengladbach':  24,
-  'sc freiburg':               85,
-  'werder bremen':             23,
-  'union berlin':              27,
-  '1 fc union berlin':         27,
+  'fc bayern munchen':          21,
+  'fc bayern münchen':          21,
+  'borussia dortmund':          73,
+  'bayer 04 leverkusen':        80,
+  'leverkusen':                 80,   // CSV: "Leverkusen"
+  'rb leipzig':                 81,
+  'eintracht frankfurt':        82,
+  'frankfurt':                  82,   // CSV: "Frankfurt"
+  'vfb stuttgart':              22,
+  'borussia monchengladbach':   24,
+  'mgladbach':                  24,   // normalizeKey("M'gladbach")
+  'm gladbach':                 24,
+  'sv werder bremen':           23,   // CSV: "SV Werder Bremen"
+  'werder bremen':              23,
+  'tsg hoffenheim':             2764,
+  'vfl wolfsburg':              2761,
+  'fc augsburg':                2762,
+  '1 fsv mainz 05':             2765, // CSV: "1. FSV Mainz 05"
+  'vfl bochum 1848':            2766, // CSV: "VfL Bochum 1848"
+  'fc st pauli':                3007, // CSV: "FC St. Pauli"
+  'sc freiburg':                85,
+  // Union Berlin, Heidenheim, Holstein Kiel → API
 
-  // ── Serie A ───────────────────────────────────────────────────────────────────
-  'ac milan':                  44,
-  'ssc napoli':                50,
-  'as roma':                   55,
-  'ss lazio':                  111,
-  'atalanta bc':               60,
-  'acf fiorentina':            54,
-  'fc internazionale':         47,
-  'inter':                     47,
-  'lombardia fc':              47,  // EA placeholder for Inter
-  'juventus':                  57,
-  'torino fc':                 85,
-  'udinese calcio':            89,
+  // ── Bundesliga 2 ─────────────────────────────────────────────────────────────
+  'hamburger sv':               76,
+  'hertha bsc':                 79,
+  '1 fc koln':                  78,   // normalizeKey("1. FC Köln")
+  'fc schalke 04':              75,
+  'hannover 96':                77,
+  // Remaining Bundesliga 2 clubs → API
 
-  // ── Ligue 1 ───────────────────────────────────────────────────────────────────
-  'paris sg':                  45,
-  'paris saint germain':       45,
-  'olympique lyonnais':        244,
-  'rc lens':                   245,
-  'olympique de marseille':    210,
-  'marseille':                 210,
-  'as monaco':                 213,
-  'ogc nice':                  214,
-  'stade rennais fc':          161,
-  'lille osc':                 130,
+  // ── Serie A ──────────────────────────────────────────────────────────────────
+  'ac milan':                   44,
+  'milano fc':                  44,   // CSV EA placeholder for AC Milan
+  'ssc napoli':                 50,
+  'as roma':                    55,
+  'ss lazio':                   111,
+  'latium':                     111,  // CSV EA placeholder for SS Lazio
+  'atalanta bc':                60,
+  'bergamo calcio':             60,   // CSV EA placeholder for Atalanta
+  'acf fiorentina':             54,
+  'fiorentina':                 54,   // CSV: "Fiorentina"
+  'fc internazionale':          47,
+  'inter':                      47,
+  'lombardia fc':               47,   // CSV EA placeholder for Inter Milan
+  'juventus':                   57,
+  'bologna':                    108,
+  'udinese calcio':             89,
+  'udinese':                    89,   // CSV: "Udinese"
+  'cagliari':                   110,
+  'genoa':                      109,
+  'parma':                      112,
+  // Torino, Empoli, Lecce, Monza, Como, Hellas Verona, Venezia → API
 
-  // ── Liga Portugal ──────────────────────────────────────────────────────────────
-  'sl benfica':                523,
-  'benfica':                   523,
-  'sporting cp':               573,
-  'fc porto':                  534,
-  'porto':                     534,
+  // ── Ligue 1 ──────────────────────────────────────────────────────────────────
+  'paris sg':                   45,
+  'paris saint germain':        45,
+  'olympique lyonnais':         244,
+  'ol':                         244,  // CSV: "OL"
+  'olympique de marseille':     210,
+  'marseille':                  210,
+  'om':                         210,  // CSV: "OM"
+  'as monaco':                  213,
+  'ogc nice':                   214,
+  'stade rennais fc':           161,  // CSV: "Stade Rennais FC"
+  'rc lens':                    245,
+  'losc lille':                 130,  // CSV: "LOSC Lille"
+  'lille osc':                  130,
+  // Brest, Reims, Toulouse, Montpellier, Nantes, Auxerre, etc. → API
 
-  // ── Eredivisie ────────────────────────────────────────────────────────────────
-  'afc ajax':                  217,
-  'ajax':                      217,
-  'psv':                       29,
-  'feyenoord':                 27,
-  'az':                        219,
+  // ── Liga Portugal ────────────────────────────────────────────────────────────
+  'sl benfica':                 523,
+  'benfica':                    523,
+  'sporting cp':                573,
+  'fc porto':                   534,
+  'porto':                      534,
+  // Braga, Vitória, Guimarães, etc. → API
+
+  // ── Eredivisie ───────────────────────────────────────────────────────────────
+  'afc ajax':                   217,
+  'ajax':                       217,
+  'psv':                        29,
+  'az':                         219,
+  // Feyenoord, FC Twente, Utrecht, etc. → API (Feyenoord removed: conflicted with Union Berlin at 27)
 };
+
+// ─── Club logos — API enrichment ─────────────────────────────────────────────
+// football-data.org free-tier competitions that cover the dataset's main leagues.
+const API_COMPETITIONS = ['PL', 'PD', 'BL1', 'SA', 'FL1', 'DED', 'PPL', 'ELC', 'CLI'];
+const LOGO_CACHE_KEY  = 'sc26_club_logos_v2';
+const LOGO_CACHE_TTL  = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+// Pre-populate from localStorage at module init so first render uses cached data.
+let _apiCache = (() => {
+  try {
+    const raw = localStorage.getItem(LOGO_CACHE_KEY);
+    if (!raw) return null;
+    const { ts, entries } = JSON.parse(raw);
+    if (Date.now() - ts > LOGO_CACHE_TTL) return null;
+    return new Map(entries);
+  } catch { return null; }
+})();
+
+let _initPromise = null;
+
+function _saveCache(map) {
+  try {
+    localStorage.setItem(LOGO_CACHE_KEY, JSON.stringify({
+      ts: Date.now(),
+      entries: [...map.entries()],
+    }));
+  } catch { /* storage full / unavailable — silently skip */ }
+}
+
+async function _fetchApiLogos() {
+  const results = await Promise.allSettled(
+    API_COMPETITIONS.map(code =>
+      fetch(`/api/football-data/competitions/${code}/teams`)
+        .then(r => r.ok ? r.json() : null)
+        .catch(() => null)
+    )
+  );
+
+  const map = new Map();
+  for (const { value } of results) {
+    if (!value?.teams) continue;
+    for (const team of value.teams) {
+      if (!team.crest) continue;
+      if (team.name)      map.set(normalizeKey(team.name),      team.crest);
+      if (team.shortName) map.set(normalizeKey(team.shortName), team.crest);
+    }
+  }
+  console.log(`[ClubLogos] API cache built: ${map.size} clubs`);
+  return map;
+}
+
+/**
+ * Call once at app startup. onReady fires when the API cache is available.
+ * If localStorage already has fresh data, onReady fires on the next microtask.
+ * Safe to call multiple times — the fetch only happens once.
+ */
+export function initClubLogos(onReady) {
+  if (_apiCache !== null) {
+    // Already loaded (from localStorage at module init, or prior fetch)
+    Promise.resolve().then(() => onReady?.());
+    return;
+  }
+
+  if (!_initPromise) {
+    _initPromise = _fetchApiLogos()
+      .then(map => { _apiCache = map; _saveCache(map); })
+      .catch(() => { _apiCache = new Map(); }); // graceful failure
+  }
+
+  _initPromise.then(() => onReady?.());
+}
 
 export function getClubLogo(clubName) {
   if (!clubName) return null;
   const key = normalizeKey(clubName);
+
+  // 1. Static FUTBin map (fast, offline-capable)
   const id = CLUB_ID_MAP[key];
-  if (!id) return null;
-  return buildClubLogoUrl(id);
+  if (id) return buildClubLogoUrl(id);
+
+  // 2. API cache (populated async after startup; pre-loaded from localStorage on repeat visits)
+  return _apiCache?.get(key) ?? null;
 }
 
 
 // ─── League logos ─────────────────────────────────────────────────────────────
 
-// Using direct Wikimedia SVG URLs (no /thumb/ — those return HTTP 400 for SVGs).
-// Change buildLeagueLogoUrl or the map values to switch providers.
 const LEAGUE_LOGO_MAP = {
   'premier league':
     'https://upload.wikimedia.org/wikipedia/en/f/f2/Premier_League_Logo.svg',

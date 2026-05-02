@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { getCardRatingColor, getRatingCardClass, getRatingCardStyle } from './ratingUtils';
 import { PlayerImage } from './PlayerImage';
+import { getClubLogo } from './utils/imageResolvers';
 
 const NATION_FLAGS = {
   'France':'🇫🇷','England':'🇬🇧','Spain':'🇪🇸','Germany':'🇩🇪',
@@ -29,13 +31,32 @@ const NATION_FLAGS = {
 
 const STATS = ['pac','sho','pas','dri','def','phy'];
 
+function ClubBadge({ club, logoUrl }) {
+  const [failed, setFailed] = useState(false);
+  if (logoUrl && !failed) {
+    return (
+      <img
+        className="fut-club-logo"
+        src={logoUrl}
+        alt={club || ''}
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+  return (
+    <span className="fut-club-dot" title={club}>
+      {(club || '?')[0].toUpperCase()}
+    </span>
+  );
+}
+
 export function FutCard({ player, size='md', index=0, overlayLabel, dimmed=false, extra, onClick, className='' }) {
   const tileColor = getCardRatingColor(player.rating);
   const flag = NATION_FLAGS[player.nationality] || NATION_FLAGS[player.country] || '';
   const leagueShort = (player.leagueName && player.leagueName !== 'Unknown')
     ? player.leagueName.replace(/EA SPORTS|SPORTS/gi,'').trim().slice(0,6)
     : '';
-  const clubInitial = (player.club || '?')[0].toUpperCase();
+  const clubLogoUrl = player.clubLogo || player.clubLogoUrl || getClubLogo(player.club);
 
   return (
     <div
@@ -74,7 +95,7 @@ export function FutCard({ player, size='md', index=0, overlayLabel, dimmed=false
             ? <span className="fut-badge-abbr">{player.nationality.slice(0,3).toUpperCase()}</span>
             : null}
         {leagueShort && <span className="fut-badge-abbr">{leagueShort}</span>}
-        <span className="fut-club-dot" title={player.club}>{clubInitial}</span>
+        <ClubBadge club={player.club} logoUrl={clubLogoUrl} />
       </div>
 
       {overlayLabel && <div className="fut-overlay">{overlayLabel}</div>}

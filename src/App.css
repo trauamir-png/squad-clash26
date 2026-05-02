@@ -3732,16 +3732,17 @@ p {
 /* ── Picker card grid ─────────────────────────────── */
 .picker-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(140px, 1fr));
-  gap: 14px;
-  justify-items: center;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  justify-items: center;   /* center card within its equal column */
   align-items: start;
-  padding-bottom: 8px;
 }
 
 @media (min-width: 640px) and (max-width: 860px) {
   .picker-grid {
-    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
 }
 
@@ -4797,34 +4798,46 @@ p {
   overflow: hidden;
   clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
   cursor: pointer;
-  transition: transform 0.12s ease;
+  transition: transform 0.18s cubic-bezier(0.34, 1.28, 0.64, 1), filter 0.18s ease;
+  will-change: transform;
 }
-.fut-card:hover { transform: translateY(-3px); }
+@media (hover: hover) {
+  .fut-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    filter: brightness(1.08);
+  }
+}
+.fut-card:active {
+  transform: scale(0.95) !important;
+  filter: brightness(0.88) !important;
+  transition-duration: 0.07s !important;
+}
 
 /* Tier text colors */
 .fut-card.card-tier-gold,
 .fut-card.card-tier-silver { color: #1a1a1a; }
 .fut-card.card-tier-bronze  { color: #fff; }
 
-/* Radial burst texture */
+/* Radial burst texture — subtle, sits between card gradient and content */
 .fut-burst {
   position: absolute;
   inset: 0;
   background: repeating-conic-gradient(
-    from 0deg at 50% 30%,
-    rgba(255,255,255,0.11) 0deg 3.5deg,
-    transparent 3.5deg 11deg
+    from 0deg at 50% 28%,
+    rgba(255,255,255,0.085) 0deg 3deg,
+    transparent 3deg 10deg
   );
   pointer-events: none;
   z-index: 0;
+  mix-blend-mode: overlay;
 }
-.fut-card.card-tier-bronze .fut-burst { opacity: 0.45; }
+.fut-card.card-tier-bronze .fut-burst { opacity: 0.55; mix-blend-mode: screen; }
 
 /* Rating + Position — absolute top-left */
 .fut-top-left {
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 10px;
+  left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -4832,16 +4845,19 @@ p {
   z-index: 2;
 }
 .fut-rating {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 900;
   line-height: 1;
+  letter-spacing: -0.03em;
 }
 .fut-pos {
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 900;
   text-transform: uppercase;
   line-height: 1;
-  margin-top: 2px;
+  margin-top: 3px;
+  letter-spacing: 0.08em;
+  opacity: 0.88;
 }
 
 /* Extra slot (fit badge, status badge) — absolute top-right */
@@ -4856,13 +4872,13 @@ p {
   gap: 3px;
 }
 
-/* Player image */
+/* Player image — object-position: top shows face/torso, connecting to the rating area above */
 .fut-img {
   position: relative;
   z-index: 1;
   display: block;
   object-fit: contain;
-  object-position: bottom;
+  object-position: top center;
   flex-shrink: 0;
 }
 
@@ -4886,9 +4902,13 @@ p {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   line-clamp: 2;
-  line-height: 1.2;
-  max-width: 94%;
-  margin-top: 3px;
+  line-height: 1.15;
+  max-width: 92%;
+  margin-top: 4px;
+  letter-spacing: 0.01em;
+}
+.fut-card.card-tier-bronze .fut-name {
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
 }
 
 /* Stats */
@@ -4896,10 +4916,11 @@ p {
   position: relative;
   z-index: 1;
   display: flex;
+  justify-content: space-between;
   width: 100%;
-  border-top: 1px solid rgba(0,0,0,0.13);
-  padding: 4px 4px 0;
-  margin-top: 5px;
+  border-top: 1px solid rgba(0,0,0,0.16);
+  padding: 5px 6px 0;
+  margin-top: 6px;
 }
 .fut-card.card-tier-bronze .fut-stats { border-top-color: rgba(255,255,255,0.2); }
 .fut-stat {
@@ -4922,41 +4943,65 @@ p {
   line-height: 1;
 }
 
-/* Badges */
+/* Badges — nation flag · league pill · club crest, all same height */
 .fut-badges {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  margin-top: 5px;
+  gap: 6px;
+  margin-top: 6px;
+  padding-bottom: 1px;
 }
-.fut-flag { font-size: 15px; line-height: 1; }
+.fut-flag {
+  font-size: 18px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+}
 .fut-badge-abbr {
-  font-size: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.12);
+  font-size: 7px;
   font-weight: 900;
   text-transform: uppercase;
-  opacity: 0.7;
   line-height: 1;
-  max-width: 36px;
+  max-width: 42px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.fut-card.card-tier-bronze .fut-badge-abbr { background: rgba(255,255,255,0.15); }
 .fut-club-dot {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: rgba(0,0,0,0.18);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 900;
   line-height: 1;
+  flex-shrink: 0;
 }
 .fut-card.card-tier-bronze .fut-club-dot { background: rgba(255,255,255,0.18); }
+.fut-club-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  image-rendering: auto;
+  flex-shrink: 0;
+}
+.fut-card-lg .fut-club-logo { width: 24px; height: 24px; }
+.fut-card-sm .fut-club-logo { width: 16px; height: 16px; }
 
 /* Overlay (duplicate / already selected) */
 .fut-overlay {
@@ -4975,44 +5020,52 @@ p {
 }
 
 /* ── Size: lg (pack reveal grids) ─────────────────── */
-.fut-card-lg { padding: 48px 10px 30px; }
-.fut-card-lg .fut-rating  { font-size: 30px; }
-.fut-card-lg .fut-pos     { font-size: 13px; }
+/* top pad: image starts behind the lower half of the rating block, player head overlaps the pos text area */
+.fut-card-lg { padding: 46px 11px 36px; }
+.fut-card-lg .fut-rating  { font-size: 40px; letter-spacing: -0.04em; }
+.fut-card-lg .fut-pos     { font-size: 16px; margin-top: 4px; }
 .fut-card-lg .fut-img,
-.fut-card-lg .player-img-fallback.fut-img { width: 80%; height: 95px; }
-.fut-card-lg .fut-name    { font-size: 14px; }
-.fut-card-lg .fut-stat-val{ font-size: 13px; }
+.fut-card-lg .player-img-fallback.fut-img { width: 84%; height: 112px; }
+.fut-card-lg .fut-name    { font-size: 16px; margin-top: 5px; }
+.fut-card-lg .fut-stat-val{ font-size: 12px; }
 .fut-card-lg .fut-stat-key{ font-size: 7px; }
-.fut-card-lg .fut-flag    { font-size: 18px; }
-.fut-card-lg .fut-badge-abbr { font-size: 7px; }
-.fut-card-lg .fut-club-dot { width: 18px; height: 18px; font-size: 10px; }
+.fut-card-lg .fut-stats   { padding: 5px 8px 0; margin-top: 7px; }
+.fut-card-lg .fut-flag       { font-size: 22px; height: 24px; }
+.fut-card-lg .fut-badge-abbr { font-size: 8px; height: 20px; padding: 0 5px; }
+.fut-card-lg .fut-club-dot   { width: 24px; height: 24px; font-size: 12px; }
+.fut-card-lg .fut-badges     { gap: 7px; margin-top: 8px; }
 
 /* ── Size: md (my club grid) ──────────────────────── */
-.fut-card-md { padding: 40px 9px 28px; }
-.fut-card-md .fut-rating  { font-size: 24px; }
-.fut-card-md .fut-pos     { font-size: 11px; }
+/* top pad: image starts mid-way through rating block, player upper body integrates with rating area */
+.fut-card-md { padding: 38px 10px 30px; }
+.fut-card-md .fut-rating  { font-size: 32px; letter-spacing: -0.03em; }
+.fut-card-md .fut-pos     { font-size: 13px; margin-top: 3px; }
 .fut-card-md .fut-img,
-.fut-card-md .player-img-fallback.fut-img { width: 78%; height: 82px; }
-.fut-card-md .fut-name    { font-size: 12px; }
-.fut-card-md .fut-stat-val{ font-size: 11px; }
-.fut-card-md .fut-stat-key{ font-size: 6.5px; }
+.fut-card-md .player-img-fallback.fut-img { width: 82%; height: 92px; }
+.fut-card-md .fut-name    { font-size: 13px; margin-top: 4px; }
+.fut-card-md .fut-stat-val{ font-size: 10px; }
+.fut-card-md .fut-stat-key{ font-size: 6px; }
+.fut-card-md .fut-stats   { padding: 4px 6px 0; margin-top: 6px; }
 
 /* ── Size: sm (picker grid) ───────────────────────── */
+/* top pad: image starts at the midpoint of rating block so player head shows above the number */
 .fut-card-sm {
   width: 100%;
   max-width: 165px;
-  padding: 34px 7px 24px;
+  padding: 30px 8px 26px;
 }
-.fut-card-sm .fut-rating  { font-size: 20px; }
-.fut-card-sm .fut-pos     { font-size: 10px; }
+.fut-card-sm .fut-rating  { font-size: 25px; letter-spacing: -0.03em; }
+.fut-card-sm .fut-pos     { font-size: 11px; margin-top: 3px; }
 .fut-card-sm .fut-img,
-.fut-card-sm .player-img-fallback.fut-img { width: 76%; height: 64px; }
-.fut-card-sm .fut-name    { font-size: 9px; }
-.fut-card-sm .fut-stat-val{ font-size: 9px; }
-.fut-card-sm .fut-stat-key{ font-size: 5.5px; }
-.fut-card-sm .fut-flag    { font-size: 13px; }
-.fut-card-sm .fut-club-dot { width: 13px; height: 13px; font-size: 7px; }
-.fut-card-sm .fut-badges  { gap: 4px; }
+.fut-card-sm .player-img-fallback.fut-img { width: 80%; height: 74px; }
+.fut-card-sm .fut-name    { font-size: 10px; margin-top: 3px; }
+.fut-card-sm .fut-stat-val{ font-size: 8px; }
+.fut-card-sm .fut-stat-key{ font-size: 5px; }
+.fut-card-sm .fut-stats   { padding: 4px 5px 0; margin-top: 5px; }
+.fut-card-sm .fut-flag       { font-size: 14px; height: 16px; }
+.fut-card-sm .fut-badge-abbr { font-size: 6px; height: 14px; padding: 0 3px; }
+.fut-card-sm .fut-club-dot   { width: 16px; height: 16px; font-size: 8px; }
+.fut-card-sm .fut-badges     { gap: 4px; margin-top: 4px; }
 
 /* Picker active highlight */
 .fut-card-sm.fut-card-active {
