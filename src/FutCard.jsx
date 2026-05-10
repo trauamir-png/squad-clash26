@@ -73,7 +73,9 @@ export function FutCard({ player, size='md', index=0, overlayLabel, dimmed=false
 
       {extra && <div className="fut-extra-slot">{extra}</div>}
 
-      <PlayerImage player={player} className="fut-img" />
+      <div className="fut-img-wrap">
+        <PlayerImage player={player} className="fut-img" />
+      </div>
 
       <div className="fut-name">{player.name}</div>
 

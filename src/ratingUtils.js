@@ -46,54 +46,75 @@ export function getRatingCardClass(rating) {
   return rating >= 85 ? `${base} card-tier-elite` : base;
 }
 
-// Inline style for a full player card: background layers + border + glow.
-// All tiers share a top→bottom dark overlay for depth and text contrast.
-// Gold adds a diagonal shine layer for a metallic sheen.
-// Elite (>= 85) gets a stronger glow and brighter border.
+// Inline style for a full player card: background layers + border + inset bevel.
+// Outer glow is handled by filter:drop-shadow() in CSS — box-shadow is inset only
+// (clip-path clips any outer box-shadow, making it invisible).
 export function getRatingCardStyle(rating) {
   const elite = rating >= 85;
 
-  // Top highlight (light-from-above) blending into a deep bottom shadow for card depth
-  const overlay  = 'linear-gradient(to bottom, rgba(255,255,255,0.11) 0%, rgba(0,0,0,0.0) 30%, rgba(0,0,0,0.42) 72%, rgba(0,0,0,0.62) 100%)';
-  // Subtle radial edge-darkening to separate card from background
-  const vignette = 'radial-gradient(ellipse 110% 90% at 50% 10%, transparent 52%, rgba(0,0,0,0.26) 100%)';
+  // Shared overlay layers (painter's-algorithm order, first = topmost)
+  const topEdge  = 'linear-gradient(to bottom, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.10) 12%, transparent 28%)';
+  const overlay  = 'linear-gradient(to bottom, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.0) 30%, rgba(0,0,0,0.54) 76%, rgba(0,0,0,0.78) 100%)';
+  const vignette = 'radial-gradient(ellipse 118% 96% at 50% 8%, transparent 40%, rgba(0,0,0,0.48) 100%)';
 
   if (rating >= 75) {
-    const shine = elite ? 0.30 : 0.19;
+    const shine = elite ? 0.40 : 0.27;
     return {
       background: [
+        topEdge,
         overlay,
         vignette,
-        `linear-gradient(112deg, transparent 20%, rgba(255,255,255,${shine}) 39%, rgba(255,255,255,${(shine * 0.45).toFixed(2)}) 52%, transparent 70%)`,
+        `linear-gradient(110deg, transparent 14%, rgba(255,255,255,${shine}) 34%, rgba(255,255,255,${(shine * 0.38).toFixed(2)}) 52%, transparent 68%)`,
         elite
-          ? 'linear-gradient(158deg, #fff5a8 0%, #ffd700 16%, #e8a800 36%, #ffc800 55%, #c08800 74%, #7a5400 100%)'
-          : 'linear-gradient(155deg, #ffe878 0%, #ffd700 20%, #eabb00 40%, #ffcb00 60%, #b89000 80%, #876400 100%)',
+          ? 'linear-gradient(158deg, #fffac0 0%, #ffd700 13%, #e8a000 30%, #ffd000 50%, #c48000 70%, #7e5200 100%)'
+          : 'linear-gradient(155deg, #ffee82 0%, #ffd700 18%, #ecb800 37%, #ffcc00 57%, #b89000 77%, #8c6600 100%)',
       ].join(', '),
-      border: elite ? '1.5px solid rgba(255,222,0,0.92)' : '1px solid rgba(255,210,0,0.82)',
-      boxShadow: elite
-        ? '0 0 24px rgba(0,0,0,0.42) inset, 0 8px 36px rgba(0,0,0,0.68), 0 0 32px rgba(255,215,0,0.88), 0 0 12px rgba(255,215,0,0.55) inset'
-        : '0 0 18px rgba(0,0,0,0.36) inset, 0 6px 28px rgba(0,0,0,0.58), 0 0 20px rgba(255,215,0,0.62)',
+      border: elite ? '1.5px solid rgba(255,232,0,0.96)' : '1px solid rgba(255,216,0,0.92)',
+      boxShadow: [
+        'inset 0 2px 0 rgba(255,255,185,0.65)',
+        'inset 0 -2px 0 rgba(115,72,0,0.56)',
+        'inset 2px 0 0 rgba(255,245,130,0.22)',
+        'inset -2px 0 0 rgba(255,245,130,0.22)',
+        elite
+          ? 'inset 0 0 44px rgba(255,200,0,0.16)'
+          : 'inset 0 0 36px rgba(255,185,0,0.10)',
+      ].join(', '),
     };
   }
   if (rating >= 65) {
     return {
       background: [
+        topEdge,
         overlay,
         vignette,
-        'linear-gradient(150deg, #e8f0fa 0%, #ccdaea 22%, #b0c4d8 46%, #c4d4e6 68%, #7890ac 100%)',
+        'linear-gradient(110deg, transparent 22%, rgba(200,228,255,0.28) 40%, transparent 58%)',
+        'linear-gradient(150deg, #f4f9ff 0%, #c8dcf2 18%, #a2bad8 42%, #bccede 66%, #688aa6 100%)',
       ].join(', '),
-      border: '1px solid rgba(136,162,194,0.88)',
-      boxShadow: '0 0 18px rgba(0,0,0,0.36) inset, 0 6px 26px rgba(0,0,0,0.58), 0 0 14px rgba(136,162,194,0.48)',
+      border: '1px solid rgba(152,182,218,0.94)',
+      boxShadow: [
+        'inset 0 2px 0 rgba(240,250,255,0.78)',
+        'inset 0 -2px 0 rgba(44,76,116,0.52)',
+        'inset 2px 0 0 rgba(200,224,248,0.24)',
+        'inset -2px 0 0 rgba(200,224,248,0.24)',
+        'inset 0 0 36px rgba(165,210,252,0.09)',
+      ].join(', '),
     };
   }
   return {
     background: [
+      topEdge,
       overlay,
       vignette,
-      `linear-gradient(112deg, transparent 28%, rgba(255,195,110,0.24) 46%, transparent 63%)`,
-      'linear-gradient(155deg, #f8b85a 0%, #d4832a 17%, #c07030 38%, #a85a26 60%, #7c3e1c 80%, #562a10 100%)',
+      'linear-gradient(110deg, transparent 22%, rgba(255,208,124,0.32) 40%, transparent 58%)',
+      'linear-gradient(155deg, #ffca66 0%, #d88026 14%, #c07030 36%, #a85826 57%, #7c3c1c 77%, #521e0c 100%)',
     ].join(', '),
-    border: '1px solid rgba(198,118,48,0.82)',
-    boxShadow: '0 0 18px rgba(0,0,0,0.42) inset, 0 6px 26px rgba(0,0,0,0.62), 0 0 14px rgba(175,96,36,0.48)',
+    border: '1px solid rgba(220,134,58,0.94)',
+    boxShadow: [
+      'inset 0 2px 0 rgba(255,218,142,0.68)',
+      'inset 0 -2px 0 rgba(44,18,4,0.72)',
+      'inset 2px 0 0 rgba(225,148,58,0.26)',
+      'inset -2px 0 0 rgba(225,148,58,0.26)',
+      'inset 0 0 36px rgba(225,110,18,0.13)',
+    ].join(', '),
   };
 }
