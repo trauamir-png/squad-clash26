@@ -10,11 +10,16 @@ export function getLanguage() {
   return _lang;
 }
 
+function applyToDOM(lang) {
+  document.documentElement.dir  = lang === 'he' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lang;
+}
+
+// Called only when the user explicitly picks a language — writes to localStorage.
 export function setLanguage(lang) {
   _lang = LANGS[lang] ? lang : 'en';
   localStorage.setItem(STORAGE_KEY, _lang);
-  document.documentElement.dir  = _lang === 'he' ? 'rtl' : 'ltr';
-  document.documentElement.lang = _lang;
+  applyToDOM(_lang);
 }
 
 export function t(key, vars) {
@@ -23,5 +28,6 @@ export function t(key, vars) {
   return str.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? `{${k}}`);
 }
 
-// Apply direction/lang on module init so the page is correct before first render
-setLanguage(_lang);
+// Apply DOM attributes on init but do NOT write to localStorage —
+// localStorage must stay empty until the user makes an explicit choice.
+applyToDOM(_lang);

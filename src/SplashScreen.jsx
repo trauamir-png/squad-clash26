@@ -3,7 +3,14 @@ import { setLanguage, t } from './i18n/index.js';
 
 export function SplashScreen({ onStart }) {
   // If a language is already saved, skip straight to the tap-to-start screen
-  const [picked, setPicked] = useState(() => !!localStorage.getItem('squad_clash_language'));
+  const [picked, setPicked] = useState(() => {
+    const saved = localStorage.getItem('squad_clash_language');
+    if (import.meta.env.DEV) {
+      console.log('[SplashScreen] squad_clash_language =', saved);
+      console.log('[SplashScreen] showing:', saved ? 'start screen' : 'language picker');
+    }
+    return !!saved;
+  });
 
   function handleLanguagePick(lang) {
     setLanguage(lang);
