@@ -206,7 +206,7 @@ const he = {
   inXI: 'בהרכב',
   selectArrow: 'בחר →',
   empty: 'ריק',
-  subLabel: 'חלופה',
+  subLabel: 'מחליף',
   noPlayersInClubMsg: 'אין שחקנים במועדון. פתח חבילות להתחלה.',
   noClubPlayersForPosition: 'אין שחקני מועדון לעמדה זו. פתח חבילה כדי לקבל.',
   remove: 'הסר',

@@ -5350,13 +5350,20 @@ p {
    Outer glow is filter:drop-shadow in CSS — clip-path kills box-shadow outside bounds.
    ═══════════════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════
+   FUT CARD — Premium collectible card system
+   Silhouette: 7-point polygon with angled top corners
+   Layering: burst(0) · spotlight(0) · img(1) · shine(2) · frame(3) · content(5) · overlay(10)
+   ═══════════════════════════════════════════════════ */
+
 .fut-card {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  clip-path: polygon(0 0, 100% 0, 100% 88%, 50% 100%, 0 88%);
+  /* 7-point collectible silhouette: angled top corners + bottom-center point */
+  clip-path: polygon(8% 0%, 92% 0%, 100% 7%, 100% 87%, 50% 100%, 0% 87%, 0% 7%);
   cursor: pointer;
   transition: transform 0.22s cubic-bezier(0.34, 1.28, 0.64, 1),
               filter  0.22s ease,
@@ -5367,49 +5374,55 @@ p {
 
 /* ── Resting ambient glow per tier ─────────────────── */
 .fut-card.card-tier-gold {
-  filter: drop-shadow(0 6px 22px rgba(220,170,0,0.60))
-          drop-shadow(0 3px 8px  rgba(0,0,0,0.56));
+  filter: drop-shadow(0 8px 26px rgba(220,170,0,0.72))
+          drop-shadow(0 2px 6px  rgba(0,0,0,0.62))
+          drop-shadow(0 0  16px  rgba(220,170,0,0.28));
 }
 .fut-card.card-tier-silver {
-  filter: drop-shadow(0 5px 20px rgba(118,168,218,0.54))
-          drop-shadow(0 3px 8px  rgba(0,0,0,0.52));
+  filter: drop-shadow(0 7px 22px rgba(110,162,214,0.64))
+          drop-shadow(0 2px 6px  rgba(0,0,0,0.58))
+          drop-shadow(0 0  14px  rgba(130,180,228,0.22));
 }
 .fut-card.card-tier-bronze {
-  filter: drop-shadow(0 5px 20px rgba(188,96,22,0.56))
-          drop-shadow(0 3px 8px  rgba(0,0,0,0.56));
+  filter: drop-shadow(0 7px 22px rgba(195,100,28,0.68))
+          drop-shadow(0 2px 6px  rgba(0,0,0,0.62))
+          drop-shadow(0 0  14px  rgba(195,100,28,0.24));
 }
 .fut-card.card-tier-elite {
-  filter: drop-shadow(0 8px 36px rgba(255,215,0,0.94))
-          drop-shadow(0 3px 10px rgba(0,0,0,0.64))
-          drop-shadow(0 0  54px rgba(255,215,0,0.40));
+  filter: drop-shadow(0 10px 40px rgba(255,215,0,1.0))
+          drop-shadow(0 2px 10px rgba(0,0,0,0.70))
+          drop-shadow(0 0   60px rgba(255,215,0,0.48));
 }
 
 /* ── Hover: lift + strengthen glow ─────────────────── */
 @media (hover: hover) {
   .fut-card.card-tier-gold:hover {
-    transform: translateY(-10px) scale(1.055);
-    filter: drop-shadow(0 16px 38px rgba(255,215,0,0.90))
-            drop-shadow(0 5px 12px  rgba(0,0,0,0.64))
-            brightness(1.08);
+    transform: translateY(-12px) scale(1.06);
+    filter: drop-shadow(0 20px 44px rgba(255,215,0,1.0))
+            drop-shadow(0 4px 12px  rgba(0,0,0,0.68))
+            drop-shadow(0 0  36px   rgba(255,215,0,0.38))
+            brightness(1.09);
   }
   .fut-card.card-tier-silver:hover {
-    transform: translateY(-10px) scale(1.055);
-    filter: drop-shadow(0 16px 34px rgba(140,190,236,0.78))
-            drop-shadow(0 5px 12px  rgba(0,0,0,0.58))
-            brightness(1.08);
+    transform: translateY(-12px) scale(1.06);
+    filter: drop-shadow(0 18px 38px rgba(148,196,240,0.85))
+            drop-shadow(0 4px 12px  rgba(0,0,0,0.62))
+            drop-shadow(0 0  28px   rgba(148,196,240,0.28))
+            brightness(1.09);
   }
   .fut-card.card-tier-bronze:hover {
-    transform: translateY(-10px) scale(1.055);
-    filter: drop-shadow(0 16px 34px rgba(215,118,32,0.84))
-            drop-shadow(0 5px 12px  rgba(0,0,0,0.62))
-            brightness(1.08);
+    transform: translateY(-12px) scale(1.06);
+    filter: drop-shadow(0 18px 38px rgba(220,120,36,0.90))
+            drop-shadow(0 4px 12px  rgba(0,0,0,0.66))
+            drop-shadow(0 0  28px   rgba(220,120,36,0.30))
+            brightness(1.09);
   }
   .fut-card.card-tier-elite:hover {
-    transform: translateY(-10px) scale(1.065);
-    filter: drop-shadow(0 18px 52px rgba(255,215,0,1.0))
-            drop-shadow(0 6px 14px  rgba(0,0,0,0.68))
-            drop-shadow(0 0  68px   rgba(255,215,0,0.58))
-            brightness(1.13);
+    transform: translateY(-14px) scale(1.07);
+    filter: drop-shadow(0 22px 56px rgba(255,215,0,1.0))
+            drop-shadow(0 5px 14px  rgba(0,0,0,0.72))
+            drop-shadow(0 0   80px  rgba(255,215,0,0.60))
+            brightness(1.14);
   }
 }
 .fut-card:active {
@@ -5424,21 +5437,42 @@ p {
 .fut-card.card-tier-bronze  { color: #fff; }
 
 /* ── Inner frame / bevel (::before) ────────────────── */
-/* Pentagon border 3 px inside card edge — simulates layered physical card bevel */
+/* Inset 5px so the cut corners read as a layered physical bevel frame */
 .fut-card::before {
   content: '';
   position: absolute;
-  inset: 3px;
-  border: 1px solid rgba(255,255,255,0.18);
+  inset: 5px;
+  border: 1.5px solid rgba(255,255,255,0.22);
   pointer-events: none;
   z-index: 3;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.45),
+    inset 0 -2px 0 rgba(0,0,0,0.35);
 }
-.fut-card.card-tier-gold::before   { border-color: rgba(255,248,155,0.42); }
-.fut-card.card-tier-silver::before { border-color: rgba(210,234,255,0.46); }
-.fut-card.card-tier-bronze::before { border-color: rgba(255,206,132,0.38); }
-.fut-card.card-tier-elite::before  {
-  border-color: rgba(255,240,80,0.72);
-  box-shadow: inset 0 0 16px rgba(255,215,0,0.16);
+.fut-card.card-tier-gold::before {
+  border-color: rgba(255,248,155,0.58);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,200,0.72),
+    inset 0 -2px 0 rgba(90,46,0,0.58);
+}
+.fut-card.card-tier-silver::before {
+  border-color: rgba(218,238,255,0.62);
+  box-shadow:
+    inset 0 2px 0 rgba(248,252,255,0.78),
+    inset 0 -2px 0 rgba(24,56,96,0.52);
+}
+.fut-card.card-tier-bronze::before {
+  border-color: rgba(255,200,110,0.52);
+  box-shadow:
+    inset 0 2px 0 rgba(255,222,148,0.78),
+    inset 0 -2px 0 rgba(48,14,4,0.58);
+}
+.fut-card.card-tier-elite::before {
+  border-color: rgba(255,242,80,0.80);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,190,0.88),
+    inset 0 -2px 0 rgba(90,44,0,0.65),
+    inset 0 0 20px rgba(255,215,0,0.20);
 }
 
 /* ── Radial sunburst texture ───────────────────────── */
@@ -5446,57 +5480,76 @@ p {
   position: absolute;
   inset: 0;
   background: repeating-conic-gradient(
-    from 0deg at 50% 26%,
-    rgba(255,255,255,0.055) 0deg 4deg,
-    transparent               4deg 13deg
+    from 0deg at 50% 24%,
+    rgba(255,255,255,0.072) 0deg 3.5deg,
+    transparent               3.5deg 14deg
   );
   pointer-events: none;
   z-index: 0;
   mix-blend-mode: soft-light;
-  opacity: 0.85;
+  opacity: 1.0;
 }
-.fut-card.card-tier-bronze .fut-burst { opacity: 0.46; mix-blend-mode: screen; }
+.fut-card.card-tier-bronze .fut-burst { opacity: 0.55; mix-blend-mode: screen; }
 
 /* ── Diagonal shine stripe (::after) ───────────────── */
-/* Sits above the image (z 2) — unifies as a glossy laminate over the whole face */
+/* Simulates the glossy laminate sheen of a physical collectible card */
 .fut-card::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     128deg,
-    transparent              20%,
-    rgba(255,255,255,0.06)   38%,
-    rgba(255,255,255,0.17)   50%,
-    rgba(255,255,255,0.06)   62%,
-    transparent              80%
+    transparent               10%,
+    rgba(255,255,255,0.04)    26%,
+    rgba(255,255,255,0.18)    40%,
+    rgba(255,255,255,0.32)    50%,
+    rgba(255,255,255,0.18)    60%,
+    rgba(255,255,255,0.04)    74%,
+    transparent               90%
   );
   pointer-events: none;
   z-index: 2;
-  opacity: 0.70;
+  opacity: 0.72;
   transition: opacity 0.26s ease;
 }
 .fut-card.card-tier-gold::after {
   background: linear-gradient(
     128deg,
-    transparent              20%,
-    rgba(255,255,255,0.10)   38%,
-    rgba(255,255,255,0.28)   50%,
-    rgba(255,255,255,0.10)   62%,
-    transparent              80%
+    transparent               10%,
+    rgba(255,255,240,0.06)    26%,
+    rgba(255,255,255,0.22)    38%,
+    rgba(255,255,255,0.44)    50%,
+    rgba(255,255,255,0.22)    62%,
+    rgba(255,255,240,0.06)    74%,
+    transparent               90%
   );
-  opacity: 0.76;
+  opacity: 0.82;
+}
+.fut-card.card-tier-silver::after {
+  background: linear-gradient(
+    128deg,
+    transparent               10%,
+    rgba(220,238,255,0.06)    26%,
+    rgba(240,248,255,0.22)    38%,
+    rgba(255,255,255,0.40)    50%,
+    rgba(240,248,255,0.22)    62%,
+    rgba(220,238,255,0.06)    74%,
+    transparent               90%
+  );
+  opacity: 0.78;
 }
 .fut-card.card-tier-elite::after {
   background: linear-gradient(
     128deg,
-    transparent              18%,
-    rgba(255,255,200,0.14)   36%,
-    rgba(255,255,255,0.38)   50%,
-    rgba(255,255,200,0.14)   64%,
-    transparent              82%
+    transparent               8%,
+    rgba(255,255,210,0.10)    22%,
+    rgba(255,255,255,0.30)    36%,
+    rgba(255,255,255,0.58)    50%,
+    rgba(255,255,255,0.30)    64%,
+    rgba(255,255,210,0.10)    78%,
+    transparent               92%
   );
-  opacity: 0.88;
+  opacity: 0.92;
 }
 @media (hover: hover) {
   .fut-card:hover::after { opacity: 1; }
@@ -5505,8 +5558,8 @@ p {
 /* ── Rating + Position ─────────────────────────────── */
 .fut-top-left {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 11px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5520,30 +5573,39 @@ p {
   letter-spacing: -0.04em;
 }
 .fut-card.card-tier-gold .fut-rating {
-  text-shadow: 0 1px 0 rgba(0,0,0,0.16), 0 2px 6px rgba(0,0,0,0.28);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.22),
+    0 2px 8px rgba(0,0,0,0.40),
+    0 0 22px rgba(180,120,0,0.20);
 }
 .fut-card.card-tier-silver .fut-rating {
-  text-shadow: 0 1px 0 rgba(0,0,0,0.12), 0 2px 5px rgba(0,0,0,0.24);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.18),
+    0 2px 7px rgba(0,0,0,0.38),
+    0 0 18px rgba(60,100,140,0.22);
 }
 .fut-card.card-tier-bronze .fut-rating {
-  text-shadow: 0 1px 0 rgba(0,0,0,0.35),
-               0 2px 8px rgba(0,0,0,0.52),
-               0 0 20px rgba(255,180,60,0.48);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.55),
+    0 2px 10px rgba(0,0,0,0.65),
+    0 0 24px rgba(255,160,40,0.60);
 }
 .fut-card.card-tier-elite .fut-rating {
-  text-shadow: 0 1px 0 rgba(0,0,0,0.28),
-               0 2px 8px rgba(0,0,0,0.44),
-               0 0 28px rgba(255,215,0,0.70),
-               0 0 56px rgba(255,215,0,0.32);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,0.35),
+    0 2px 10px rgba(0,0,0,0.55),
+    0 0 32px rgba(255,215,0,0.88),
+    0 0 64px rgba(255,215,0,0.40);
 }
+
 .fut-pos {
   font-size: 11px;
   font-weight: 900;
   text-transform: uppercase;
   line-height: 1;
   margin-top: 3px;
-  letter-spacing: 0.10em;
-  opacity: 0.85;
+  letter-spacing: 0.12em;
+  opacity: 0.80;
 }
 
 /* ── Extra slot (fit badge, etc.) ──────────────────── */
@@ -5568,31 +5630,35 @@ p {
   justify-content: center;
   flex-shrink: 0;
 }
-/* Radial spotlight behind the player — bleeds warmly into the card body */
+
+/* Focused radial spotlight rising up behind the player — key to "floating" feel */
 .fut-img-wrap::before {
   content: '';
   position: absolute;
-  bottom: -6px;
+  bottom: -8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 88%;
-  height: 72%;
+  width: 92%;
+  height: 80%;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(ellipse at 50% 88%, rgba(255,255,255,0.18) 0%, transparent 68%);
+  background: radial-gradient(ellipse at 50% 84%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 42%, transparent 68%);
 }
-.card-tier-gold   .fut-img-wrap::before {
-  background: radial-gradient(ellipse at 50% 88%, rgba(255,222,60,0.30)  0%, transparent 65%);
+.card-tier-gold .fut-img-wrap::before {
+  background: radial-gradient(ellipse at 50% 84%, rgba(255,224,60,0.48)  0%, rgba(255,200,0,0.16) 40%, transparent 68%);
+  width: 98%;
 }
 .card-tier-silver .fut-img-wrap::before {
-  background: radial-gradient(ellipse at 50% 88%, rgba(172,218,255,0.26) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 84%, rgba(180,228,255,0.44) 0%, rgba(140,196,248,0.14) 40%, transparent 68%);
+  width: 98%;
 }
 .card-tier-bronze .fut-img-wrap::before {
-  background: radial-gradient(ellipse at 50% 88%, rgba(255,162,58,0.26)  0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 84%, rgba(255,164,52,0.44)  0%, rgba(200,104,24,0.16) 40%, transparent 68%);
+  width: 98%;
 }
-.card-tier-elite  .fut-img-wrap::before {
-  background: radial-gradient(ellipse at 50% 88%, rgba(255,232,0,0.44)   0%, transparent 60%);
-  width: 94%;
+.card-tier-elite .fut-img-wrap::before {
+  background: radial-gradient(ellipse at 50% 84%, rgba(255,238,0,0.62)   0%, rgba(255,215,0,0.24) 38%, transparent 65%);
+  width: 104%;
 }
 
 /* ── Player image ──────────────────────────────────── */
@@ -5627,26 +5693,28 @@ p {
   line-height: 1.12;
   max-width: 94%;
   margin-top: 4px;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.08em;
 }
 .fut-card.card-tier-gold .fut-name,
-.fut-card.card-tier-silver .fut-name { text-shadow: 0 1px 3px rgba(0,0,0,0.22); }
+.fut-card.card-tier-silver .fut-name {
+  text-shadow: 0 1px 3px rgba(0,0,0,0.28), 0 2px 6px rgba(0,0,0,0.14);
+}
 .fut-card.card-tier-bronze .fut-name {
-  text-shadow: 0 1px 5px rgba(0,0,0,0.68), 0 0 14px rgba(0,0,0,0.32);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.75), 0 0 16px rgba(0,0,0,0.40);
 }
 
-/* ── Stats ─────────────────────────────────────────── */
+/* ── Stats bar ─────────────────────────────────────── */
 .fut-stats {
   position: relative;
   z-index: 5;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  border-top: 1px solid rgba(0,0,0,0.22);
+  border-top: 1px solid rgba(0,0,0,0.28);
   padding: 5px 6px 0;
   margin-top: 5px;
 }
-.fut-card.card-tier-bronze .fut-stats { border-top-color: rgba(255,255,255,0.26); }
+.fut-card.card-tier-bronze .fut-stats { border-top-color: rgba(255,255,255,0.30); }
 .fut-stat {
   flex: 1;
   display: flex;
@@ -5663,12 +5731,12 @@ p {
   font-size: 6px;
   font-weight: 700;
   text-transform: uppercase;
-  opacity: 0.56;
+  opacity: 0.52;
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
 }
 
-/* ── Badges ────────────────────────────────────────── */
+/* ── Badges row ────────────────────────────────────── */
 .fut-badges {
   position: relative;
   z-index: 5;
@@ -5693,7 +5761,7 @@ p {
   height: 18px;
   padding: 0 4px;
   border-radius: 3px;
-  background: rgba(0,0,0,0.14);
+  background: rgba(0,0,0,0.16);
   font-size: 7px;
   font-weight: 900;
   text-transform: uppercase;
@@ -5703,12 +5771,12 @@ p {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.fut-card.card-tier-bronze .fut-badge-abbr { background: rgba(255,255,255,0.16); }
+.fut-card.card-tier-bronze .fut-badge-abbr { background: rgba(255,255,255,0.18); }
 .fut-club-dot {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.20);
+  background: rgba(0,0,0,0.22);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -5717,7 +5785,7 @@ p {
   line-height: 1;
   flex-shrink: 0;
 }
-.fut-card.card-tier-bronze .fut-club-dot { background: rgba(255,255,255,0.20); }
+.fut-card.card-tier-bronze .fut-club-dot { background: rgba(255,255,255,0.22); }
 .fut-club-logo {
   width: 20px;
   height: 20px;
@@ -5732,7 +5800,7 @@ p {
 .fut-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.58);
+  background: rgba(0,0,0,0.60);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5745,12 +5813,12 @@ p {
 }
 
 /* ── SIZE: lg ──────────────────────────────────────── */
-.fut-card-lg { padding: 54px 12px 36px; }
-.fut-card-lg .fut-rating  { font-size: 44px; letter-spacing: -0.05em; }
-.fut-card-lg .fut-pos     { font-size: 16px; margin-top: 5px; }
+.fut-card-lg { padding: 56px 12px 38px; }
+.fut-card-lg .fut-rating  { font-size: 48px; letter-spacing: -0.05em; }
+.fut-card-lg .fut-pos     { font-size: 17px; margin-top: 5px; letter-spacing: 0.14em; }
 .fut-card-lg .fut-img,
-.fut-card-lg .player-img-fallback.fut-img { width: 88%; height: 142px; }
-.fut-card-lg .fut-name    { font-size: 17px; margin-top: 6px; }
+.fut-card-lg .player-img-fallback.fut-img { width: 90%; height: 148px; }
+.fut-card-lg .fut-name    { font-size: 17px; margin-top: 6px; letter-spacing: 0.09em; }
 .fut-card-lg .fut-stat-val{ font-size: 14px; }
 .fut-card-lg .fut-stat-key{ font-size: 7px; }
 .fut-card-lg .fut-stats   { padding: 6px 8px 0; margin-top: 8px; }
@@ -5760,11 +5828,11 @@ p {
 .fut-card-lg .fut-badges     { gap: 7px; margin-top: 8px; }
 
 /* ── SIZE: md ──────────────────────────────────────── */
-.fut-card-md { padding: 46px 10px 30px; }
-.fut-card-md .fut-rating  { font-size: 36px; letter-spacing: -0.04em; }
-.fut-card-md .fut-pos     { font-size: 13px; margin-top: 3px; }
+.fut-card-md { padding: 48px 10px 32px; }
+.fut-card-md .fut-rating  { font-size: 38px; letter-spacing: -0.04em; }
+.fut-card-md .fut-pos     { font-size: 13px; margin-top: 3px; letter-spacing: 0.12em; }
 .fut-card-md .fut-img,
-.fut-card-md .player-img-fallback.fut-img { width: 86%; height: 116px; }
+.fut-card-md .player-img-fallback.fut-img { width: 88%; height: 120px; }
 .fut-card-md .fut-name    { font-size: 13px; margin-top: 4px; }
 .fut-card-md .fut-stat-val{ font-size: 11px; }
 .fut-card-md .fut-stat-key{ font-size: 6px; }
@@ -5774,12 +5842,12 @@ p {
 .fut-card-sm {
   width: 100%;
   max-width: 165px;
-  padding: 36px 8px 24px;
+  padding: 38px 8px 26px;
 }
-.fut-card-sm .fut-rating  { font-size: 27px; letter-spacing: -0.04em; }
-.fut-card-sm .fut-pos     { font-size: 11px; margin-top: 3px; }
+.fut-card-sm .fut-rating  { font-size: 28px; letter-spacing: -0.04em; }
+.fut-card-sm .fut-pos     { font-size: 11px; margin-top: 3px; letter-spacing: 0.10em; }
 .fut-card-sm .fut-img,
-.fut-card-sm .player-img-fallback.fut-img { width: 84%; height: 92px; }
+.fut-card-sm .player-img-fallback.fut-img { width: 86%; height: 96px; }
 .fut-card-sm .fut-name    { font-size: 11px; margin-top: 3px; }
 .fut-card-sm .fut-stat-val{ font-size: 8px; }
 .fut-card-sm .fut-stat-key{ font-size: 5px; }
