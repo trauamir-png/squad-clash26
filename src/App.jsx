@@ -632,6 +632,11 @@ function App() {
     window.location.reload();
   };
 
+  const handleFullDevReset = () => {
+    ['ultimate_team_save_v1', 'squad_clash_language', 'sc26_club_logos_v2'].forEach(k => localStorage.removeItem(k));
+    window.location.reload();
+  };
+
   const handleResetClubAndPack = () => {
     resetGameSave();
     setClub(null);
@@ -1672,12 +1677,18 @@ function App() {
               ))}
             </div>
 
-            <div style={{ marginTop: 8, borderTop: "1px solid #166534", paddingTop: 8 }}>
+            <div style={{ marginTop: 8, borderTop: "1px solid #166534", paddingTop: 8, display: "flex", flexDirection: "column", gap: 6 }}>
               <button
                 onClick={handleResetClubAndPack}
                 style={{ width: "100%", padding: "5px 0", borderRadius: 6, border: "1px solid #991b1b", cursor: "pointer", fontWeight: "bold", fontSize: 11, background: "#450a0a", color: "#fca5a5" }}
               >
                 🔄 Reset Club + Starter Pack
+              </button>
+              <button
+                onClick={handleFullDevReset}
+                style={{ width: "100%", padding: "6px 0", borderRadius: 6, border: "2px solid #f97316", cursor: "pointer", fontWeight: "bold", fontSize: 12, background: "#431407", color: "#fb923c" }}
+              >
+                💥 Full Dev Reset (clears all)
               </button>
             </div>
 
