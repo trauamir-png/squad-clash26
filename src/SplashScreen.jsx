@@ -28,7 +28,7 @@ export function SplashScreen({ onStart }) {
             draggable="false"
           />
           <p className="splash-tagline" style={{ marginBottom: '32px' }}>
-            Build. Play. Clash. · בנה. שחק. התנגש.
+            BUILD. PLAY. CLASH.
           </p>
           <p className="splash-lang-label">Select Language / בחר שפה</p>
           <div className="splash-lang-picker">

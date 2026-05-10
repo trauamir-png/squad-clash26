@@ -53,9 +53,11 @@ export function getRatingCardStyle(rating) {
   const elite = rating >= 85;
 
   // Shared overlay layers (painter's-algorithm order, first = topmost)
-  const topEdge  = 'linear-gradient(to bottom, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.10) 12%, transparent 28%)';
-  const overlay  = 'linear-gradient(to bottom, rgba(255,255,255,0.04) 0%, rgba(0,0,0,0.0) 30%, rgba(0,0,0,0.54) 76%, rgba(0,0,0,0.78) 100%)';
-  const vignette = 'radial-gradient(ellipse 118% 96% at 50% 8%, transparent 40%, rgba(0,0,0,0.48) 100%)';
+  const topEdge  = 'linear-gradient(to bottom, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.08) 14%, transparent 30%)';
+  // Gentle footer shade only — bottom must stay readable for stats/badges
+  const overlay  = 'linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 35%, rgba(0,0,0,0.08) 68%, rgba(0,0,0,0.18) 100%)';
+  // Very soft edge separation — not a darkening vignette
+  const vignette = 'radial-gradient(ellipse 120% 98% at 50% 6%, transparent 58%, rgba(0,0,0,0.13) 100%)';
 
   if (rating >= 75) {
     const shine = elite ? 0.40 : 0.27;
@@ -66,8 +68,8 @@ export function getRatingCardStyle(rating) {
         vignette,
         `linear-gradient(110deg, transparent 14%, rgba(255,255,255,${shine}) 34%, rgba(255,255,255,${(shine * 0.38).toFixed(2)}) 52%, transparent 68%)`,
         elite
-          ? 'linear-gradient(158deg, #fffac0 0%, #ffd700 13%, #e8a000 30%, #ffd000 50%, #c48000 70%, #7e5200 100%)'
-          : 'linear-gradient(155deg, #ffee82 0%, #ffd700 18%, #ecb800 37%, #ffcc00 57%, #b89000 77%, #8c6600 100%)',
+          ? 'linear-gradient(158deg, #fffac0 0%, #ffd700 13%, #e8a000 30%, #ffd000 50%, #c48000 70%, #a07400 100%)'
+          : 'linear-gradient(155deg, #ffee82 0%, #ffd700 18%, #ecb800 37%, #ffcc00 57%, #c09800 77%, #a07800 100%)',
       ].join(', '),
       border: elite ? '1.5px solid rgba(255,232,0,0.96)' : '1px solid rgba(255,216,0,0.92)',
       boxShadow: [
@@ -88,7 +90,7 @@ export function getRatingCardStyle(rating) {
         overlay,
         vignette,
         'linear-gradient(110deg, transparent 22%, rgba(200,228,255,0.28) 40%, transparent 58%)',
-        'linear-gradient(150deg, #f4f9ff 0%, #c8dcf2 18%, #a2bad8 42%, #bccede 66%, #688aa6 100%)',
+        'linear-gradient(150deg, #f4f9ff 0%, #c8dcf2 18%, #a2bad8 42%, #bccede 66%, #8aaabf 100%)',
       ].join(', '),
       border: '1px solid rgba(152,182,218,0.94)',
       boxShadow: [
@@ -106,12 +108,12 @@ export function getRatingCardStyle(rating) {
       overlay,
       vignette,
       'linear-gradient(110deg, transparent 22%, rgba(255,208,124,0.32) 40%, transparent 58%)',
-      'linear-gradient(155deg, #ffca66 0%, #d88026 14%, #c07030 36%, #a85826 57%, #7c3c1c 77%, #521e0c 100%)',
+      'linear-gradient(155deg, #ffca66 0%, #d88026 14%, #c07030 36%, #a85826 57%, #8c4a22 77%, #72361a 100%)',
     ].join(', '),
     border: '1px solid rgba(220,134,58,0.94)',
     boxShadow: [
       'inset 0 2px 0 rgba(255,218,142,0.68)',
-      'inset 0 -2px 0 rgba(44,18,4,0.72)',
+      'inset 0 -2px 0 rgba(44,18,4,0.40)',
       'inset 2px 0 0 rgba(225,148,58,0.26)',
       'inset -2px 0 0 rgba(225,148,58,0.26)',
       'inset 0 0 36px rgba(225,110,18,0.13)',

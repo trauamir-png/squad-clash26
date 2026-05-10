@@ -1376,7 +1376,7 @@ function App() {
                 width="249"
                 height="107"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               {/* Top goal area */}
@@ -1386,16 +1386,16 @@ function App() {
                 width="113"
                 height="36"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               {/* Top penalty spot */}
-              <circle cx="210" cy="71" r="3" fill="rgba(255,255,255,0.7)" />
+              <circle cx="210" cy="71" r="3" fill="rgba(255,255,255,0.92)" />
               {/* Top D arc */}
               <path
                 d="M 167.1 107 A 56 56 0 0 0 252.9 107"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
 
@@ -1405,7 +1405,7 @@ function App() {
                 y1="340"
                 x2="420"
                 y2="340"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               {/* Center circle */}
@@ -1414,11 +1414,11 @@ function App() {
                 cy="340"
                 r="56"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               {/* Center spot */}
-              <circle cx="210" cy="340" r="3" fill="rgba(255,255,255,0.7)" />
+              <circle cx="210" cy="340" r="3" fill="rgba(255,255,255,0.92)" />
 
               {/* Bottom penalty area */}
               <rect
@@ -1427,7 +1427,7 @@ function App() {
                 width="249"
                 height="107"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               {/* Bottom goal area */}
@@ -1437,16 +1437,16 @@ function App() {
                 width="113"
                 height="36"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               {/* Bottom penalty spot */}
-              <circle cx="210" cy="609" r="3" fill="rgba(255,255,255,0.7)" />
+              <circle cx="210" cy="609" r="3" fill="rgba(255,255,255,0.92)" />
               {/* Bottom D arc */}
               <path
                 d="M 167.1 573 A 56 56 0 0 1 252.9 573"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
 
@@ -1454,25 +1454,25 @@ function App() {
               <path
                 d="M 8 0 A 8 8 0 0 1 0 8"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               <path
                 d="M 412 0 A 8 8 0 0 0 420 8"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               <path
                 d="M 0 672 A 8 8 0 0 1 8 680"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
               <path
                 d="M 420 672 A 8 8 0 0 0 412 680"
                 fill="none"
-                stroke="rgba(255,255,255,0.7)"
+                stroke="rgba(255,255,255,0.92)"
                 strokeWidth="2"
               />
             </svg>

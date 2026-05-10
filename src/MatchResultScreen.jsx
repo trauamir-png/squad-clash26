@@ -31,13 +31,11 @@ function EventFeed({ events }) {
   );
 }
 
-function RewardRow({ label, amount, highlight }) {
+function RewardRow({ label, amount }) {
   return (
-    <div className={`reward-row ${highlight ? 'reward-row-total' : ''}`}>
+    <div className="reward-row">
       <span className="reward-label">{label}</span>
-      <span className="reward-amount" style={{ color: highlight ? '#fbbf24' : '#86efac' }}>
-        +{amount.toLocaleString()}
-      </span>
+      <span className="reward-amount">+{amount.toLocaleString()}</span>
     </div>
   );
 }
@@ -170,10 +168,10 @@ export function MatchResultScreen({ result, onContinue }) {
   const oppLogo  = getClubLogo(opponentName);
 
   return (
-    <div className="match-result-screen">
-      {/* Score */}
+    <div className={`match-result-screen match-result-${resultType}`}>
+
+      {/* ── Score card ── */}
       <div className="match-score-card" style={{ borderColor: color, background: RESULT_BG[resultType] }}>
-        {/* Teams row */}
         <div className="match-teams-row">
           {userLogo && (
             <img
@@ -206,63 +204,74 @@ export function MatchResultScreen({ result, onContinue }) {
         )}
       </div>
 
-      {/* Match stats comparison */}
-      <StatsComparison stats={stats} clubName={clubName} opponentName={opponentName} userLogo={userLogo} oppLogo={oppLogo} />
+      {/* ── Reward hero panel ── */}
+      <div className="match-reward-card">
+        {/* Decorative top glow strip */}
+        <div className="reward-card-glow-strip" aria-hidden="true" />
 
-      {/* Player of the match */}
-      <PlayerOfTheMatch potm={potm} />
-
-      {/* Event feed */}
-      <EventFeed events={events} />
-
-      <div className="match-bottom-row">
-        {/* Team power stats */}
-        <div className="match-stats-card">
-          <h2 className="match-stats-title">{t('teamStats')}</h2>
-
-          <PowerBar
-            label={t('yourTeamPower')}
-            power={teamPower}
-            maxPower={maxPower}
-            color="#4ade80"
-          />
-          <PowerBar
-            label={t('opponent')}
-            power={opponentPower}
-            maxPower={maxPower}
-            color="#f87171"
-          />
-
-          <div className="match-stat-divider" />
-
-          <StatRow label={t('teamRating')}      value={teamRating} />
-          <StatRow label={t('chemistry')}        value={`${teamChemistry} / 33`} />
-          <StatRow label={t('avgPositionFit')}   value={`${avgPositionFit}%`} />
+        {/* Hero: big coin total */}
+        <div className="reward-hero">
+          <div className="reward-hero-eyebrow">{t('coinsEarned')}</div>
+          <div className="reward-hero-amount">
+            <span className="reward-hero-icon">🪙</span>
+            <span className="reward-hero-number">+{total.toLocaleString()}</span>
+          </div>
         </div>
 
-        {/* Coin reward */}
-        <div className="match-reward-card">
-          <h2 className="match-reward-title">{t('coinsEarned')}</h2>
-
-          <RewardRow label={`${label} ${t('reward')}`}                          amount={baseReward} />
+        {/* Breakdown rows */}
+        <div className="reward-breakdown">
+          <RewardRow label={`${label} ${t('reward')}`}                        amount={baseReward} />
           <RewardRow label={`${t('goalsBonusLabel')} (${goalsFor} × 65)`}    amount={goalsBonus} />
           {cleanSheetBonus > 0 && (
             <RewardRow label={t('cleanSheetBonus')} amount={cleanSheetBonus} />
           )}
+        </div>
 
-          <div className="reward-divider" />
-          <RewardRow label={t('totalEarned')} amount={total} highlight />
-
-          <div className="reward-balance">
-            <span className="reward-balance-label">{t('newBalance')}</span>
-            <span className="reward-balance-amount">🪙 {coinsAfter.toLocaleString()}</span>
-          </div>
+        {/* New balance footer */}
+        <div className="reward-balance">
+          <span className="reward-balance-label">{t('newBalance')}</span>
+          <span className="reward-balance-amount">🪙 {coinsAfter.toLocaleString()}</span>
         </div>
       </div>
 
+      {/* ── Match stats comparison ── */}
+      <StatsComparison stats={stats} clubName={clubName} opponentName={opponentName} userLogo={userLogo} oppLogo={oppLogo} />
+
+      {/* ── Player of the match ── */}
+      <PlayerOfTheMatch potm={potm} />
+
+      {/* ── Event feed ── */}
+      <EventFeed events={events} />
+
+      {/* ── Team power stats ── */}
+      <div className="match-stats-card">
+        <h2 className="match-stats-title">{t('teamStats')}</h2>
+
+        <PowerBar
+          label={t('yourTeamPower')}
+          power={teamPower}
+          maxPower={maxPower}
+          color="#4ade80"
+        />
+        <PowerBar
+          label={t('opponent')}
+          power={opponentPower}
+          maxPower={maxPower}
+          color="#f87171"
+        />
+
+        <div className="match-stat-divider" />
+
+        <StatRow label={t('teamRating')}    value={teamRating} />
+        <StatRow label={t('chemistry')}      value={`${teamChemistry} / 33`} />
+        <StatRow label={t('avgPositionFit')} value={`${avgPositionFit}%`} />
+      </div>
+
+      {/* ── Continue CTA ── */}
       <button className="match-continue-btn" onClick={onContinue}>
         {t('continuee')}
       </button>
+
     </div>
   );
 }
