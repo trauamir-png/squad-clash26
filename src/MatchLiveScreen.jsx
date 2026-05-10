@@ -4,6 +4,7 @@ import { getClubLogo } from './utils/imageResolvers';
 import { PlayerImage } from './PlayerImage';
 import { getCardRatingColor } from './ratingUtils';
 import { calculateMatchStats } from './data/matchStats';
+import { t } from './i18n/index.js';
 
 // ── Timing constants ─────────────────────────────────────────────────
 const BASE_TICK_MS = 500;  // 0.5s per simulated minute → ~48s full match at 1×
@@ -21,9 +22,9 @@ const DRAMATIC_WEIGHT = {
 };
 const DRAMATIC_PAUSE_MS = { 1: 1500, 2: 2200, 3: 3000 };
 
-const STATUS_LABEL = {
-  first: 'First Half', halftime: 'Half Time', second: 'Second Half', fulltime: 'Full Time',
-};
+function getStatusLabel(s) {
+  return { first: t('firstHalf'), halftime: t('halfTime'), second: t('secondHalf'), fulltime: t('fullTime') }[s] ?? s;
+}
 
 function pickRand(arr) {
   if (!arr || arr.length === 0) return null;
@@ -75,11 +76,11 @@ function momentumDelta(e) {
 }
 
 function getMomentumLabel(m) {
-  if (m >  35) return 'You are dominating';
-  if (m >  12) return 'Slight advantage';
-  if (m > -12) return 'Even game';
-  if (m > -35) return 'Under pressure';
-  return 'Opponent dominating';
+  if (m >  35) return t('youAreDominating');
+  if (m >  12) return t('slightAdvantage');
+  if (m > -12) return t('evenGame');
+  if (m > -35) return t('underPressure');
+  return t('opponentDominating');
 }
 
 export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete }) {
@@ -190,14 +191,14 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
         const goalEvent = keyed.find(e => e.type === 'goal');
         if (goalEvent) {
           const isLateGoal = next > 85;
-          let bannerText  = 'GOAL!';
+          let bannerText  = t('goal');
           let isLateDrama = false;
           if (isLateGoal) {
             // Was the scoring team behind or level before this goal?
             const su = goalEvent.team === 'user' ? userScoreRef.current - 1 : userScoreRef.current;
             const so = goalEvent.team === 'user' ? oppScoreRef.current     : oppScoreRef.current - 1;
             const wasWinning = goalEvent.team === 'user' ? su > so : so > su;
-            bannerText  = wasWinning ? 'LAST MINUTE GOAL!' : 'LATE DRAMA!';
+            bannerText  = wasWinning ? t('lastMinuteGoal') : t('lateDrama');
             isLateDrama = true;
           }
           clearTimeout(clearBannerRef.current);
@@ -468,9 +469,9 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
           <img src={userLogo} alt="" className="club-logo live-team-logo"
             onError={e => { e.currentTarget.style.display = 'none'; }} />
         )}
-        <span className="live-team-name">{clubName ?? 'Your Team'}</span>
+        <span className="live-team-name">{clubName ?? t('yourTeam')}</span>
         <span className="live-vs">vs</span>
-        <span className="live-team-name live-opp-name">{opponentName ?? 'Opponent'}</span>
+        <span className="live-team-name live-opp-name">{opponentName ?? t('opponent')}</span>
         {oppLogo && (
           <img src={oppLogo} alt="" className="club-logo live-team-logo"
             onError={e => { e.currentTarget.style.display = 'none'; }} />
@@ -498,7 +499,7 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
             </span>
           )}
           <span className={`live-status-badge live-status-${status}`}>
-            {STATUS_LABEL[status]}
+            {getStatusLabel(status)}
           </span>
         </div>
       </div>
@@ -512,7 +513,7 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
               onClick={handleTogglePause}
               aria-label={isPaused ? 'Resume match' : 'Pause match'}
             >
-              {isPaused ? '▶ Resume' : '⏸ Pause'}
+              {isPaused ? t('resume') : t('pause')}
             </button>
             <button
               className={`live-ctrl-btn live-ctrl-speed${speed === 2 ? ' live-ctrl-active' : ''}`}
@@ -527,15 +528,15 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
               disabled={!canSub}
               aria-label="Make a substitution"
             >
-              🔁 Sub <span className="sub-counter">{subsLeft}</span>
+              {t('subBtn')} <span className="sub-counter">{subsLeft}</span>
             </button>
           </div>
 
           <div className="tempo-control" role="group" aria-label="Match tempo">
             {[
-              { key: 'defensive', label: '🛡 Defensive' },
-              { key: 'balanced',  label: '⚖ Balanced'  },
-              { key: 'attacking', label: '⚡ Attacking' },
+              { key: 'defensive', label: t('defensive') },
+              { key: 'balanced',  label: t('balanced')  },
+              { key: 'attacking', label: t('attacking') },
             ].map(({ key, label }) => (
               <button
                 key={key}
@@ -568,7 +569,7 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
           className={`goal-banner goal-banner-${goalBanner.team}${goalBanner.isLate ? ' goal-banner-late' : ''}`}
           style={{ '--banner-dur': `${Math.round(2800 / speed)}ms` }}
         >
-          <span className="goal-banner-text">{goalBanner.text ?? 'GOAL!'}</span>
+          <span className="goal-banner-text">{goalBanner.text ?? t('goal')}</span>
           <span className="goal-banner-min">{goalBanner.minute > 90 ? `90+${goalBanner.minute - 90}` : goalBanner.minute}'</span>
         </div>
       )}
@@ -576,7 +577,7 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
       {/* ── Full time overlay ── */}
       {fulltimeOverlay && (
         <div className="fulltime-overlay">
-          <span className="fulltime-text">FULL TIME</span>
+          <span className="fulltime-text">{t('fullTimeCaps')}</span>
         </div>
       )}
 
@@ -598,7 +599,7 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
       {/* ── Event feed ── */}
       <div className="live-feed">
         {visibleEvents.length === 0 ? (
-          <p className="live-feed-empty">Match underway…</p>
+          <p className="live-feed-empty">{t('matchUnderway')}</p>
         ) : (() => {
           const feedEvents = visibleEvents.filter(ev => ev !== dramaticEvent).reverse();
           return feedEvents.length === 0 ? null : feedEvents.map((ev, i) => {
@@ -625,12 +626,12 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
           <div className="sub-overlay" onClick={handleCloseSubs} />
           <div className="sub-panel" role="dialog" aria-label="Make a substitution">
             <div className="sub-panel-header">
-              <span className="sub-panel-title">Make a Substitution</span>
-              <span className="sub-panel-counter">{subsLeft} sub{subsLeft !== 1 ? 's' : ''} left</span>
+              <span className="sub-panel-title">{t('makeASubstitution')}</span>
+              <span className="sub-panel-counter">{subsLeft} {subsLeft !== 1 ? t('subsLeft') : t('subLeft')}</span>
             </div>
             <div className="sub-columns">
               <div className="sub-col">
-                <div className="sub-col-label">Coming Off</div>
+                <div className="sub-col-label">{t('comingOff')}</div>
                 <div className="sub-col-list">
                   {currentXI.map(p => (
                     <button
@@ -649,10 +650,10 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
                 </div>
               </div>
               <div className="sub-col">
-                <div className="sub-col-label">Coming On</div>
+                <div className="sub-col-label">{t('comingOn')}</div>
                 <div className="sub-col-list">
                   {currentBench.length === 0 ? (
-                    <p className="sub-empty">No bench players</p>
+                    <p className="sub-empty">{t('noBenchPlayers')}</p>
                   ) : currentBench.map(p => (
                     <button
                       key={p.id}
@@ -671,9 +672,9 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
               </div>
             </div>
             <div className="sub-actions">
-              <button className="sub-cancel-btn" onClick={handleCloseSubs}>Cancel</button>
+              <button className="sub-cancel-btn" onClick={handleCloseSubs}>{t('cancel')}</button>
               <button className="sub-confirm-btn" onClick={handleConfirmSub} disabled={!playerOut || !playerIn}>
-                ✓ Confirm Sub
+                {t('confirmSub')}
               </button>
             </div>
           </div>
@@ -685,49 +686,49 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
         <div className="ht-overlay">
           <div className="ht-panel">
             <div className="ht-header">
-              <span className="ht-title">HALF TIME</span>
+              <span className="ht-title">{t('halfTimeCaps')}</span>
             </div>
 
             <div className="ht-score-row">
               <span className="ht-team-name">{clubName ?? 'You'}</span>
               <span className="ht-scoreline">{userScore} – {oppScore}</span>
-              <span className="ht-team-name ht-team-opp">{opponentName ?? 'Opponent'}</span>
+              <span className="ht-team-name ht-team-opp">{opponentName ?? t('opponent')}</span>
             </div>
 
             {htStats && (
               <div className="ht-stats">
                 <div className="ht-stat-row">
                   <span className="ht-stat-val ht-stat-user">{htStats.user.shotsOnTarget}</span>
-                  <span className="ht-stat-label">Shots on target</span>
+                  <span className="ht-stat-label">{t('shotsOnTarget')}</span>
                   <span className="ht-stat-val ht-stat-opp">{htStats.opponent.shotsOnTarget}</span>
                 </div>
                 <div className="ht-stat-row">
                   <span className="ht-stat-val ht-stat-user">{htStats.user.saves}</span>
-                  <span className="ht-stat-label">Saves</span>
+                  <span className="ht-stat-label">{t('saves')}</span>
                   <span className="ht-stat-val ht-stat-opp">{htStats.opponent.saves}</span>
                 </div>
                 <div className="ht-stat-row">
                   <span className="ht-stat-val ht-stat-user">{htStats.user.shots}</span>
-                  <span className="ht-stat-label">Total shots</span>
+                  <span className="ht-stat-label">{t('totalShots')}</span>
                   <span className="ht-stat-val ht-stat-opp">{htStats.opponent.shots}</span>
                 </div>
               </div>
             )}
 
             <div className="ht-section">
-              <div className="ht-section-label">TEAM CHANGES</div>
+              <div className="ht-section-label">{t('teamChanges')}</div>
               <button
                 className="ht-sub-btn"
                 onClick={handleOpenSubs}
                 disabled={subsLeft <= 0 || currentBench.length === 0}
               >
-                🔁 Make Substitution
+                {t('makeSubstitutionBtn')}
                 <span className="sub-counter">{subsLeft}</span>
               </button>
             </div>
 
             <div className="ht-section">
-              <div className="ht-section-label">FORMATION</div>
+              <div className="ht-section-label">{t('formationLabel')}</div>
               <div className="ht-formation-pills">
                 {FORMATION_NAMES.map(f => (
                   <button
@@ -742,7 +743,7 @@ export function MatchLiveScreen({ matchData, clubName, opponentName, onComplete 
             </div>
 
             <button className="ht-start-btn" onClick={handleStartSecondHalf}>
-              ▶ Start Second Half
+              {t('startSecondHalf')}
             </button>
           </div>
         </div>

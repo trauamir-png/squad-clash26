@@ -1,10 +1,47 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { setLanguage, t } from './i18n/index.js';
 
 export function SplashScreen({ onStart }) {
-  useEffect(() => {
-    const t = setTimeout(onStart, 1500);
-    return () => clearTimeout(t);
-  }, [onStart]);
+  // If a language is already saved, skip straight to the tap-to-start screen
+  const [picked, setPicked] = useState(() => !!localStorage.getItem('squad_clash_language'));
+
+  function handleLanguagePick(lang) {
+    setLanguage(lang);
+    setPicked(true);
+  }
+
+  if (!picked) {
+    return (
+      <div className="splash-screen">
+        <div className="splash-content">
+          <img
+            src="/logo.png"
+            alt="Squad Clash 26"
+            className="splash-logo"
+            draggable="false"
+          />
+          <p className="splash-tagline" style={{ marginBottom: '32px' }}>
+            Build. Play. Clash. · בנה. שחק. התנגש.
+          </p>
+          <p className="splash-lang-label">Select Language / בחר שפה</p>
+          <div className="splash-lang-picker">
+            <button
+              className="splash-lang-btn"
+              onClick={() => handleLanguagePick('en')}
+            >
+              🇬🇧 English
+            </button>
+            <button
+              className="splash-lang-btn"
+              onClick={() => handleLanguagePick('he')}
+            >
+              🇮🇱 עברית
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="splash-screen" onClick={onStart}>
@@ -15,9 +52,12 @@ export function SplashScreen({ onStart }) {
           className="splash-logo"
           draggable="false"
         />
-        <p className="splash-tagline">Build. Play. Clash.</p>
-        <button className="splash-btn" onClick={e => { e.stopPropagation(); onStart(); }}>
-          Tap to Start
+        <p className="splash-tagline">{t('tagline')}</p>
+        <button
+          className="splash-btn"
+          onClick={e => { e.stopPropagation(); onStart(); }}
+        >
+          {t('tapToStart')}
         </button>
       </div>
     </div>

@@ -35,12 +35,176 @@ body::before {
   max-width: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  padding: 28px 24px;
+  padding:
+    max(28px, env(safe-area-inset-top))
+    max(24px, env(safe-area-inset-right))
+    max(28px, env(safe-area-inset-bottom))
+    max(24px, env(safe-area-inset-left));
   text-align: center;
+}
+
+/* ================================================================
+   GLOBAL MOBILE & INTERACTION RESETS
+   ================================================================ */
+
+html {
+  height: 100%;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Remove iOS tap flash on all buttons; prevent double-tap zoom */
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ================================================================
+   DESIGN SYSTEM — reusable utility classes
+   ================================================================ */
+
+/* .stadium-bg — portable background preset matching the body */
+.stadium-bg {
+  background:
+    radial-gradient(ellipse 90% 38% at 50% 0%, rgba(22, 160, 72, 0.11) 0%, transparent 68%),
+    radial-gradient(ellipse 55% 22% at 50% 0%, rgba(255, 215, 80, 0.07) 0%, transparent 55%),
+    radial-gradient(circle at 12% 18%, rgba(255, 210, 0, 0.07), transparent 360px),
+    radial-gradient(circle at 88% 82%, rgba(0, 160, 60, 0.06), transparent 340px),
+    linear-gradient(168deg, #010806 0%, #040f08 18%, #071a0d 42%, #0b2516 68%, #050d07 88%, #010604 100%);
+}
+
+/* .game-screen — full-screen shell (use on secondary screens in JSX if needed) */
+.game-screen {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding:
+    max(24px, env(safe-area-inset-top))
+    max(20px, env(safe-area-inset-right))
+    max(48px, env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-left));
+}
+
+/* .game-panel — standard dark card surface */
+.game-panel {
+  background: linear-gradient(180deg, rgba(8,22,13,0.97) 0%, rgba(4,12,7,0.99) 100%);
+  border: 1px solid rgba(255, 215, 80, 0.20);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 215, 80, 0.08),
+    0 24px 60px rgba(0, 0, 0, 0.50),
+    0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+/* .glass-panel — frosted glass for overlays and secondary surfaces */
+.glass-panel {
+  background: rgba(6, 18, 10, 0.76);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 20px 50px rgba(0, 0, 0, 0.48);
+}
+
+/* .neon-border — golden accent border with ambient glow */
+.neon-border {
+  border: 1px solid rgba(255, 215, 80, 0.55) !important;
+  box-shadow:
+    0 0 14px rgba(255, 215, 0, 0.22),
+    inset 0 0 8px rgba(255, 215, 0, 0.06);
+}
+
+/* .soft-glow — warm ambient glow for active / highlighted elements */
+.soft-glow {
+  box-shadow:
+    0 0 28px rgba(255, 215, 0, 0.24),
+    0 8px 32px rgba(0, 0, 0, 0.48);
+}
+
+/* .premium-button — composable base for all game CTA buttons */
+.premium-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-weight: 800;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  user-select: none;
+  transition: transform 0.20s cubic-bezier(0.34, 1.28, 0.64, 1), box-shadow 0.18s ease, filter 0.18s ease;
+}
+@media (hover: hover) {
+  .premium-button:hover {
+    filter: brightness(1.10);
+    transform: translateY(-2px);
+  }
+}
+.premium-button:active {
+  transform: scale(0.95) !important;
+  filter: brightness(0.92) !important;
+  transition-duration: 0.07s !important;
+}
+
+/* .section-title — small-caps label for grouped sections */
+.section-title {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 215, 80, 0.72);
+  margin: 0 0 10px;
+}
+
+/* .mobile-safe-container — overflow-safe wrapper with notch/home-bar clearance */
+.mobile-safe-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-left: max(0px, env(safe-area-inset-left));
+  padding-right: max(0px, env(safe-area-inset-right));
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+/* ── Screen entrance animation ──────────────────────────────── */
+@keyframes screen-enter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .packs-screen,
+  .ob-screen,
+  .match-result-screen,
+  .preview-screen,
+  .live-screen {
+    animation: screen-enter 0.30s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 }
 
 h1 {
   margin-bottom: 8px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+h2 {
+  font-weight: 800;
+  letter-spacing: 0.01em;
 }
 
 p {
@@ -995,7 +1159,7 @@ p {
     radial-gradient(ellipse 80% 35% at 50% 0%, rgba(22, 160, 72, 0.09) 0%, transparent 65%),
     radial-gradient(circle at 12% 18%, rgba(255, 210, 0, 0.06), transparent 340px),
     linear-gradient(168deg, #010806 0%, #040f08 18%, #071a0d 42%, #0b2516 68%, #050d07 88%, #010604 100%);
-  padding: 24px 20px 60px;
+  padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(60px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1223,7 +1387,7 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 56px 24px 48px;
+  padding: max(56px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(48px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
   background:
     radial-gradient(ellipse 90% 38% at 50% 0%, rgba(22, 160, 72, 0.10) 0%, transparent 65%),
     radial-gradient(circle at 88% 80%, rgba(0, 160, 60, 0.05), transparent 340px),
@@ -1784,7 +1948,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: 28px;
-  padding: 48px 24px;
+  padding: max(48px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(48px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
   background:
     radial-gradient(ellipse 90% 38% at 50% 0%, rgba(22, 160, 72, 0.10) 0%, transparent 65%),
     radial-gradient(circle at 12% 18%, rgba(255, 210, 0, 0.06), transparent 340px),
@@ -2165,8 +2329,11 @@ p {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 48px 20px;
-  background: linear-gradient(160deg, #000000 0%, #051a09 40%, #071f0b 70%, #000000 100%);
+  padding: max(48px, env(safe-area-inset-top)) 20px max(48px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(ellipse 90% 38% at 50% 0%, rgba(22, 160, 72, 0.10) 0%, transparent 65%),
+    radial-gradient(circle at 88% 80%, rgba(0, 160, 60, 0.05), transparent 340px),
+    linear-gradient(168deg, #010806 0%, #040f08 18%, #071a0d 42%, #0b2516 68%, #050d07 88%, #010604 100%);
   color: #f1f5f9;
   gap: 32px;
 }
@@ -2422,8 +2589,11 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 48px 20px 60px;
-  background: linear-gradient(160deg, #000000 0%, #051a09 40%, #071f0b 70%, #000000 100%);
+  padding: max(48px, env(safe-area-inset-top)) 20px max(60px, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(ellipse 80% 30% at 50% 0%, rgba(22, 160, 72, 0.09) 0%, transparent 62%),
+    radial-gradient(circle at 15% 85%, rgba(0, 120, 50, 0.06), transparent 320px),
+    linear-gradient(168deg, #010806 0%, #040f08 18%, #071a0d 42%, #0b2516 68%, #050d07 88%, #010604 100%);
   color: #f1f5f9;
   overflow: hidden; /* keeps banner from causing horizontal scroll */
 }
@@ -4424,6 +4594,42 @@ p {
 .splash-btn:hover  { transform: translateY(-2px); opacity: 0.9; }
 .splash-btn:active { transform: translateY(0); opacity: 1; }
 
+/* ── Language picker (shown before game starts) ───────────────────────────── */
+.splash-lang-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 220, 80, 0.7);
+  margin: 0;
+}
+.splash-lang-picker {
+  display: flex;
+  gap: 14px;
+  margin-top: 4px;
+}
+.splash-lang-btn {
+  padding: 12px 28px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255, 215, 80, 0.45);
+  background: rgba(8, 22, 14, 0.72);
+  color: #f8f0d4;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.14s, box-shadow 0.14s;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.32);
+}
+.splash-lang-btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  background: rgba(255, 215, 80, 0.14);
+  box-shadow: 0 8px 28px rgba(255, 215, 0, 0.22);
+}
+.splash-lang-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
 /* ── Main screen header with logo ─────────────────────────────────────────── */
 .main-header {
   display: flex;
@@ -5306,4 +5512,166 @@ p {
 .position-button.just-dropped,
 .bench-slot.just-dropped {
   animation: slot-land 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ================================================================
+   GLOBAL INTERACTION POLISH — hover lifts, smooth transitions
+   ================================================================ */
+
+/* Panels: subtle lift on hover for any game-panel or summary/picker */
+@media (hover: hover) {
+  .game-panel:hover,
+  .pack-choice-card:not(:hover) { /* already handled */ }
+
+  .summary-panel:hover,
+  .picker-panel:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 215, 80, 0.10),
+      0 40px 90px rgba(0, 0, 0, 0.60),
+      0 14px 36px rgba(0, 0, 0, 0.35);
+    transition: box-shadow 0.25s ease;
+  }
+}
+
+/* Pack choice cards: consistent with above (already upgraded in pack section) */
+
+/* Match score card: subtle pop-in */
+@media (prefers-reduced-motion: no-preference) {
+  .match-score-card {
+    animation: screen-enter 0.38s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+  }
+  .match-reward-card {
+    animation: screen-enter 0.38s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+  }
+}
+
+/* Squad stats: same pop-in */
+@media (prefers-reduced-motion: no-preference) {
+  .squad-stats {
+    animation: screen-enter 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+/* ── Global minimum touch target sizes ─────────────────────────── */
+@media (max-width: 640px) {
+  /* All interactive buttons min 44px tall for comfortable tap */
+  button:not(.position-button):not(.bench-slot):not(.fut-card):not(.floating-remove-btn) {
+    min-height: 44px;
+  }
+
+  /* Bench bench slot wrapper extra tap buffer */
+  .bench-slot-wrapper {
+    padding: 4px 0;
+  }
+
+  /* Tighter app padding on small phones */
+  .app {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* ── Prevent horizontal overflow on all screens ─────────────────── */
+.packs-screen,
+.ob-screen,
+.match-result-screen,
+.preview-screen,
+.live-screen {
+  overflow-x: hidden;
+}
+
+/* ── Smooth scroll for any scrollable containers ────────────────── */
+@supports (overflow: overlay) {
+  .picker-panel,
+  .summary-panel {
+    overflow-y: overlay;
+  }
+}
+
+/* ================================================================
+   RTL SUPPORT — Hebrew layout adjustments
+   ================================================================ */
+
+[dir="rtl"] .packs-back-btn,
+[dir="rtl"] .mc-back-btn,
+[dir="rtl"] .preview-back-btn {
+  direction: rtl;
+}
+
+/* Flip arrow on back buttons that use ← in English */
+[dir="rtl"] .backToSquad,
+[dir="rtl"] .back {
+  direction: rtl;
+}
+
+/* Summary panel: align text correctly in RTL */
+[dir="rtl"] .summary-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .squad-stat-row {
+  flex-direction: row-reverse;
+}
+
+/* Picker drawer: left-side slide on desktop RTL (mobile slides from bottom — unchanged) */
+@media (min-width: 861px) {
+  [dir="rtl"] .picker-drawer {
+    right: auto;
+    left: 0;
+    border-left: none;
+    border-right: 1px solid rgba(255, 214, 88, 0.22);
+    box-shadow: 8px 0 40px rgba(0, 0, 0, 0.45);
+    transform: translateX(-105%);
+  }
+
+  [dir="rtl"] .picker-drawer.picker-drawer-open {
+    transform: translateX(0);
+  }
+}
+
+/* Stats comparison */
+[dir="rtl"] .stats-comp-row {
+  flex-direction: row-reverse;
+}
+
+/* Halftime / live stats rows */
+[dir="rtl"] .ht-stat-row,
+[dir="rtl"] .live-ctrl-row,
+[dir="rtl"] .preview-stats-row {
+  flex-direction: row-reverse;
+}
+
+/* Tempo buttons group */
+[dir="rtl"] .tempo-control {
+  flex-direction: row-reverse;
+}
+
+/* Sub panel columns */
+[dir="rtl"] .sub-columns {
+  flex-direction: row-reverse;
+}
+
+/* Pack selection grid */
+[dir="rtl"] .packs-topbar {
+  flex-direction: row-reverse;
+}
+
+/* My Club topbar */
+[dir="rtl"] .mc-topbar {
+  flex-direction: row-reverse;
+}
+
+/* MC summary badges */
+[dir="rtl"] .mc-summary-badges {
+  flex-direction: row-reverse;
+}
+
+/* Live screen header */
+[dir="rtl"] .live-header {
+  flex-direction: row-reverse;
+}
+
+/* Bench slot content */
+[dir="rtl"] .bench-card-top {
+  flex-direction: row-reverse;
 }

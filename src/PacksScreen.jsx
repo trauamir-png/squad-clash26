@@ -2,36 +2,39 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { getPlayerRating } from './ratingUtils';
 import { PackOpeningVisual, BestCardSpotlight } from './PackReveal';
 import { FutCard } from './FutCard';
+import { t } from './i18n/index.js';
 
-const PACK_META = {
-  starter: {
-    label: "Starter Pack",
-    desc: "25 players to start your club",
-    headerColor: "#ffffff",
-    border: "#6b7280",
-  },
-  bronze: {
-    label: "Bronze Pack",
-    desc: "12 players · OVR 64 or below",
-    headerColor: "#fcd34d",
-    border: "#92400e",
-  },
-  silver: {
-    label: "Silver Pack",
-    desc: "12 players · OVR 65–74",
-    headerColor: "#e2e8f0",
-    border: "#475569",
-  },
-  gold: {
-    label: "Gold Pack",
-    desc: "12 players · OVR 75+",
-    headerColor: "#ffd700",
-    border: "#d97706",
-  },
-};
+function getPackMeta() {
+  return {
+    starter: {
+      label: t('starterPack'),
+      desc: t('starterPackDesc'),
+      headerColor: "#ffffff",
+      border: "#6b7280",
+    },
+    bronze: {
+      label: t('bronzePack'),
+      desc: t('bronzePackDesc'),
+      headerColor: "#fcd34d",
+      border: "#92400e",
+    },
+    silver: {
+      label: t('silverPack'),
+      desc: t('silverPackDesc'),
+      headerColor: "#e2e8f0",
+      border: "#475569",
+    },
+    gold: {
+      label: t('goldPack'),
+      desc: t('goldPackDesc'),
+      headerColor: "#ffd700",
+      border: "#d97706",
+    },
+  };
+}
 
 function PurchaseModal({ packType, price, onConfirm, onCancel }) {
-  const meta = PACK_META[packType];
+  const meta = getPackMeta()[packType];
   return (
     <div className="modal-overlay" onClick={onCancel}>
       <div className="modal-box" onClick={e => e.stopPropagation()}>
@@ -40,11 +43,11 @@ function PurchaseModal({ packType, price, onConfirm, onCancel }) {
         </div>
         <h2 className="modal-title" style={{ color: meta.headerColor }}>{meta.label}</h2>
         <p className="modal-body">
-          Purchase for <span className="modal-price">🪙 {price.toLocaleString()}</span>?
+          {t('purchaseFor')} <span className="modal-price">🪙 {price.toLocaleString()}</span>?
         </p>
         <div className="modal-actions">
-          <button className="modal-confirm-btn" onClick={onConfirm}>Confirm Purchase</button>
-          <button className="modal-cancel-btn" onClick={onCancel}>Cancel</button>
+          <button className="modal-confirm-btn" onClick={onConfirm}>{t('confirmPurchase')}</button>
+          <button className="modal-cancel-btn" onClick={onCancel}>{t('cancel')}</button>
         </div>
       </div>
     </div>
@@ -95,7 +98,7 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
     return (
       <div className="ob-screen ob-screen-center" onClick={handleOpenSealed}>
         <PackOpeningVisual type={packOpenResult.type} opening={false} />
-        <span className="ob-pack-cta">Tap to open</span>
+        <span className="ob-pack-cta">{t('tapToOpen')}</span>
       </div>
     );
   }
@@ -149,8 +152,8 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
     return (
       <div className="packs-screen">
         <div className="packs-topbar">
-          <button className="packs-back-btn" onClick={onBack}>← Back to Squad</button>
-          <h1 className="packs-title">Open Packs</h1>
+          <button className="packs-back-btn" onClick={onBack}>{t('backToSquad')}</button>
+          <h1 className="packs-title">{t('openPacks')}</h1>
           {coinDisplay}
         </div>
 
@@ -162,7 +165,7 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
 
         {notEnoughCoins && (
           <div className="packs-not-enough" onClick={() => setNotEnoughCoins(false)}>
-            Not enough coins to buy that pack
+            {t('notEnoughCoins')}
           </div>
         )}
 
@@ -177,7 +180,7 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
 
         <div className="packs-selection">
           {["bronze", "silver", "gold"].map(type => {
-            const meta = PACK_META[type];
+            const meta = getPackMeta()[type];
             const price = packPrices[type];
             const canAfford = coins >= price;
             return (
@@ -207,7 +210,7 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
 
   // ── Revealed state: staggered result grid ─────────────────────────────────
   const { type, players, duplicateIds } = packOpenResult;
-  const meta = PACK_META[type];
+  const meta = getPackMeta()[type];
   const newCount = players.length - duplicateIds.size;
   const btnDelay = `${players.length * 60 + 500}ms`;
 
@@ -215,12 +218,12 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
     <div className="packs-screen">
       <div className="packs-topbar" style={{ animation: 'ob-fadein 0.4s ease both' }}>
         <h1 className="packs-title" style={{ color: meta.headerColor }}>
-          {meta.label} Opened!
+          {meta.label} {t('packOpened')}
         </h1>
         <div className="packs-result-summary">
-          <span className="packs-new-badge">{newCount} new</span>
+          <span className="packs-new-badge">{newCount} {t('newPlayers')}</span>
           {duplicateIds.size > 0 && (
-            <span className="packs-dup-badge">{duplicateIds.size} duplicates</span>
+            <span className="packs-dup-badge">{duplicateIds.size} {t('duplicateCount')}</span>
           )}
         </div>
         {coinDisplay}
@@ -234,17 +237,17 @@ export function PacksScreen({ packOpenResult, onOpenPack, onBack, onClearResult,
             size="lg"
             index={i}
             dimmed={duplicateIds.has(player.id)}
-            overlayLabel={duplicateIds.has(player.id) ? 'Already Owned' : null}
+            overlayLabel={duplicateIds.has(player.id) ? t('alreadyOwned') : null}
           />
         ))}
       </div>
 
       <div className="packs-actions" style={{ animationDelay: btnDelay, animation: 'ob-fadein 0.4s ease both' }}>
         <button className="pack-open-another-btn" onClick={onClearResult}>
-          Open Another Pack
+          {t('openAnotherPack')}
         </button>
         <button className="packs-back-btn" onClick={onBack}>
-          ← Back to Squad
+          {t('backToSquad')}
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import "./FormationSelector.css";
+import { t } from './i18n/index.js';
 
 // ── Preview-only dot coordinates ─────────────────────────────────────────────
 // SVG viewBox 0 0 100 130  •  pitch rect x=5 y=5 w=90 h=120
@@ -80,9 +81,9 @@ export function FormationSelector({ formations, selectedFormation, onSelectForma
 
   return (
     <div className="formation-selector-container">
-      <h1 className="formation-selector-title">Choose Your Formation</h1>
+      <h1 className="formation-selector-title">{t('chooseFormation')}</h1>
       <p className="formation-selector-subtitle">
-        Select a formation to build your squad around
+        {t('selectFormationDesc')}
       </p>
 
       <div className="formations-grid">
@@ -141,7 +142,7 @@ function FormationCard({ formationName, isSelected, onSelect }) {
 
       <div className="formation-info">
         <h3 className="formation-name">{formationName}</h3>
-        <p className="formation-count">11 Players</p>
+        <p className="formation-count">{t('elevenPlayers')}</p>
       </div>
     </button>
   );

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, getRatingTier } from './ratingUtils';
 import { PlayerImage } from './PlayerImage';
+import { t } from './i18n/index.js';
 
 // ── Per-type pack visual configs ─────────────────────────────────────────────
 const PACK_CONFIGS = {
@@ -146,9 +147,9 @@ export function BestCardSpotlight({ players, onDone }) {
       aria-label="Continue to full pack"
     >
       <div className="spotlight-rays" aria-hidden="true" />
-      <p className="spotlight-label">⭐ BEST PLAYER</p>
+      <p className="spotlight-label">{t('bestPlayer')}</p>
       <SpotlightCard player={best} />
-      {skipReady && <p className="spotlight-skip">Tap to continue</p>}
+      {skipReady && <p className="spotlight-skip">{t('tapToContinue')}</p>}
     </div>
   );
 }

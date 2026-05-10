@@ -1,8 +1,8 @@
 import { getEventDisplay } from './data/eventDisplay';
 import { calculateMatchStats, getPlayerOfTheMatch } from './data/matchStats';
 import { getClubLogo } from './utils/imageResolvers';
+import { t } from './i18n/index.js';
 
-const RESULT_LABEL = { win: 'WIN', draw: 'DRAW', loss: 'LOSS' };
 const RESULT_COLOR = { win: '#4ade80', draw: '#facc15', loss: '#f87171' };
 const RESULT_BG    = { win: 'rgba(74,222,128,0.08)', draw: 'rgba(250,204,21,0.08)', loss: 'rgba(248,113,113,0.08)' };
 
@@ -12,7 +12,7 @@ function EventFeed({ events }) {
   if (!events || events.length === 0) return null;
   return (
     <div className="match-event-feed">
-      <h2 className="match-event-title">Match Events</h2>
+      <h2 className="match-event-title">{t('matchEvents')}</h2>
       <div className="match-event-list">
         {events.map((ev, i) => {
           const { icon, text, sub } = getEventDisplay(ev);
@@ -69,15 +69,15 @@ function StatsComparison({ stats, clubName, opponentName, userLogo, oppLogo }) {
   const o = stats.opponent;
 
   const rows = [
-    { label: 'Goals',           u: u.goals,       o: o.goals       },
-    { label: 'Shots',           u: u.shots,       o: o.shots       },
-    { label: 'Shots on Target', u: u.shotsOnTarget, o: o.shotsOnTarget },
-    { label: 'Saves',           u: u.saves,       o: o.saves       },
-    { label: 'Big Chances',     u: u.bigChances,  o: o.bigChances  },
-    { label: 'Hit Post',        u: u.hitPost,     o: o.hitPost     },
-    { label: 'Yellow Cards',    u: u.yellowCards, o: o.yellowCards },
-    { label: 'Red Cards',       u: u.redCards,    o: o.redCards    },
-    { label: 'Injuries',        u: u.injuries,    o: o.injuries    },
+    { label: t('goals'),            u: u.goals,         o: o.goals         },
+    { label: t('shots'),            u: u.shots,         o: o.shots         },
+    { label: t('shotsOnTargetStat'), u: u.shotsOnTarget, o: o.shotsOnTarget },
+    { label: t('savesStat'),        u: u.saves,         o: o.saves         },
+    { label: t('bigChances'),       u: u.bigChances,    o: o.bigChances    },
+    { label: t('hitPost'),          u: u.hitPost,       o: o.hitPost       },
+    { label: t('yellowCards'),      u: u.yellowCards,   o: o.yellowCards   },
+    { label: t('redCards'),         u: u.redCards,      o: o.redCards      },
+    { label: t('injuries'),         u: u.injuries,      o: o.injuries      },
   ];
 
   return (
@@ -92,11 +92,11 @@ function StatsComparison({ stats, clubName, opponentName, userLogo, oppLogo }) {
               onError={e => { e.currentTarget.style.display = 'none'; }}
             />
           )}
-          <span className="stats-comp-team-label stats-comp-team-user">{clubName ?? 'My Team'}</span>
+          <span className="stats-comp-team-label stats-comp-team-user">{clubName ?? t('myTeam')}</span>
         </div>
-        <span className="stats-comp-title">Match Stats</span>
+        <span className="stats-comp-title">{t('matchStats')}</span>
         <div className="stats-comp-team-block stats-comp-team-block-opp">
-          <span className="stats-comp-team-label stats-comp-team-opp">{opponentName ?? 'Opponent'}</span>
+          <span className="stats-comp-team-label stats-comp-team-opp">{opponentName ?? t('opponent')}</span>
           {oppLogo && (
             <img
               src={oppLogo}
@@ -128,21 +128,21 @@ function StatsComparison({ stats, clubName, opponentName, userLogo, oppLogo }) {
 
 function PlayerOfTheMatch({ potm }) {
   if (!potm) return null;
-  const teamLabel = potm.team === 'user' ? 'My Team' : 'Opponent';
+  const teamLabel = potm.team === 'user' ? t('myTeam') : t('opponent');
   return (
     <div className="potm-card">
       <span className="potm-icon">⭐</span>
       <div className="potm-body">
-        <div className="potm-label">Player of the Match</div>
+        <div className="potm-label">{t('playerOfTheMatch')}</div>
         <div className="potm-name">{potm.name}</div>
         <div className="potm-meta">
           {potm.club && <span>{potm.club} · </span>}
           <span>{teamLabel}</span>
-          {potm.fallback && <span> · (best rated)</span>}
+          {potm.fallback && <span> · {t('bestRated')}</span>}
         </div>
       </div>
       {potm.score !== null && (
-        <div className="potm-score">{potm.score > 0 ? '+' : ''}{potm.score} pts</div>
+        <div className="potm-score">{potm.score > 0 ? '+' : ''}{potm.score} {t('pts')}</div>
       )}
     </div>
   );
@@ -159,7 +159,7 @@ export function MatchResultScreen({ result, onContinue }) {
     opponentName,
   } = result;
 
-  const label    = RESULT_LABEL[resultType];
+  const label    = t(resultType); // 'win' | 'draw' | 'loss' keys in i18n
   const color    = RESULT_COLOR[resultType];
   const maxPower = Math.max(teamPower, opponentPower, 90);
   const stats    = calculateMatchStats(events, goalsFor, goalsAgainst);
@@ -183,9 +183,9 @@ export function MatchResultScreen({ result, onContinue }) {
               onError={e => { e.currentTarget.style.display = 'none'; }}
             />
           )}
-          <span className="match-team-name match-team-name-user">{clubName ?? 'My Team'}</span>
+          <span className="match-team-name match-team-name-user">{clubName ?? t('myTeam')}</span>
           <span className="match-teams-sep">vs</span>
-          <span className="match-team-name">{opponentName ?? 'Opponent'}</span>
+          <span className="match-team-name">{opponentName ?? t('opponent')}</span>
           {oppLogo && (
             <img
               src={oppLogo}
@@ -202,7 +202,7 @@ export function MatchResultScreen({ result, onContinue }) {
         </div>
         <div className="match-result-label" style={{ color }}>{label}</div>
         {goalsAgainst === 0 && (
-          <div className="match-clean-sheet-badge">🧤 Clean Sheet</div>
+          <div className="match-clean-sheet-badge">{t('cleanSheet')}</div>
         )}
       </div>
 
@@ -218,16 +218,16 @@ export function MatchResultScreen({ result, onContinue }) {
       <div className="match-bottom-row">
         {/* Team power stats */}
         <div className="match-stats-card">
-          <h2 className="match-stats-title">Team Stats</h2>
+          <h2 className="match-stats-title">{t('teamStats')}</h2>
 
           <PowerBar
-            label="Your Team"
+            label={t('yourTeamPower')}
             power={teamPower}
             maxPower={maxPower}
             color="#4ade80"
           />
           <PowerBar
-            label="Opponent"
+            label={t('opponent')}
             power={opponentPower}
             maxPower={maxPower}
             color="#f87171"
@@ -235,33 +235,33 @@ export function MatchResultScreen({ result, onContinue }) {
 
           <div className="match-stat-divider" />
 
-          <StatRow label="Team Rating"      value={teamRating} />
-          <StatRow label="Chemistry"        value={`${teamChemistry} / 33`} />
-          <StatRow label="Avg Position Fit" value={`${avgPositionFit}%`} />
+          <StatRow label={t('teamRating')}      value={teamRating} />
+          <StatRow label={t('chemistry')}        value={`${teamChemistry} / 33`} />
+          <StatRow label={t('avgPositionFit')}   value={`${avgPositionFit}%`} />
         </div>
 
         {/* Coin reward */}
         <div className="match-reward-card">
-          <h2 className="match-reward-title">🪙 Coins Earned</h2>
+          <h2 className="match-reward-title">{t('coinsEarned')}</h2>
 
-          <RewardRow label={`${label} reward`}               amount={baseReward} />
-          <RewardRow label={`Goals bonus (${goalsFor} × 65)`} amount={goalsBonus} />
+          <RewardRow label={`${label} ${t('reward')}`}                          amount={baseReward} />
+          <RewardRow label={`${t('goalsBonusLabel')} (${goalsFor} × 65)`}    amount={goalsBonus} />
           {cleanSheetBonus > 0 && (
-            <RewardRow label="Clean sheet bonus" amount={cleanSheetBonus} />
+            <RewardRow label={t('cleanSheetBonus')} amount={cleanSheetBonus} />
           )}
 
           <div className="reward-divider" />
-          <RewardRow label="Total earned" amount={total} highlight />
+          <RewardRow label={t('totalEarned')} amount={total} highlight />
 
           <div className="reward-balance">
-            <span className="reward-balance-label">New balance</span>
+            <span className="reward-balance-label">{t('newBalance')}</span>
             <span className="reward-balance-amount">🪙 {coinsAfter.toLocaleString()}</span>
           </div>
         </div>
       </div>
 
       <button className="match-continue-btn" onClick={onContinue}>
-        Continue →
+        {t('continuee')}
       </button>
     </div>
   );

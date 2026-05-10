@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { t } from './i18n/index.js';
 import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, sortByRating } from './ratingUtils';
 import { getClubLogo } from './utils/imageResolvers';
 import { getAllPlayers } from './data/csvPlayerStore';
@@ -29,8 +30,8 @@ function statBarColor(val) {
 }
 
 function StatusBadge({ status }) {
-  if (status === 'xi')    return <span className="mc-badge mc-badge-xi">XI</span>;
-  if (status === 'bench') return <span className="mc-badge mc-badge-bench">Bench</span>;
+  if (status === 'xi')    return <span className="mc-badge mc-badge-xi">{t('xiBadge')}</span>;
+  if (status === 'bench') return <span className="mc-badge mc-badge-bench">{t('benchBadge')}</span>;
   return null;
 }
 
@@ -58,7 +59,7 @@ export function MyClubScreen({ clubPlayers, selectedPlayers, currentFormation, s
   return (
     <div className="mc-screen">
       <div className="mc-topbar">
-        <button className="mc-back-btn" onClick={onBack}>← Back to Squad</button>
+        <button className="mc-back-btn" onClick={onBack}>{t('backToSquad')}</button>
         <div className="mc-club-title-group">
           {clubLogo && (
             <img
@@ -68,17 +69,17 @@ export function MyClubScreen({ clubPlayers, selectedPlayers, currentFormation, s
               onError={e => { e.currentTarget.style.display = 'none'; }}
             />
           )}
-          <h1 className="mc-title">{clubName ? `${clubName}` : 'My Club'}</h1>
+          <h1 className="mc-title">{clubName ? `${clubName}` : t('myClub')}</h1>
         </div>
         <div className="mc-summary-badges">
-          <span className="mc-summary-item mc-summary-xi">{xiIds.size} XI</span>
-          <span className="mc-summary-item mc-summary-bench">{usedCount - xiIds.size} Bench</span>
-          <span className="mc-summary-item mc-summary-total">{clubPlayers.length} Total</span>
+          <span className="mc-summary-item mc-summary-xi">{xiIds.size} {t('xiBadge')}</span>
+          <span className="mc-summary-item mc-summary-bench">{usedCount - xiIds.size} {t('benchBadge')}</span>
+          <span className="mc-summary-item mc-summary-total">{clubPlayers.length} {t('total')}</span>
         </div>
       </div>
 
       {clubPlayers.length === 0 ? (
-        <p className="mc-empty">No players in club. Open packs to get started.</p>
+        <p className="mc-empty">{t('noPlayersInClub')}</p>
       ) : (
         <div className="mc-grid">
           {players.map(player => {
@@ -89,7 +90,7 @@ export function MyClubScreen({ clubPlayers, selectedPlayers, currentFormation, s
                 key={player.id}
                 className={`mc-card-wrapper`}
                 onClick={() => handleCardClick(player.id)}
-                title="Tap to see stats"
+                title={t('tapToSeeStats')}
               >
                 <div className={`mc-card-inner${isFlipped ? ' is-flipped' : ''}`}>
                   {/* Front: FUT card */}

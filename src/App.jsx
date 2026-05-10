@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "./App.css";
+import { t } from "./i18n/index.js";
 import { openPack, openStarterPack } from "./data/packService";
 import { PacksScreen } from "./PacksScreen";
 import { FormationSelector } from "./FormationSelector";
@@ -975,7 +976,7 @@ function App() {
             fontWeight: 700,
           }}
         >
-          Create Your Club
+          {t('createYourClub')}
         </h1>
 
         <div
@@ -1000,12 +1001,12 @@ function App() {
                 fontSize: "15px",
               }}
             >
-              Team Name:
+              {t('teamName')}
             </label>
             <input
               id="team-name"
               type="text"
-              placeholder="Enter your team name"
+              placeholder={t('teamNamePlaceholder')}
               value={clubForm.name}
               onChange={(e) =>
                 setClubForm({ ...clubForm, name: e.target.value })
@@ -1036,7 +1037,7 @@ function App() {
                 fontSize: "15px",
               }}
             >
-              Logo:
+              {t('logo')}
             </label>
             <div
               style={{
@@ -1092,7 +1093,7 @@ function App() {
                 fontSize: "15px",
               }}
             >
-              Country:
+              {t('country')}
             </label>
             <select
               id="country"
@@ -1115,7 +1116,7 @@ function App() {
                 transition: "all 0.2s ease",
               }}
             >
-              <option value="">-- Select Country --</option>
+              <option value="">{t('selectCountry')}</option>
               <option value="England">England</option>
               <option value="Spain">Spain</option>
               <option value="Germany">Germany</option>
@@ -1153,7 +1154,7 @@ function App() {
               e.target.style.boxShadow = "none";
             }}
           >
-            Create Club
+            {t('createClub')}
           </button>
         </div>
       </div>
@@ -1280,8 +1281,8 @@ function App() {
           <span className="picker-drawer-title">
             {selectedPosition
               ? selectedPosition.isSub
-                ? `Pick Sub ${selectedPosition.id.replace('SUB', '')}`
-                : `Choose ${String(selectedPosition.id).replace(/\d+$/, '')}`
+                ? `${t('pickSub')} ${selectedPosition.id.replace('SUB', '')}`
+                : `${t('choose')} ${String(selectedPosition.id).replace(/\d+$/, '')}`
               : ''}
           </span>
           <button
@@ -1298,7 +1299,7 @@ function App() {
           {selectedPosition && (
             clubPlayers.length === 0 ? (
               <p style={{ color: '#94a3b8', textAlign: 'center', padding: '20px 0' }}>
-                No players in club. Open packs to get started.
+                {t('noPlayersInClubMsg')}
               </p>
             ) : filteredPlayers.length > 0 ? (
               <div className="picker-grid">
@@ -1315,7 +1316,7 @@ function App() {
                         const badge = getFitBadge(player._fit ?? 100);
                         return badge ? <span className="picker-fit-badge" style={{ background: badge.color }}>{badge.text}</span> : null;
                       })()}
-                      overlayLabel={alreadySelected ? 'In XI' : null}
+                      overlayLabel={alreadySelected ? t('inXI') : null}
                       onClick={() => {
                         if (!alreadySelected) setExpandedPlayer(expandedPlayer === player.name ? null : player.name);
                       }}
@@ -1325,7 +1326,7 @@ function App() {
               </div>
             ) : (
               <p style={{ color: '#94a3b8', textAlign: 'center', padding: '20px 0' }}>
-                No club players for this position. Open a pack to get some.
+                {t('noClubPlayersForPosition')}
               </p>
             )
           )}
@@ -1348,7 +1349,7 @@ function App() {
                 disabled={alreadySelected}
                 onClick={() => handlePlayerSelect(p)}
               >
-                {alreadySelected ? 'In XI' : 'Select →'}
+                {alreadySelected ? t('inXI') : t('selectArrow')}
               </button>
             </div>
           );
@@ -1524,7 +1525,7 @@ function App() {
                       <span className="position-label">
                         {position.id.replace(/\d+$/, "")}
                       </span>
-                      <span className="player-name">Empty</span>
+                      <span className="player-name">{t('empty')}</span>
                     </>
                   )}
                 </button>
@@ -1539,7 +1540,7 @@ function App() {
                   style={{ top: `calc(${pos.y}% - 72px)`, left: `${pos.x}%` }}
                   onClick={() => { handleRemovePlayer(activeRemoveId); setActiveRemoveId(null); }}
                 >
-                  Remove
+                  {t('remove')}
                 </button>
               ) : null;
             })()}
@@ -1556,7 +1557,7 @@ function App() {
                       className="floating-remove-btn bench-floating-remove"
                       onClick={() => { handleRemovePlayer(slot.id); setActiveRemoveId(null); }}
                     >
-                      Remove
+                      {t('remove')}
                     </button>
                   )}
                   <button
@@ -1583,7 +1584,7 @@ function App() {
                       </>
                     ) : (
                       <>
-                        <span className="position-label">SUB</span>
+                        <span className="position-label">{t('subLabel')}</span>
                         <span className="player-name">
                           {slot.id.replace("SUB", "")}
                         </span>
@@ -1599,12 +1600,12 @@ function App() {
         <div className="side-panel">
           <div className="coins-display">
             <span className="coins-icon">🪙</span>
-            <span className="coins-label">Coins:</span>
+            <span className="coins-label">{t('coins')}</span>
             <span className="coins-amount">{coins.toLocaleString()}</span>
           </div>
 
           <button className="open-packs-btn" onClick={() => { setPackOpenResult(null); setCurrentScreen("packs"); }}>
-            🎴 Open Packs
+            {t('openPacksBtn')}
           </button>
 
           <button
@@ -1623,7 +1624,7 @@ function App() {
               setCurrentScreen("myClub");
             }}
           >
-            🏟️ My Club
+            {t('myClubBtn')}
           </button>
 
           {/* TEMP DEBUG PANEL — remove after verification */}
@@ -1698,23 +1699,23 @@ function App() {
           </div>
 
           <div className="summary-panel">
-            <h2 className="summary-title">Selected Squad</h2>
+            <h2 className="summary-title">{t('selectedSquad')}</h2>
             <div className="squad-stats">
               <div className="squad-stat-row">
-                <span className="squad-stat-label">Starting XI</span>
+                <span className="squad-stat-label">{t('startingXI')}</span>
                 <span className="squad-stat-value">{selectedStartingPlayers} / 11</span>
               </div>
               <div className="squad-stat-row">
-                <span className="squad-stat-label">Bench</span>
+                <span className="squad-stat-label">{t('bench')}</span>
                 <span className="squad-stat-value">{selectedSubSquad.length} / 7</span>
               </div>
               <div className="squad-stat-divider" />
               <div className="squad-stat-row">
-                <span className="squad-stat-label">Team Rating</span>
+                <span className="squad-stat-label">{t('teamRatingLabel')}</span>
                 <span className="squad-stat-value squad-stat-highlight">{teamRating}</span>
               </div>
               <div className="squad-stat-row">
-                <span className="squad-stat-label">Chemistry</span>
+                <span className="squad-stat-label">{t('chemistryLabel')}</span>
                 <span className="squad-stat-value squad-stat-chem">{teamChemistry} / 33</span>
               </div>
             </div>
@@ -1729,7 +1730,7 @@ function App() {
                 </div>
               ))
             ) : (
-              <p className="summary-empty">No players selected yet.</p>
+              <p className="summary-empty">{t('noPlayersSelected')}</p>
             )}
           </div>
 
@@ -1746,10 +1747,10 @@ function App() {
               }
             }}
           >
-            {isStartingLineupComplete ? "Start Match" : "Fill 11 starters"}
+            {isStartingLineupComplete ? t('startMatchBtn') : t('fill11Starters')}
           </button>
 
-          <p className="picker-hint">Click one of the positions on the field</p>
+          <p className="picker-hint">{t('clickPosition')}</p>
         </div>
       </div>
     </div>

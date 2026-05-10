@@ -1,6 +1,7 @@
 import { calculateOpponentTeamRating, calculateOpponentPower } from './data/opponentSquadService';
 import { OpponentPitch } from './components/OpponentPitch';
 import { getClubLogo } from './utils/imageResolvers';
+import { t } from './i18n/index.js';
 
 const DIFFICULTY_CLASS = { Easy: 'easy', Medium: 'medium', Hard: 'hard' };
 
@@ -16,7 +17,7 @@ export function MatchPreviewScreen({ clubName, teamRating, teamChemistry, format
 
   return (
     <div className="preview-screen">
-      <p className="preview-label">Match Preview</p>
+      <p className="preview-label">{t('matchPreview')}</p>
 
       {/* Matchup header */}
       <div className="preview-matchup">
@@ -29,8 +30,8 @@ export function MatchPreviewScreen({ clubName, teamRating, teamChemistry, format
               onError={e => { e.currentTarget.style.display = 'none'; }}
             />
           )}
-          <span className="preview-team-name">{clubName ?? 'Your Team'}</span>
-          <span className="preview-team-tag preview-tag-user">You</span>
+          <span className="preview-team-name">{clubName ?? t('yourTeam')}</span>
+          <span className="preview-team-tag preview-tag-user">{t('you')}</span>
         </div>
         <span className="preview-matchup-vs">VS</span>
         <div className="preview-team preview-team-opp">
@@ -57,37 +58,37 @@ export function MatchPreviewScreen({ clubName, teamRating, teamChemistry, format
       {/* Stats comparison */}
       <div className="preview-stats-row">
         <div className="preview-stats-card">
-          <h3 className="preview-stats-title preview-stats-title-user">Your Team</h3>
+          <h3 className="preview-stats-title preview-stats-title-user">{t('yourTeam')}</h3>
           <div className="preview-stat">
-            <span className="preview-stat-label">Rating</span>
+            <span className="preview-stat-label">{t('rating')}</span>
             <span className="preview-stat-value">{teamRating}</span>
           </div>
           <div className="preview-stat">
-            <span className="preview-stat-label">Chemistry</span>
+            <span className="preview-stat-label">{t('chemistry')}</span>
             <span className="preview-stat-value">
               {teamChemistry} <span className="preview-stat-max">/ 33</span>
             </span>
           </div>
           <div className="preview-stat">
-            <span className="preview-stat-label">Formation</span>
+            <span className="preview-stat-label">{t('formation')}</span>
             <span className="preview-stat-value">{formation}</span>
           </div>
         </div>
 
         <div className="preview-stats-card preview-stats-opp">
-          <h3 className="preview-stats-title preview-stats-title-opp">Opponent</h3>
+          <h3 className="preview-stats-title preview-stats-title-opp">{t('opponent')}</h3>
           <div className="preview-stat">
-            <span className="preview-stat-label">Rating</span>
+            <span className="preview-stat-label">{t('rating')}</span>
             <span className="preview-stat-value">{displayRating}</span>
           </div>
           <div className="preview-stat">
-            <span className="preview-stat-label">Chemistry</span>
+            <span className="preview-stat-label">{t('chemistry')}</span>
             <span className="preview-stat-value">
               {opponent.chemistry} <span className="preview-stat-max">/ 33</span>
             </span>
           </div>
           <div className="preview-stat">
-            <span className="preview-stat-label">Power</span>
+            <span className="preview-stat-label">{t('power')}</span>
             <span className="preview-stat-value">{displayPower}</span>
           </div>
         </div>
@@ -96,7 +97,7 @@ export function MatchPreviewScreen({ clubName, teamRating, teamChemistry, format
       {/* Opponent lineup */}
       {opponentSquad && opponentSquad.length > 0 && (
         <div className="preview-lineup">
-          <h3 className="preview-lineup-title">Opponent Starting XI</h3>
+          <h3 className="preview-lineup-title">{t('opponentStartingXI')}</h3>
           <OpponentPitch opponentSquad={opponentSquad} />
         </div>
       )}
@@ -104,10 +105,10 @@ export function MatchPreviewScreen({ clubName, teamRating, teamChemistry, format
       {/* Actions */}
       <div className="preview-actions">
         <button className="preview-start-btn" onClick={onStart}>
-          ▶ Start Match
+          {t('startMatch')}
         </button>
         <button className="preview-back-btn" onClick={onBack}>
-          ← Back
+          {t('back')}
         </button>
       </div>
     </div>

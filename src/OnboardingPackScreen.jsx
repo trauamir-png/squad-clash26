@@ -3,6 +3,7 @@ import { openStarterPack } from './data/packService';
 import { getRatingTier, getPlayerRating } from './ratingUtils';
 import { PackOpeningVisual, BestCardSpotlight } from './PackReveal';
 import { FutCard } from './FutCard';
+import { t } from './i18n/index.js';
 
 export function OnboardingPackScreen({ onComplete }) {
   // 'idle' | 'opening' | 'spotlight' | 'revealed'
@@ -21,12 +22,12 @@ export function OnboardingPackScreen({ onComplete }) {
     return (
       <div className="ob-screen ob-screen-center">
         <div className="ob-intro">
-          <h1 className="ob-title">Your Club is Ready!</h1>
-          <p className="ob-subtitle">Open your Starter Pack to begin building your squad.</p>
+          <h1 className="ob-title">{t('clubIsReady')}</h1>
+          <p className="ob-subtitle">{t('openStarterPackDesc')}</p>
         </div>
         <button className="ob-pack-btn" onClick={handleOpenPack} aria-label="Open starter pack">
           <PackOpeningVisual type="starter" opening={false} />
-          <span className="ob-pack-cta">Tap to open</span>
+          <span className="ob-pack-cta">{t('tapToOpen')}</span>
         </button>
       </div>
     );
@@ -58,11 +59,11 @@ export function OnboardingPackScreen({ onComplete }) {
   return (
     <div className="ob-screen">
       <div className="ob-reveal-header">
-        <h1 className="ob-title">Your Players!</h1>
+        <h1 className="ob-title">{t('yourPlayers')}</h1>
         <div className="ob-tier-summary">
-          {bronzeCount > 0 && <span className="ob-tier-badge ob-tier-bronze">{bronzeCount} Bronze</span>}
-          {silverCount > 0 && <span className="ob-tier-badge ob-tier-silver">{silverCount} Silver</span>}
-          {goldCount   > 0 && <span className="ob-tier-badge ob-tier-gold">{goldCount} Gold</span>}
+          {bronzeCount > 0 && <span className="ob-tier-badge ob-tier-bronze">{bronzeCount} {t('bronze')}</span>}
+          {silverCount > 0 && <span className="ob-tier-badge ob-tier-silver">{silverCount} {t('silver')}</span>}
+          {goldCount   > 0 && <span className="ob-tier-badge ob-tier-gold">{goldCount} {t('gold')}</span>}
         </div>
       </div>
       <div className="ob-player-grid">
@@ -75,7 +76,7 @@ export function OnboardingPackScreen({ onComplete }) {
         style={{ animationDelay: btnDelay }}
         onClick={() => onComplete(players)}
       >
-        Let's Play →
+        {t('letsPlay')}
       </button>
     </div>
   );
