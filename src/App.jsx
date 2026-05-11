@@ -19,6 +19,8 @@ import { generateMatchEvents } from "./data/matchSimulator";
 import { PlayerImage } from "./PlayerImage";
 import { SplashScreen } from "./SplashScreen";
 import { FutCard } from "./FutCard";
+import { PitchCard } from "./PitchCard";
+import "./SquadPitch.css";
 
 // Extracts a display-safe short name for a pitch card (last name, or full if single-word).
 function cardName(fullName) {
@@ -1382,87 +1384,72 @@ function App() {
       </div>
 
       <div className="game-area">
-        <div className="field-section">
-          <div className="formation-canvas">
-            {/* Grass background with pitch markings — sits behind all cards */}
-            <div className="formation-field-bg">
-              <svg className="field-markings" viewBox="0 0 420 680" preserveAspectRatio="none">
-                <rect x="85.5" y="0" width="249" height="107" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <rect x="153.5" y="0" width="113" height="36" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <circle cx="210" cy="71" r="3" fill="rgba(255,255,255,0.92)" />
-                <path d="M 167.1 107 A 56 56 0 0 0 252.9 107" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <line x1="0" y1="340" x2="420" y2="340" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <circle cx="210" cy="340" r="56" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <circle cx="210" cy="340" r="3" fill="rgba(255,255,255,0.92)" />
-                <rect x="85.5" y="573" width="249" height="107" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <rect x="153.5" y="644" width="113" height="36" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <circle cx="210" cy="609" r="3" fill="rgba(255,255,255,0.92)" />
-                <path d="M 167.1 573 A 56 56 0 0 1 252.9 573" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <path d="M 8 0 A 8 8 0 0 1 0 8" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <path d="M 412 0 A 8 8 0 0 0 420 8" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <path d="M 0 672 A 8 8 0 0 1 8 680" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-                <path d="M 420 672 A 8 8 0 0 0 412 680" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
-              </svg>
-            </div>
+        {/* ── Pitch + bench (full rebuild) ── */}
+        <div className="sb-field-section">
+          <div className="sb-field">
+            {/* Grass stripes + vignette */}
+            <div className="sb-field-bg" aria-hidden="true" />
 
-            {/* Formation rows — proper flex layout, guaranteed no overlaps */}
-            <div className="formation-rows">
+            {/* SVG pitch markings */}
+            <svg
+              className="sb-field-markings"
+              viewBox="0 0 390 520"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              {/* ── Top penalty area ── */}
+              <rect x="88" y="0" width="214" height="88"
+                fill="none" stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+              <rect x="137" y="0" width="116" height="30"
+                fill="none" stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+              <circle cx="195" cy="58" r="2.5"
+                fill="rgba(255,255,255,0.70)" />
+              <path d="M 155 88 A 46 46 0 0 0 235 88"
+                fill="none" stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+
+              {/* ── Halfway line + centre circle ── */}
+              <line x1="0" y1="260" x2="390" y2="260"
+                stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+              <circle cx="195" cy="260" r="46"
+                fill="none" stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+              <circle cx="195" cy="260" r="2.5"
+                fill="rgba(255,255,255,0.70)" />
+
+              {/* ── Bottom penalty area ── */}
+              <rect x="88" y="432" width="214" height="88"
+                fill="none" stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+              <rect x="137" y="490" width="116" height="30"
+                fill="none" stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+              <circle cx="195" cy="462" r="2.5"
+                fill="rgba(255,255,255,0.70)" />
+              <path d="M 155 432 A 46 46 0 0 1 235 432"
+                fill="none" stroke="rgba(255,255,255,0.70)" strokeWidth="1.5" />
+            </svg>
+
+            {/* Formation rows */}
+            <div className="sb-rows">
               {groupFormationRows(currentFormation).map((row) => (
-                <div
-                  key={row.y}
-                  className="formation-row"
-                  data-count={row.positions.length}
-                >
-                  {row.positions.map((position) => {
-                    const selectedPlayer = selectedPlayers[position.id];
-                    const slotPos = position.id.replace(/\d+$/, '');
-                    const isDragSrc = dragState?.fromId === position.id;
-                    const isDragTgt = dragState?.isDragging && dragState?.toId === position.id && !isDragSrc;
-                    const isActiveRemove = activeRemoveId === position.id;
-
+                <div key={row.y} className="sb-row" data-count={row.positions.length}>
+                  {row.positions.map((pos) => {
+                    const player = selectedPlayers[pos.id];
+                    const label  = pos.id.replace(/\d+$/, '');
                     return (
-                      <div key={position.id} className="slot-wrapper">
-                        {isActiveRemove && (
-                          <button
-                            className="floating-remove-btn slot-remove-btn"
-                            onClick={() => { handleRemovePlayer(position.id); setActiveRemoveId(null); }}
-                          >
-                            {t('remove')}
-                          </button>
-                        )}
-                        <button
-                          data-slot-id={position.id}
-                          className={`position-button${selectedPlayer ? ` filled-card ${getRatingCardClass(selectedPlayer.rating)}` : ''}${isDragSrc ? ' is-drag-source' : ''}${isDragTgt ? ' is-drag-target' : ''}${droppedIds.has(position.id) ? ' just-dropped' : ''}`}
-                          style={{
-                            ...(selectedPlayer ? getRatingCardStyle(selectedPlayer.rating) : {}),
-                            touchAction: selectedPlayer ? 'none' : undefined,
-                          }}
-                          onClick={selectedPlayer ? undefined : () => { setActiveRemoveId(null); handlePositionClick(position); }}
-                          onPointerDown={selectedPlayer ? (e) => handleSlotPointerDown(e, position.id) : undefined}
-                          onPointerMove={selectedPlayer ? handleSlotPointerMove : undefined}
-                          onPointerUp={selectedPlayer ? (e) => handleSlotPointerUp(e, position.id) : undefined}
-                          onPointerCancel={selectedPlayer ? handleSlotPointerCancel : undefined}
-                        >
-                          {selectedPlayer ? (
-                            <div className="pitch-card">
-                              <div className="pc-header">
-                                <span className="pc-rating" style={{ color: getCardRatingColor(selectedPlayer.rating) }}>
-                                  {selectedPlayer.rating}
-                                </span>
-                                <span className="pc-pos">{selectedPlayer.position}</span>
-                              </div>
-                              <PlayerImage player={selectedPlayer} className="pc-img" />
-                              <div className="pc-name">{cardName(selectedPlayer.name)}</div>
-                              <div className="pitch-frame" aria-hidden="true" />
-                            </div>
-                          ) : (
-                            <>
-                              <span className="position-label">{slotPos}</span>
-                              <span className="player-name">{t('empty')}</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
+                      <PitchCard
+                        key={pos.id}
+                        player={player}
+                        label={label}
+                        slotId={pos.id}
+                        isDragSrc={dragState?.fromId === pos.id}
+                        isDragTgt={dragState?.isDragging && dragState?.toId === pos.id && dragState?.fromId !== pos.id}
+                        justDropped={droppedIds.has(pos.id)}
+                        showRemove={activeRemoveId === pos.id}
+                        onRemove={() => { handleRemovePlayer(pos.id); setActiveRemoveId(null); }}
+                        onClick={() => { setActiveRemoveId(null); handlePositionClick(pos); }}
+                        onPointerDown={player ? (e) => handleSlotPointerDown(e, pos.id) : undefined}
+                        onPointerMove={player ? handleSlotPointerMove : undefined}
+                        onPointerUp={player ? (e) => handleSlotPointerUp(e, pos.id) : undefined}
+                        onPointerCancel={player ? handleSlotPointerCancel : undefined}
+                      />
                     );
                   })}
                 </div>
@@ -1470,53 +1457,29 @@ function App() {
             </div>
           </div>
 
-          <div className="bench">
+          {/* Bench */}
+          <div className="sb-bench">
             {subSlots.map((slot) => {
               const player = selectedPlayers[slot.id];
-              const isActive = activeRemoveId === slot.id;
+              const label  = `${slot.id.replace('SUB', '')}`;
               return (
-                <div key={slot.id} className="bench-slot-wrapper">
-                  {isActive && (
-                    <button
-                      className="floating-remove-btn bench-floating-remove"
-                      onClick={() => { handleRemovePlayer(slot.id); setActiveRemoveId(null); }}
-                    >
-                      {t('remove')}
-                    </button>
-                  )}
-                  <button
-                    data-slot-id={slot.id}
-                    className={`bench-slot ${player ? `filled-card ${getRatingCardClass(player.rating)}` : ""}${dragState?.fromId === slot.id ? ' is-drag-source' : ''}${dragState?.isDragging && dragState?.toId === slot.id && dragState?.fromId !== slot.id ? ' is-drag-target' : ''}${droppedIds.has(slot.id) ? ' just-dropped' : ''}`}
-                    style={{
-                      ...(player ? getRatingCardStyle(player.rating) : undefined),
-                      touchAction: player ? 'none' : undefined,
-                    }}
-                    onClick={player ? undefined : () => { setActiveRemoveId(null); handlePositionClick(slot); }}
-                    onPointerDown={player ? (e) => handleSlotPointerDown(e, slot.id) : undefined}
-                    onPointerMove={player ? handleSlotPointerMove : undefined}
-                    onPointerUp={player ? (e) => handleSlotPointerUp(e, slot.id) : undefined}
-                    onPointerCancel={player ? handleSlotPointerCancel : undefined}
-                  >
-                    {player ? (
-                      <>
-                        <div className="bench-card-top">
-                          <span className="bench-card-rating" style={{ color: getCardRatingColor(player.rating) }}>{player.rating}</span>
-                          <span className="bench-card-pos">{player.position}</span>
-                        </div>
-                        <PlayerImage player={player} className="bench-img" />
-                        <div className="bench-card-name">{player.name}</div>
-                        <div className="pitch-frame" aria-hidden="true" />
-                      </>
-                    ) : (
-                      <>
-                        <span className="position-label">{t('subLabel')}</span>
-                        <span className="player-name">
-                          {slot.id.replace("SUB", "")}
-                        </span>
-                      </>
-                    )}
-                  </button>
-                </div>
+                <PitchCard
+                  key={slot.id}
+                  player={player}
+                  label={label}
+                  slotId={slot.id}
+                  isBench
+                  isDragSrc={dragState?.fromId === slot.id}
+                  isDragTgt={dragState?.isDragging && dragState?.toId === slot.id && dragState?.fromId !== slot.id}
+                  justDropped={droppedIds.has(slot.id)}
+                  showRemove={activeRemoveId === slot.id}
+                  onRemove={() => { handleRemovePlayer(slot.id); setActiveRemoveId(null); }}
+                  onClick={() => { setActiveRemoveId(null); handlePositionClick(slot); }}
+                  onPointerDown={player ? (e) => handleSlotPointerDown(e, slot.id) : undefined}
+                  onPointerMove={player ? handleSlotPointerMove : undefined}
+                  onPointerUp={player ? (e) => handleSlotPointerUp(e, slot.id) : undefined}
+                  onPointerCancel={player ? handleSlotPointerCancel : undefined}
+                />
               );
             })}
           </div>

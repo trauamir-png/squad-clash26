@@ -1,0 +1,515 @@
+/* ══════════════════════════════════════════════════════════════════
+   SQUAD PITCH  ·  sb-* (squad builder containers)  spc-* (cards)
+   Clean rebuild — no inheritance from legacy formation CSS.
+   Target: iPhone 390px portrait as primary breakpoint.
+   ══════════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIELD SECTION WRAPPER
+   Wraps the field + bench as a vertical unit.
+   ───────────────────────────────────────────────────────────────── */
+
+.sb-field-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FIELD CONTAINER
+   Full-bleed on mobile: escapes the .app horizontal padding so the
+   pitch stretches edge-to-edge.  The bench at the bottom re-adds
+   horizontal padding so its content stays inset.
+   ───────────────────────────────────────────────────────────────── */
+
+.sb-field {
+  position: relative;
+  width: 100%;
+  /* .app default padding: 24px each side  →  break out by 24px */
+}
+
+@media (max-width: 639px) {
+  /* .app has 24px padding → shift left 24px, widen by 48px = 100vw */
+  .sb-field {
+    left: -24px;
+    width: calc(100% + 48px);
+  }
+}
+
+@media (max-width: 479px) {
+  /* .app shrinks to 12px padding at ≤480px */
+  .sb-field {
+    left: -12px;
+    width: calc(100% + 24px);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   PITCH BACKGROUND
+   Absolute layer behind cards. Grass stripes + spotlight vignette.
+   ───────────────────────────────────────────────────────────────── */
+
+.sb-field-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: repeating-linear-gradient(
+    to bottom,
+    #02270a 0px,  #02270a 44px,
+    #011e07 44px, #011e07 88px
+  );
+  pointer-events: none;
+}
+
+.sb-field-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Stadium-light cones from upper corners */
+  background:
+    radial-gradient(ellipse 70% 45% at 15%  0%, rgba(200,255,200,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 45% at 85%  0%, rgba(200,255,200,0.07) 0%, transparent 60%);
+}
+
+.sb-field-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Edge vignette — darker toward sides and bottom */
+  background: radial-gradient(
+    ellipse 110% 60% at 50% 50%,
+    transparent 34%,
+    rgba(0,0,0,0.72) 100%
+  );
+}
+
+/* SVG pitch-line markings layer */
+.sb-field-markings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.88;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────
+   FORMATION ROWS
+   Flex column of rows. Each row spaces its cards across the width.
+   No per-count size variations — every card is the same width.
+   ───────────────────────────────────────────────────────────────── */
+
+.sb-rows {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 14px 10px 16px;
+}
+
+.sb-row {
+  display: flex;
+  /* justify-content assigned by data-count below */
+  align-items: flex-start;
+}
+
+/* GK / lone striker */
+.sb-row[data-count="1"] { justify-content: center; }
+
+/* Two-card rows: even spacing, not fully spread to edges */
+.sb-row[data-count="2"] { justify-content: space-around; }
+
+/* Multi-card rows: spread across full pitch width */
+.sb-row[data-count="3"],
+.sb-row[data-count="4"],
+.sb-row[data-count="5"] { justify-content: space-between; }
+
+
+/* ─────────────────────────────────────────────────────────────────
+   BENCH STRIP
+   Horizontal row beneath the field. Re-adds the inset it lost from
+   the field's full-bleed break-out.
+   ───────────────────────────────────────────────────────────────── */
+
+.sb-bench {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding:
+    12px
+    max(24px, env(safe-area-inset-right))
+    max(14px, env(safe-area-inset-bottom))
+    max(24px, env(safe-area-inset-left));
+  background: linear-gradient(180deg, rgba(2,8,3,0.99) 0%, rgba(1,4,2,1) 100%);
+  border-top: 1px solid rgba(255,215,80,0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,215,80,0.10),
+    0 20px 50px rgba(0,0,0,0.60);
+}
+
+@media (max-width: 479px) {
+  .sb-bench {
+    padding-left:  max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    gap: 5px;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   SQUAD PITCH CARD  (spc-*)
+
+   Anatomy of a filled card (flex column, top→bottom):
+     ┌─────────────────┐
+     │ [Rating] [Pos]  │  ← spc-header (stacked top-left)
+     │                 │
+     │   [Player img]  │  ← spc-img-zone (flex:1)
+     │                 │
+     │  [Player name]  │  ← spc-name (bottom strip)
+     └─────────────────┘
+       spc-frame         ← inset metallic rings (absolute overlay)
+
+   Empty card: spc-label only (position abbreviation, centered).
+   ══════════════════════════════════════════════════════════════════ */
+
+
+/* ─ Slot wrapper ────────────────────────────────────────────────── */
+
+.spc-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Width is the card width — fixed, same for every position */
+  width: 62px;
+}
+
+.spc-wrap-bench {
+  width: 56px;
+}
+
+
+/* ─ The card button ─────────────────────────────────────────────── */
+
+/* Reset browser button appearance completely */
+.spc {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Pitch card: portrait proportion */
+.spc-pitch { height: 90px; }
+
+/* Bench card: slightly smaller */
+.spc-bench { height: 80px; }
+
+
+/* ─ Empty slot ──────────────────────────────────────────────────── */
+
+.spc-empty {
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,180,140,0.09);
+  border: 1.5px dashed rgba(0,210,165,0.38);
+  transition: border-color 0.2s, background 0.2s;
+  animation: spc-idle 3s ease-in-out infinite;
+}
+
+.spc-empty:active {
+  background: rgba(0,200,155,0.16);
+  transform: scale(0.94);
+}
+
+.spc-label {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: rgba(0,220,175,0.80);
+  text-shadow: 0 0 10px rgba(0,220,175,0.40);
+  user-select: none;
+}
+
+@keyframes spc-idle {
+  0%, 100% {
+    border-color: rgba(0,210,165,0.30);
+    box-shadow: none;
+  }
+  50% {
+    border-color: rgba(0,220,175,0.60);
+    box-shadow: 0 0 10px rgba(0,220,175,0.18);
+  }
+}
+
+
+/* ─ Filled card ─────────────────────────────────────────────────── */
+
+.spc-filled {
+  /* background gradient + border come from getRatingCardStyle() inline */
+  box-shadow:
+    0 5px 16px rgba(0,0,0,0.78),
+    0 2px 7px  rgba(0,0,0,0.55);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: default;
+}
+
+.spc-filled:active {
+  transform: scale(0.96);
+}
+
+/* Tier glow aura */
+.card-tier-gold.spc-filled {
+  box-shadow:
+    0 5px 16px rgba(0,0,0,0.78),
+    0 2px 7px  rgba(0,0,0,0.55),
+    0 0 18px rgba(205,155,0,0.48);
+}
+.card-tier-silver.spc-filled {
+  box-shadow:
+    0 5px 16px rgba(0,0,0,0.78),
+    0 2px 7px  rgba(0,0,0,0.55),
+    0 0 14px rgba(120,185,228,0.40);
+}
+.card-tier-bronze.spc-filled {
+  box-shadow:
+    0 5px 16px rgba(0,0,0,0.78),
+    0 2px 7px  rgba(0,0,0,0.55),
+    0 0 14px rgba(162,78,14,0.42);
+}
+.card-tier-elite.spc-filled {
+  box-shadow:
+    0 5px 16px rgba(0,0,0,0.78),
+    0 2px 7px  rgba(0,0,0,0.55),
+    0 0 24px rgba(255,200,0,0.60);
+}
+
+
+/* ─ Card header: rating + position (top-left corner) ───────────── */
+
+.spc-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4px 0 0 5px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+  /* Subtle text shadow so numbers read on any card material */
+  text-shadow: 0 1px 4px rgba(0,0,0,0.55);
+}
+
+.spc-rating {
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+  /* color from getCardRatingColor() inline style */
+}
+
+.spc-position {
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 1px;
+  letter-spacing: 0.04em;
+  opacity: 0.88;
+  color: inherit;
+}
+
+
+/* ─ Player image zone ───────────────────────────────────────────── */
+
+.spc-img-zone {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* <img> from PlayerImage */
+.spc-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  /* 20% from top: shows face + upper chest, avoids pure forehead crop */
+  object-position: center 20%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Initials fallback div: fill the zone, center the avatar circle */
+.player-img-fallback.spc-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background: rgba(0,0,0,0.28);
+  border: none;
+  flex-shrink: unset;
+  flex: unset;
+}
+
+.player-img-fallback.spc-img .player-img-initials {
+  width: 28px;
+  height: 28px;
+  font-size: 10px;
+}
+
+
+/* ─ Player name strip ───────────────────────────────────────────── */
+
+.spc-name {
+  flex-shrink: 0;
+  width: 100%;
+  padding: 2px 3px 3px;
+  font-size: 7.5px;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.2;
+  /* Single line with ellipsis — keeps card layout stable */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: inherit;
+  position: relative;
+  z-index: 2;
+  text-shadow:
+    0 1px 5px rgba(0,0,0,0.85),
+    0 0 12px rgba(0,0,0,0.55);
+}
+
+/* Gradient scrim behind name so it reads on any card material */
+.spc-filled::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36%;
+  background: linear-gradient(to top, rgba(0,0,0,0.60) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 0 0 8px 8px;
+}
+
+
+/* ─ Metallic frame rings ────────────────────────────────────────── */
+
+.spc-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.card-tier-gold .spc-frame {
+  box-shadow:
+    inset 0 0 0 1px   rgba(255,248,185,0.96),
+    inset 0 0 0 3.5px rgba(38,14,0,0.72),
+    inset 0 0 0 6px   rgba(215,158,0,0.84);
+}
+
+.card-tier-silver .spc-frame {
+  box-shadow:
+    inset 0 0 0 1px   rgba(240,252,255,0.97),
+    inset 0 0 0 3.5px rgba(8,28,62,0.70),
+    inset 0 0 0 6px   rgba(108,166,214,0.82);
+}
+
+.card-tier-bronze .spc-frame {
+  box-shadow:
+    inset 0 0 0 1px   rgba(255,230,150,0.94),
+    inset 0 0 0 3.5px rgba(22,4,0,0.72),
+    inset 0 0 0 6px   rgba(178,82,16,0.82);
+}
+
+.card-tier-elite .spc-frame {
+  box-shadow:
+    inset 0 0 0 1px   rgba(255,252,200,1.00),
+    inset 0 0 0 3.5px rgba(56,22,0,0.82),
+    inset 0 0 0 6px   rgba(255,196,0,0.92),
+    inset 0 0 0 9.5px rgba(168,128,0,0.38);
+}
+
+
+/* ─ Drag-and-drop states ────────────────────────────────────────── */
+
+.spc-drag-src {
+  opacity: 0.28;
+  transition: opacity 0.10s ease;
+}
+
+.spc-drag-tgt .spc {
+  outline: 2.5px solid rgba(255,255,255,0.90);
+  outline-offset: 2px;
+  filter: brightness(1.14);
+}
+
+@keyframes spc-land {
+  0%   { scale: 1.12; }
+  55%  { scale: 0.94; }
+  80%  { scale: 1.03; }
+  100% { scale: 1.00; }
+}
+
+.spc-just-dropped .spc {
+  animation: spc-land 0.36s cubic-bezier(0.22,1,0.36,1);
+}
+
+
+/* ─ Remove button ───────────────────────────────────────────────── */
+
+.spc-remove-btn {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(185,28,28,0.55);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.spc-remove-btn:active {
+  background: linear-gradient(135deg, #991b1b 0%, #b91c1c 100%);
+}

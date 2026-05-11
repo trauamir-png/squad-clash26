@@ -220,199 +220,13 @@ p {
   margin-top: 20px;
 }
 
-.field-section {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0;
-  width: 100%;
-  /* Break out of .app horizontal padding at mobile so field fills screen edge-to-edge */
-}
-
-@media (max-width: 640px) {
-  .field-section {
-    position: relative;
-    left: calc(-1 * max(24px, env(safe-area-inset-left)));
-    width: 100vw;
-  }
-}
-
-/* ─── Formation Canvas — new flex-row layout system ─────────────────────── */
-
-.formation-canvas {
-  position: relative;
-  width: 100%;
-}
-
-/* Grass + markings as a pure background layer */
-.formation-field-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse 72% 52% at 18% 0%, rgba(255,255,220,0.09) 0%, transparent 58%),
-    radial-gradient(ellipse 72% 52% at 82% 0%, rgba(255,255,220,0.09) 0%, transparent 58%),
-    radial-gradient(ellipse 115% 55% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%),
-    repeating-linear-gradient(
-      to bottom,
-      #031608 0px, #031608 38px,
-      #061d0c 38px, #061d0c 76px
-    );
-}
-
-.formation-field-bg .field-markings {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  filter: drop-shadow(0 0 3px rgba(255,255,255,0.50));
-}
-
-/* Column of formation rows — each row is a flex strip */
-.formation-rows {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 14px 10px 16px;
-  overflow: visible;
-}
-
-/* One horizontal row of player slots */
-.formation-row {
-  display: flex;
-  gap: 0;
-  align-items: stretch;
-  /* All rows: single consistent card width — spacing driven by justify-content */
-  --slot-w: 64px;
-}
-
-/* GK / lone striker: center single card */
-.formation-row[data-count="1"] {
-  justify-content: center;
-}
-
-/* Two-player rows: even breathing room each side */
-.formation-row[data-count="2"] {
-  justify-content: space-around;
-}
-
-/* Multi-player rows: spread across full pitch width */
-.formation-row[data-count="3"],
-.formation-row[data-count="4"],
-.formation-row[data-count="5"] {
-  justify-content: space-between;
-}
-
-/* Slot wrapper — uniform card width, no variable scaling per count */
-.slot-wrapper {
-  position: relative;
-  flex: 0 0 var(--slot-w, 64px);
-  width: var(--slot-w, 64px);
-  display: flex;
-  flex-direction: column;
-}
-
-/* Remove button anchored to the slot wrapper */
-.slot-remove-btn {
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  white-space: nowrap;
-}
+/* ── Legacy formation classes removed — squad builder rebuilt in SquadPitch.css ── */
 
 .side-panel {
   width: min(360px, 100%);
 }
 
-.bench {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  background: linear-gradient(180deg, rgba(4,14,8,0.98) 0%, rgba(2,7,4,1.00) 100%);
-  border: 1px solid rgba(255, 215, 80, 0.32);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 215, 80, 0.18),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.60),
-    0 0 0 1px rgba(0, 0, 0, 0.50),
-    0 30px 70px rgba(0, 0, 0, 0.65),
-    0 8px 24px rgba(0, 0, 0, 0.45);
-  border-radius: 0 0 20px 20px;
-  /* On mobile the field is full-bleed, so bench needs the app's original horizontal padding back */
-  padding: 14px max(24px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.bench-slot {
-  position: relative;
-  width: 76px;
-  height: 90px;
-  border: none;
-  border-radius: 8px;
-  clip-path: none;
-  background: linear-gradient(165deg, rgba(0,200,160,0.16) 0%, rgba(0,120,96,0.06) 60%, rgba(0,60,48,0.02) 100%);
-  color: #ffffff;
-  cursor: pointer;
-  padding: 14px 4px 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 3px;
-  box-shadow: 0 0 6px rgba(0,200,160,0.35), 0 3px 7px rgba(0,0,0,0.55);
-  flex-shrink: 0;
-  transition: box-shadow 0.18s ease;
-}
-
-.bench-slot:not(.filled-card) {
-  animation: slot-idle-glow 2.8s ease-in-out infinite;
-}
-
-.bench-slot:not(.filled-card):hover {
-  box-shadow: 0 0 13px rgba(0,220,180,0.64), 0 3px 8px rgba(0,0,0,0.65);
-  animation: none;
-  background: linear-gradient(165deg, rgba(0,220,180,0.26) 0%, rgba(0,140,110,0.12) 100%);
-}
-
-.bench-slot-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.bench-floating-remove {
-  position: absolute;
-  top: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.bench-slot.filled-card {
-  /* background/border/boxShadow from getRatingCardStyle inline style */
-  position: relative;
-  clip-path: none;
-  border-radius: 8px;
-  height: 112px;
-  padding: 0;
-  gap: 0;
-  filter: none;
-  box-shadow: 0 5px 14px rgba(0,0,0,0.80), 0 2px 6px rgba(0,0,0,0.55);
-  color: inherit;
-  transition: transform 0.16s ease, box-shadow 0.16s ease;
-  flex-direction: column;
-  justify-content: flex-start;
-  overflow: hidden;
-}
-.bench-slot.filled-card:hover {
-  background: unset;
-  transform: translateY(-3px) scale(1.04);
-}
+/* bench-slot removed — bench rebuilt in SquadPitch.css */
 
 .field {
   position: relative;
@@ -451,58 +265,6 @@ p {
   height: 100%;
   pointer-events: none;
   filter: drop-shadow(0 0 3px rgba(255,255,255,0.50));
-}
-
-@keyframes slot-idle-glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(0,200,160,0.28), 0 4px 10px rgba(0,0,0,0.60); }
-  50%       { box-shadow: 0 0 12px rgba(0,220,180,0.55), 0 4px 10px rgba(0,0,0,0.60); }
-}
-
-.position-button {
-  position: relative;
-  width: 100%;
-  height: 96px;
-  border: none;
-  border-radius: 8px;
-  clip-path: none;
-  background: linear-gradient(165deg, rgba(0,200,160,0.18) 0%, rgba(0,140,110,0.08) 60%, rgba(0,80,60,0.02) 100%);
-  color: #ffffff;
-  cursor: pointer;
-  padding: 10px 4px 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 0 6px rgba(0,200,160,0.38), 0 5px 12px rgba(0,0,0,0.65);
-  transition: box-shadow 0.18s ease, transform 0.18s ease;
-}
-
-.position-button:not(.filled-card) {
-  animation: slot-idle-glow 2.8s ease-in-out infinite;
-}
-
-.position-button:not(.filled-card):hover {
-  background: linear-gradient(165deg, rgba(0,220,180,0.28) 0%, rgba(0,160,130,0.14) 100%);
-  box-shadow: 0 0 16px rgba(0,220,180,0.66), 0 6px 14px rgba(0,0,0,0.72);
-  transform: translateY(-2px);
-  animation: none;
-}
-
-.position-label {
-  font-weight: 900;
-  font-size: 14px;
-  color: #ffffff;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.80), 0 0 10px rgba(0,200,160,0.50);
-  letter-spacing: 0.06em;
-}
-
-.player-name {
-  font-size: 8px;
-  color: rgba(0,200,160,0.70);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .side-panel {
@@ -1025,219 +787,9 @@ p {
   -webkit-box-orient: vertical;
 }
 
-/* ── Pitch card — premium mini collectible ──────────────────────
-   Layout: stacked rating+pos header (top-left) → player face (flex:1) → name strip
-   Uniform 64×96px across ALL formation rows — no per-count scaling.
-   ─────────────────────────────────────────────────────────────── */
-.pitch-card {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  overflow: hidden;
-}
+/* pitch-card removed — rebuilt in SquadPitch.css / PitchCard.jsx */
 
-/* Rating + position — stacked in top-left corner, like a full FUT card */
-.pc-header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 5px 0 0 5px;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.pc-rating {
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1;
-  /* color set via inline style from getCardRatingColor() */
-}
-
-.pc-pos {
-  font-size: 7px;
-  font-weight: 700;
-  line-height: 1;
-  margin-top: 1px;
-  letter-spacing: 0.05em;
-  opacity: 0.88;
-  color: inherit;
-}
-
-/* Hero face — fills all space between header and name */
-.pc-img {
-  flex: 1;
-  width: 100%;
-  min-height: 0;
-  display: block;
-  object-fit: cover;
-  /* 20% from top shows face + upper chest without forehead-only crop */
-  object-position: center 20%;
-  border-radius: 0;
-  border: none;
-  box-shadow: none;
-  margin: 0;
-}
-
-/* Fallback initials div: fill the image zone */
-.player-img-fallback.pc-img {
-  flex: 1;
-  min-height: 0;
-  border-radius: 0;
-  background: rgba(0,0,0,0.28);
-  border: none;
-  box-shadow: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.player-img-fallback.pc-img .player-img-initials {
-  width: 32px;
-  height: 32px;
-  font-size: 11px;
-}
-
-/* Name strip — bottom of card, two-line wrapping allowed */
-.pc-name {
-  flex-shrink: 0;
-  font-size: 8px;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1.2;
-  width: 100%;
-  padding: 2px 3px 4px;
-  white-space: normal;
-  word-break: break-word;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  color: inherit;
-  position: relative;
-  z-index: 2;
-  text-shadow:
-    0 1px 4px rgba(0,0,0,0.70),
-    0 0 10px rgba(0,0,0,0.50);
-}
-
-/* Scrim so name is legible over any card material */
-.pitch-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 30%;
-  background: linear-gradient(to top, rgba(0,0,0,0.50) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Bench card content — same layout system */
-.bench-card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 6px 7px 0;
-  flex-shrink: 0;
-  width: 100%;
-}
-.bench-card-rating {
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1;
-  /* color from getCardRatingColor inline style */
-}
-.bench-card-pos {
-  font-size: 8px;
-  font-weight: 800;
-  line-height: 1;
-  opacity: 0.88;
-  letter-spacing: 0.04em;
-}
-.bench-img {
-  flex: 1;
-  width: 100%;
-  min-height: 0;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-  border-radius: 0;
-  border: none;
-  background: transparent;
-}
-.player-img-fallback.bench-img {
-  border-radius: 0;
-  background: rgba(0,0,0,0.22);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.bench-card-name {
-  flex-shrink: 0;
-  font-size: 7px;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1;
-  width: 100%;
-  padding: 3px 4px 10px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-  color: inherit;
-  position: relative;
-  z-index: 2;
-  text-shadow:
-    0 1px 4px rgba(0,0,0,0.60),
-    0 0 10px rgba(0,0,0,0.35);
-}
-
-/* ── Pitch card frame rings (inset on the .pitch-frame overlay div) ──
-   Clipped to the polygon silhouette by the parent's clip-path.
-   Creates layered metallic border rings that follow the card shape.
-   ─────────────────────────────────────────────────────────────── */
-.pitch-frame {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-}
-
-.card-tier-gold .pitch-frame {
-  box-shadow:
-    inset 0 0 0 1.5px rgba(255,255,225,0.96),
-    inset 0 0 0 4px   rgba(52,22,0,0.78),
-    inset 0 0 0 7px   rgba(218,162,0,0.80);
-}
-
-.card-tier-silver .pitch-frame {
-  box-shadow:
-    inset 0 0 0 1.5px rgba(245,255,255,0.97),
-    inset 0 0 0 4px   rgba(12,36,68,0.72),
-    inset 0 0 0 7px   rgba(118,174,222,0.78);
-}
-
-.card-tier-bronze .pitch-frame {
-  box-shadow:
-    inset 0 0 0 1.5px rgba(255,232,155,0.94),
-    inset 0 0 0 4px   rgba(30,8,2,0.76),
-    inset 0 0 0 7px   rgba(182,88,20,0.78);
-}
-
-.card-tier-elite .pitch-frame {
-  box-shadow:
-    inset 0 0 0 1.5px rgba(255,255,210,1.00),
-    inset 0 0 0 4px   rgba(72,32,0,0.84),
-    inset 0 0 0 7px   rgba(255,200,0,0.90),
-    inset 0 0 0 11px  rgba(175,135,0,0.44);
-}
+/* pc-*, pitch-card, bench-card-*, pitch-frame all removed — rebuilt in SquadPitch.css */
 
 .floating-remove-btn {
   position: absolute;
@@ -1288,53 +840,7 @@ p {
   z-index: 3;
 }
 
-.position-button.filled-card {
-  clip-path: none;
-  border-radius: 9px;
-  overflow: hidden;
-  width: 100%;
-  height: 96px;
-  padding: 0;
-  gap: 0;
-  filter: none;
-  box-shadow:
-    0 6px 18px rgba(0,0,0,0.80),
-    0 2px 8px rgba(0,0,0,0.55);
-  transition: box-shadow 0.18s ease, transform 0.18s ease;
-}
-
-/* Tier-specific colored aura via box-shadow outer glow */
-.card-tier-gold.position-button.filled-card {
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.82),
-    0 3px 10px rgba(0,0,0,0.60),
-    0 0 20px rgba(210,158,0,0.50);
-}
-.card-tier-silver.position-button.filled-card {
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.82),
-    0 3px 10px rgba(0,0,0,0.60),
-    0 0 16px rgba(140,194,235,0.44);
-}
-.card-tier-bronze.position-button.filled-card {
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.82),
-    0 3px 10px rgba(0,0,0,0.60),
-    0 0 16px rgba(168,80,14,0.46);
-}
-.card-tier-elite.position-button.filled-card {
-  box-shadow:
-    0 8px 24px rgba(0,0,0,0.82),
-    0 3px 10px rgba(0,0,0,0.60),
-    0 0 28px rgba(255,200,0,0.64);
-}
-
-.position-button.filled-card:hover {
-  box-shadow:
-    0 12px 36px rgba(0,0,0,0.90),
-    0 5px 16px rgba(0,0,0,0.70);
-  transform: translateY(-3px) scale(1.05);
-}
+/* position-button.filled-card removed — rebuilt in SquadPitch.css */
 
 @media (max-width: 1024px) {
   .game-area {
@@ -1365,39 +871,9 @@ p {
     gap: 16px;
   }
 
-  /* Uniform card width at 640px — same for all row counts */
-  .formation-row { --slot-w: 64px; }
-
-  .bench-slot {
-    width: 56px;
-    height: 68px;
-    padding: 6px 3px 16px;
-    flex-shrink: 0;
-  }
-  .bench-slot.filled-card {
-    width: 66px;
-    height: 104px;
-    padding: 0;
-  }
-  .bench-slot.filled-card .bench-card-rating { font-size: 13px; }
-
   .picker-panel,
   .summary-panel,
-  .field,
-  .bench {
-    width: 100%;
-  }
-
-  .bench {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-    padding: 12px 10px;
-    overflow: hidden;
-    justify-content: unset;
-  }
-  .bench-slot,
-  .bench-slot.filled-card {
+  .field {
     width: 100%;
   }
 
@@ -4224,20 +3700,6 @@ p {
   font-size: 11px;
 }
 
-/* Pitch card fallback: flex:1 fill, dark bg, centered initials */
-.pitch-card .player-img-fallback.mini-card-image {
-  flex: 1;
-  min-height: 0;
-  border-radius: 0;
-  background: rgba(0,0,0,0.26);
-  border: none;
-  box-shadow: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
 /* ── Rectangular contexts: dark bg + inner circle ────────────── */
 .player-img-fallback.bench-img {
   border-radius: 0;
@@ -5315,23 +4777,9 @@ p {
       max(20px, env(safe-area-inset-bottom))
       max(12px, env(safe-area-inset-left));
   }
-
-  /* Compensate full-bleed field left shift for 12px app padding */
-  .field-section {
-    left: calc(-1 * max(12px, env(safe-area-inset-left)));
-  }
 }
 
-/* 3 — Formation cards on mobile: uniform 60px width, consistent 96px height */
-@media (max-width: 480px) {
-  .formation-row { --slot-w: 60px; }
-  .formation-rows { gap: 7px; padding: 12px 8px 14px; }
-}
-
-@media (max-width: 390px) {
-  .formation-row { --slot-w: 58px; }
-  .formation-rows { gap: 6px; padding: 10px 6px 12px; }
-}
+/* formation-row / formation-rows overrides removed — managed by SquadPitch.css */
 
 /* 4 — Pack / onboarding card typography in 2-col layout */
 @media (max-width: 480px) {
@@ -6266,40 +5714,7 @@ p {
   .mc-card-inner { transition: none; }
 }
 
-/* ─── Drag-and-drop: pitch + bench slot states ─────────────────────────────── */
-
-/* Source slot: dimmed placeholder while the ghost floats above */
-.position-button.is-drag-source {
-  opacity: 0.28;
-  filter: none;
-  transition: opacity 0.1s ease;
-}
-.bench-slot.is-drag-source {
-  opacity: 0.28;
-  filter: none;
-  transition: opacity 0.1s ease;
-}
-
-/* Drop target: white ring pulse to invite the drop */
-.position-button.is-drag-target,
-.bench-slot.is-drag-target {
-  outline: 2.5px solid rgba(255,255,255,0.92);
-  outline-offset: 3px;
-  filter: brightness(1.12);
-  transition: outline 0.07s ease, filter 0.07s ease;
-}
-
-/* Landing snap — uses CSS `scale` property so it composes with transform cleanly */
-@keyframes slot-land {
-  0%   { scale: 1.10; }
-  52%  { scale: 0.95; }
-  78%  { scale: 1.03; }
-  100% { scale: 1; }
-}
-.position-button.just-dropped,
-.bench-slot.just-dropped {
-  animation: slot-land 0.38s cubic-bezier(0.22, 1, 0.36, 1);
-}
+/* Drag-and-drop states moved to SquadPitch.css (spc-drag-src / spc-drag-tgt / spc-just-dropped) */
 
 /* ================================================================
    GLOBAL INTERACTION POLISH — hover lifts, smooth transitions
