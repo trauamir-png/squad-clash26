@@ -1504,19 +1504,17 @@ function App() {
                 >
                   {selectedPlayer ? (
                     <div className="mini-card pitch-card">
+                      <div className="pitch-card-top-row">
+                        <span className="mini-rating" style={{ color: getCardRatingColor(selectedPlayer.rating) }}>
+                          {selectedPlayer.rating}
+                        </span>
+                        <span className="mini-position">{selectedPlayer.position}</span>
+                      </div>
                       <PlayerImage
                         player={selectedPlayer}
                         className="mini-card-image"
                       />
-                      <div className="pitch-card-info">
-                        <div className="pitch-card-top-row">
-                          <span className="mini-rating" style={{ color: getCardRatingColor(selectedPlayer.rating) }}>
-                            {selectedPlayer.rating}
-                          </span>
-                          <span className="mini-position">{selectedPlayer.position}</span>
-                        </div>
-                        <div className="mini-card-name">{selectedPlayer.name}</div>
-                      </div>
+                      <div className="mini-card-name">{selectedPlayer.name}</div>
                       <div className="pitch-frame" aria-hidden="true" />
                     </div>
                   ) : (
@@ -1574,14 +1572,12 @@ function App() {
                   >
                     {player ? (
                       <>
-                        <PlayerImage player={player} className="bench-img" />
-                        <div className="bench-card-bottom">
-                          <div className="bench-card-top">
-                            <span className="bench-card-rating" style={{ color: getCardRatingColor(player.rating) }}>{player.rating}</span>
-                            <span className="bench-card-pos">{player.position}</span>
-                          </div>
-                          <div className="bench-card-name">{player.name}</div>
+                        <div className="bench-card-top">
+                          <span className="bench-card-rating" style={{ color: getCardRatingColor(player.rating) }}>{player.rating}</span>
+                          <span className="bench-card-pos">{player.position}</span>
                         </div>
+                        <PlayerImage player={player} className="bench-img" />
+                        <div className="bench-card-name">{player.name}</div>
                         <div className="pitch-frame" aria-hidden="true" />
                       </>
                     ) : (
