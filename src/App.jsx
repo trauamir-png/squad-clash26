@@ -20,6 +20,13 @@ import { PlayerImage } from "./PlayerImage";
 import { SplashScreen } from "./SplashScreen";
 import { FutCard } from "./FutCard";
 
+// Extracts a display-safe short name for a pitch card (last name, or full if single-word).
+function cardName(fullName) {
+  if (!fullName) return '';
+  const parts = fullName.trim().split(/\s+/);
+  return parts.length > 1 ? parts.slice(1).join(' ') : fullName;
+}
+
 // Groups a flat formation array into ordered rows for flex-layout rendering.
 // Returns rows sorted top→bottom (lowest y first = forwards, highest y last = GK).
 function groupFormationRows(formation) {
@@ -1437,15 +1444,15 @@ function App() {
                           onPointerCancel={selectedPlayer ? handleSlotPointerCancel : undefined}
                         >
                           {selectedPlayer ? (
-                            <div className="mini-card pitch-card">
-                              <div className="pitch-card-top-row">
-                                <span className="mini-rating" style={{ color: getCardRatingColor(selectedPlayer.rating) }}>
+                            <div className="pitch-card">
+                              <div className="pc-header">
+                                <span className="pc-rating" style={{ color: getCardRatingColor(selectedPlayer.rating) }}>
                                   {selectedPlayer.rating}
                                 </span>
-                                <span className="mini-position">{selectedPlayer.position}</span>
+                                <span className="pc-pos">{selectedPlayer.position}</span>
                               </div>
-                              <PlayerImage player={selectedPlayer} className="mini-card-image" />
-                              <div className="mini-card-name">{selectedPlayer.name}</div>
+                              <PlayerImage player={selectedPlayer} className="pc-img" />
+                              <div className="pc-name">{cardName(selectedPlayer.name)}</div>
                               <div className="pitch-frame" aria-hidden="true" />
                             </div>
                           ) : (

@@ -226,6 +226,15 @@ p {
   align-items: stretch;
   gap: 0;
   width: 100%;
+  /* Break out of .app horizontal padding at mobile so field fills screen edge-to-edge */
+}
+
+@media (max-width: 640px) {
+  .field-section {
+    position: relative;
+    left: calc(-1 * max(24px, env(safe-area-inset-left)));
+    width: 100vw;
+  }
 }
 
 /* ─── Formation Canvas — new flex-row layout system ─────────────────────── */
@@ -266,46 +275,45 @@ p {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 18px 10px 20px;
+  gap: 8px;
+  padding: 14px 10px 16px;
   overflow: visible;
 }
 
 /* One horizontal row of player slots */
 .formation-row {
   display: flex;
-  gap: 8px;
+  gap: 0;
   align-items: stretch;
-  /* justify-content set per data-count below */
+  /* All rows: single consistent card width — spacing driven by justify-content */
+  --slot-w: 64px;
 }
 
-/* 1–2 player rows: center (GK, lone striker) */
-.formation-row[data-count="1"],
-.formation-row[data-count="2"] {
+/* GK / lone striker: center single card */
+.formation-row[data-count="1"] {
   justify-content: center;
 }
 
-/* 3–5 player rows: space-between for authentic formation spread */
+/* Two-player rows: even breathing room each side */
+.formation-row[data-count="2"] {
+  justify-content: space-around;
+}
+
+/* Multi-player rows: spread across full pitch width */
 .formation-row[data-count="3"],
 .formation-row[data-count="4"],
 .formation-row[data-count="5"] {
   justify-content: space-between;
 }
 
-/* Slot wrapper — controls card width via CSS variable */
+/* Slot wrapper — uniform card width, no variable scaling per count */
 .slot-wrapper {
   position: relative;
-  flex: 0 0 var(--slot-w, 82px);
+  flex: 0 0 var(--slot-w, 64px);
+  width: var(--slot-w, 64px);
   display: flex;
   flex-direction: column;
 }
-
-/* Slot widths by row player count — desktop/large */
-.formation-row[data-count="1"] { --slot-w: 96px; }
-.formation-row[data-count="2"] { --slot-w: 96px; }
-.formation-row[data-count="3"] { --slot-w: 88px; }
-.formation-row[data-count="4"] { --slot-w: 72px; }
-.formation-row[data-count="5"] { --slot-w: 62px; }
 
 /* Remove button anchored to the slot wrapper */
 .slot-remove-btn {
@@ -334,7 +342,8 @@ p {
     0 30px 70px rgba(0, 0, 0, 0.65),
     0 8px 24px rgba(0, 0, 0, 0.45);
   border-radius: 0 0 20px 20px;
-  padding: 16px max(20px, env(safe-area-inset-right)) 16px max(20px, env(safe-area-inset-left));
+  /* On mobile the field is full-bleed, so bench needs the app's original horizontal padding back */
+  padding: 14px max(24px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
   width: 100%;
   box-sizing: border-box;
 }
@@ -450,17 +459,16 @@ p {
 }
 
 .position-button {
-  /* No longer absolute-positioned — lives in .slot-wrapper flex cell */
   position: relative;
   width: 100%;
-  height: 112px;
+  height: 96px;
   border: none;
   border-radius: 8px;
   clip-path: none;
   background: linear-gradient(165deg, rgba(0,200,160,0.18) 0%, rgba(0,140,110,0.08) 60%, rgba(0,80,60,0.02) 100%);
   color: #ffffff;
   cursor: pointer;
-  padding: 12px 6px 10px;
+  padding: 10px 4px 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1017,10 +1025,9 @@ p {
   -webkit-box-orient: vertical;
 }
 
-/* ── Pitch card — compact premium mini collectible ───────────────
-   Layout (flex column): rating+pos header → face image (flex:1) → name
-   Shape: 7-point polygon with pointed bottom — driven by parent clip-path.
-   Image is larger than before but balanced within a proper card layout.
+/* ── Pitch card — premium mini collectible ──────────────────────
+   Layout: stacked rating+pos header (top-left) → player face (flex:1) → name strip
+   Uniform 64×96px across ALL formation rows — no per-count scaling.
    ─────────────────────────────────────────────────────────────── */
 .pitch-card {
   position: absolute;
@@ -1030,90 +1037,106 @@ p {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  transform: none;
   overflow: hidden;
 }
 
-/* Rating + position row — top of card */
-.pitch-card-top-row {
+/* Rating + position — stacked in top-left corner, like a full FUT card */
+.pc-header {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 5px 7px 0;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px 0 0 5px;
   flex-shrink: 0;
-  width: 100%;
+  line-height: 1;
 }
 
-.pitch-card .mini-rating {
-  position: static;
-  font-size: 20px;
+.pc-rating {
+  font-size: 16px;
   font-weight: 900;
   line-height: 1;
-  /* color from getCardRatingColor inline style — preserves tier identity */
+  /* color set via inline style from getCardRatingColor() */
 }
 
-.pitch-card .mini-position {
-  position: static;
-  font-size: 9px;
+.pc-pos {
+  font-size: 7px;
   font-weight: 700;
   line-height: 1;
-  opacity: 0.85;
-  letter-spacing: 0.06em;
+  margin-top: 1px;
+  letter-spacing: 0.05em;
+  opacity: 0.88;
+  color: inherit;
 }
 
-/* Hero face — fills all remaining space between header and name */
-.pitch-card .mini-card-image {
+/* Hero face — fills all space between header and name */
+.pc-img {
   flex: 1;
   width: 100%;
   min-height: 0;
-  border-radius: 0;
+  display: block;
   object-fit: cover;
-  object-position: top center;
+  /* 20% from top shows face + upper chest without forehead-only crop */
+  object-position: center 20%;
+  border-radius: 0;
   border: none;
   box-shadow: none;
-  display: block;
   margin: 0;
 }
 
-/* Name — bottom strip */
-.pitch-card .mini-card-name {
+/* Fallback initials div: fill the image zone */
+.player-img-fallback.pc-img {
+  flex: 1;
+  min-height: 0;
+  border-radius: 0;
+  background: rgba(0,0,0,0.28);
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-img-fallback.pc-img .player-img-initials {
+  width: 32px;
+  height: 32px;
+  font-size: 11px;
+}
+
+/* Name strip — bottom of card, two-line wrapping allowed */
+.pc-name {
   flex-shrink: 0;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 800;
   text-align: center;
-  line-height: 1;
+  line-height: 1.2;
   width: 100%;
-  padding: 4px 6px 6px;
-  white-space: nowrap;
+  padding: 2px 3px 4px;
+  white-space: normal;
+  word-break: break-word;
   overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   color: inherit;
-  margin: 0;
   position: relative;
   z-index: 2;
   text-shadow:
-    0 1px 5px rgba(0,0,0,0.65),
-    0 0 12px rgba(0,0,0,0.40);
+    0 1px 4px rgba(0,0,0,0.70),
+    0 0 10px rgba(0,0,0,0.50);
 }
 
-/* Subtle scrim so name reads on any card material */
+/* Scrim so name is legible over any card material */
 .pitch-card::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 24%;
-  background: linear-gradient(to top, rgba(0,0,0,0.40) 0%, transparent 100%);
+  height: 30%;
+  background: linear-gradient(to top, rgba(0,0,0,0.50) 0%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
-
-/* Scale down typography in narrow 5-player rows */
-.formation-row[data-count="5"] .pitch-card .mini-rating { font-size: 15px; }
-.formation-row[data-count="5"] .pitch-card .mini-position { font-size: 8px; }
-.formation-row[data-count="5"] .pitch-card .mini-card-name { font-size: 7px; }
 
 /* Bench card content — same layout system */
 .bench-card-top {
@@ -1266,18 +1289,17 @@ p {
 }
 
 .position-button.filled-card {
-  /* Clean rectangle card — fills the .slot-wrapper width */
   clip-path: none;
-  border-radius: 10px;
+  border-radius: 9px;
   overflow: hidden;
   width: 100%;
-  height: 112px;
+  height: 96px;
   padding: 0;
   gap: 0;
   filter: none;
   box-shadow:
-    0 8px 24px rgba(0,0,0,0.82),
-    0 3px 10px rgba(0,0,0,0.60);
+    0 6px 18px rgba(0,0,0,0.80),
+    0 2px 8px rgba(0,0,0,0.55);
   transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 
@@ -1343,27 +1365,8 @@ p {
     gap: 16px;
   }
 
-  /* Formation slot widths at 640px */
-  .formation-row[data-count="1"] { --slot-w: 92px; }
-  .formation-row[data-count="2"] { --slot-w: 92px; }
-  .formation-row[data-count="3"] { --slot-w: 82px; }
-  .formation-row[data-count="4"] { --slot-w: 68px; }
-  .formation-row[data-count="5"] { --slot-w: 58px; }
-
-  .position-button {
-    width: 100%;
-    height: 106px;
-    padding: 10px 5px 10px;
-    gap: 3px;
-  }
-  .position-button.filled-card {
-    width: 100%;
-    height: 106px;
-    padding: 0;
-  }
-  .position-button.filled-card .pitch-card-top-row { padding: 5px 7px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 17px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 6px 6px; }
+  /* Uniform card width at 640px — same for all row counts */
+  .formation-row { --slot-w: 64px; }
 
   .bench-slot {
     width: 56px;
@@ -5306,62 +5309,28 @@ p {
 /* 1 — App container: tighter side padding on phones */
 @media (max-width: 480px) {
   .app {
-    padding: 20px 12px;
+    padding:
+      max(20px, env(safe-area-inset-top))
+      max(12px, env(safe-area-inset-right))
+      max(20px, env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+
+  /* Compensate full-bleed field left shift for 12px app padding */
+  .field-section {
+    left: calc(-1 * max(12px, env(safe-area-inset-left)));
   }
 }
 
-/* 3 — Position buttons: scale down to avoid card overlap on small fields */
+/* 3 — Formation cards on mobile: uniform 60px width, consistent 96px height */
 @media (max-width: 480px) {
-  /* Formation slot widths at 480px */
-  .formation-row[data-count="1"] { --slot-w: 90px; }
-  .formation-row[data-count="2"] { --slot-w: 90px; }
-  .formation-row[data-count="3"] { --slot-w: 80px; }
-  .formation-row[data-count="4"] { --slot-w: 72px; }
-  .formation-row[data-count="5"] { --slot-w: 62px; }
-
-  .formation-rows { gap: 10px; padding: 14px 8px 16px; }
-
-  .position-button {
-    width: 100%;
-    height: 98px;
-    padding: 9px 4px 9px;
-    gap: 2px;
-  }
-  .position-button.filled-card {
-    width: 100%;
-    height: 98px;
-    padding: 0;
-  }
-  .position-button.filled-card .pitch-card-top-row { padding: 4px 6px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 15px; }
-  .position-button.filled-card .pitch-card .mini-position { font-size: 8px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 5px; }
+  .formation-row { --slot-w: 60px; }
+  .formation-rows { gap: 7px; padding: 12px 8px 14px; }
 }
 
 @media (max-width: 390px) {
-  /* Formation slot widths at 390px (iPhone SE / small Android) */
-  .formation-row[data-count="1"] { --slot-w: 84px; }
-  .formation-row[data-count="2"] { --slot-w: 84px; }
-  .formation-row[data-count="3"] { --slot-w: 74px; }
-  .formation-row[data-count="4"] { --slot-w: 66px; }
-  .formation-row[data-count="5"] { --slot-w: 58px; }
-
-  .formation-rows { gap: 8px; padding: 12px 6px 14px; }
-
-  .position-button {
-    width: 100%;
-    height: 90px;
-    padding: 8px 4px 8px;
-  }
-  .position-button.filled-card {
-    width: 100%;
-    height: 90px;
-    padding: 0;
-  }
-  .position-button.filled-card .pitch-card-top-row { padding: 4px 5px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 13px; }
-  .position-button.filled-card .pitch-card .mini-position { font-size: 7px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 5px; }
+  .formation-row { --slot-w: 58px; }
+  .formation-rows { gap: 6px; padding: 10px 6px 12px; }
 }
 
 /* 4 — Pack / onboarding card typography in 2-col layout */
