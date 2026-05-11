@@ -317,7 +317,7 @@ p {
 .field {
   position: relative;
   width: min(560px, 100%);
-  aspect-ratio: 560 / 860;
+  aspect-ratio: 560 / 900;
   height: auto;
   background:
     /* Stadium spotlights — two cones from upper corners */
@@ -363,8 +363,8 @@ p {
 .position-button {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 86px;
-  height: 108px;
+  width: 88px;
+  height: 118px;
   border: none;
   clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
   background: linear-gradient(165deg, rgba(0,200,160,0.18) 0%, rgba(0,140,110,0.08) 60%, rgba(0,80,60,0.02) 100%);
@@ -955,7 +955,7 @@ p {
 
 .pitch-card .mini-rating {
   position: static;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 900;
   line-height: 1;
   /* color from getCardRatingColor inline style — preserves tier identity */
@@ -1178,8 +1178,8 @@ p {
   /* 7-point: flat top, cut corners, straight sides, converging bottom point */
   clip-path: polygon(7% 0%, 93% 0%, 100% 6%, 100% 87%, 50% 100%, 0% 87%, 0% 6%);
   border-radius: 0;
-  width: 88px;
-  height: 120px;
+  width: 90px;
+  height: 132px;
   padding: 0;
   gap: 0;
   filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62));
@@ -1236,18 +1236,18 @@ p {
   }
 
   .position-button {
-    width: 78px;
-    height: 100px;
+    width: 82px;
+    height: 108px;
     padding: 10px 5px 14px;
     gap: 3px;
   }
   .position-button.filled-card {
-    width: 80px;
-    height: 110px;
+    width: 84px;
+    height: 122px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 5px 7px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 15px; }
+  .position-button.filled-card .pitch-card .mini-rating { font-size: 16px; }
   .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 6px 13px; }
 
   .bench-slot {
@@ -5198,37 +5198,37 @@ p {
 /* 3 — Position buttons: scale down to avoid card overlap on small fields */
 @media (max-width: 480px) {
   .position-button {
-    width: 68px;
-    height: 92px;
+    width: 74px;
+    height: 102px;
     padding: 9px 4px 13px;
     gap: 2px;
   }
   .position-button.filled-card {
-    width: 70px;
-    height: 98px;
+    width: 76px;
+    height: 112px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 4px 6px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 14px; }
+  .position-button.filled-card .pitch-card .mini-rating { font-size: 15px; }
   .position-button.filled-card .pitch-card .mini-position { font-size: 8px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 10px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 11px; }
 }
 
 @media (max-width: 390px) {
   .position-button {
-    width: 60px;
-    height: 82px;
+    width: 66px;
+    height: 92px;
     padding: 8px 4px 12px;
   }
   .position-button.filled-card {
-    width: 62px;
-    height: 88px;
+    width: 68px;
+    height: 100px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 4px 5px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 13px; }
+  .position-button.filled-card .pitch-card .mini-rating { font-size: 14px; }
   .position-button.filled-card .pitch-card .mini-position { font-size: 7px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 9px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 10px; }
 }
 
 /* 4 — Pack / onboarding card typography in 2-col layout */
