@@ -949,13 +949,13 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 6px 8px 0;
+  padding: 5px 7px 0;
   flex-shrink: 0;
 }
 
 .pitch-card .mini-rating {
   position: static;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 900;
   line-height: 1;
   /* color from getCardRatingColor inline style — preserves tier identity */
@@ -964,10 +964,10 @@ p {
 .pitch-card .mini-position {
   position: static;
   font-size: 9px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
-  opacity: 0.88;
-  letter-spacing: 0.05em;
+  opacity: 0.85;
+  letter-spacing: 0.06em;
 }
 
 /* Hero face — fills all remaining space between header and name */
@@ -992,14 +992,31 @@ p {
   text-align: center;
   line-height: 1;
   width: 100%;
-  padding: 4px 7px 14px;
+  padding: 4px 6px 11px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
   color: inherit;
   margin: 0;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.50), 0 0 10px rgba(0,0,0,0.30);
+  position: relative;
+  z-index: 2;
+  text-shadow:
+    0 1px 5px rgba(0,0,0,0.65),
+    0 0 12px rgba(0,0,0,0.40);
+}
+
+/* Subtle scrim so name reads on any card material */
+.pitch-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0,0,0,0.38) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Bench card content — same layout system */
@@ -1050,13 +1067,17 @@ p {
   text-align: center;
   line-height: 1;
   width: 100%;
-  padding: 3px 5px 12px;
+  padding: 3px 4px 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
   color: inherit;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+  position: relative;
+  z-index: 2;
+  text-shadow:
+    0 1px 4px rgba(0,0,0,0.60),
+    0 0 10px rgba(0,0,0,0.35);
 }
 
 /* ── Pitch card frame rings (inset on the .pitch-frame overlay div) ──
@@ -1072,31 +1093,31 @@ p {
 
 .card-tier-gold .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(255,255,218,0.92),
-    inset 0 0 0 5px  rgba(60,28,0,0.74),
-    inset 0 0 0 8px  rgba(212,158,0,0.76);
+    inset 0 0 0 2px  rgba(255,255,225,0.96),
+    inset 0 0 0 5px  rgba(52,22,0,0.80),
+    inset 0 0 0 9px  rgba(218,162,0,0.82);
 }
 
 .card-tier-silver .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(242,254,255,0.94),
-    inset 0 0 0 5px  rgba(14,40,72,0.68),
-    inset 0 0 0 8px  rgba(120,172,216,0.74);
+    inset 0 0 0 2px  rgba(245,255,255,0.97),
+    inset 0 0 0 5px  rgba(12,36,68,0.74),
+    inset 0 0 0 9px  rgba(118,174,222,0.80);
 }
 
 .card-tier-bronze .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(255,228,148,0.90),
-    inset 0 0 0 5px  rgba(36,10,2,0.74),
-    inset 0 0 0 8px  rgba(178,86,22,0.74);
+    inset 0 0 0 2px  rgba(255,232,155,0.94),
+    inset 0 0 0 5px  rgba(30,8,2,0.78),
+    inset 0 0 0 9px  rgba(182,88,20,0.80);
 }
 
 .card-tier-elite .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(255,255,200,0.98),
-    inset 0 0 0 5px  rgba(80,38,0,0.82),
-    inset 0 0 0 8px  rgba(255,196,0,0.88),
-    inset 0 0 0 12px rgba(180,140,0,0.44);
+    inset 0 0 0 2px  rgba(255,255,210,1.00),
+    inset 0 0 0 5px  rgba(72,32,0,0.86),
+    inset 0 0 0 9px  rgba(255,200,0,0.92),
+    inset 0 0 0 14px rgba(175,135,0,0.48);
 }
 
 .floating-remove-btn {
@@ -1161,12 +1182,30 @@ p {
   height: 120px;
   padding: 0;
   gap: 0;
-  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.84)) drop-shadow(0 2px 8px rgba(0,0,0,0.60));
+  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62));
   transition: filter 0.18s ease, transform 0.18s ease;
 }
 
+/* Tier-specific colored aura — separates card from pitch grass */
+.card-tier-gold.position-button.filled-card {
+  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
+          drop-shadow(0 0 14px rgba(210,158,0,0.42));
+}
+.card-tier-silver.position-button.filled-card {
+  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
+          drop-shadow(0 0 12px rgba(140,194,235,0.34));
+}
+.card-tier-bronze.position-button.filled-card {
+  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
+          drop-shadow(0 0 12px rgba(168,80,14,0.36));
+}
+.card-tier-elite.position-button.filled-card {
+  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
+          drop-shadow(0 0 20px rgba(255,200,0,0.56));
+}
+
 .position-button.filled-card:hover {
-  filter: drop-shadow(0 10px 28px rgba(0,0,0,0.90)) drop-shadow(0 3px 10px rgba(0,0,0,0.68));
+  filter: drop-shadow(0 9px 26px rgba(0,0,0,0.92)) drop-shadow(0 3px 10px rgba(0,0,0,0.70));
   transform: translate(-50%, -54%) scale(1.06);
 }
 
@@ -5169,10 +5208,10 @@ p {
     height: 98px;
     padding: 0;
   }
-  .position-button.filled-card .pitch-card-top-row { padding: 5px 6px 0; }
+  .position-button.filled-card .pitch-card-top-row { padding: 4px 6px 0; }
   .position-button.filled-card .pitch-card .mini-rating { font-size: 14px; }
   .position-button.filled-card .pitch-card .mini-position { font-size: 8px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 12px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 10px; }
 }
 
 @media (max-width: 390px) {
@@ -5189,7 +5228,7 @@ p {
   .position-button.filled-card .pitch-card-top-row { padding: 4px 5px 0; }
   .position-button.filled-card .pitch-card .mini-rating { font-size: 13px; }
   .position-button.filled-card .pitch-card .mini-position { font-size: 7px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 11px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 9px; }
 }
 
 /* 4 — Pack / onboarding card typography in 2-col layout */
