@@ -39,13 +39,7 @@
   }
 }
 
-@media (max-width: 479px) {
-  /* .app shrinks to 12px padding at ≤480px */
-  .sb-field {
-    left: -12px;
-    width: calc(100% + 24px);
-  }
-}
+/* .app shrinks to 12px padding at ≤480px — field override handled in the combined block below */
 
 
 /* ─────────────────────────────────────────────────────────────────
@@ -116,20 +110,10 @@
 .sb-row {
   display: flex;
   width: 100%;
-  /* justify-content assigned by data-count below */
+  justify-content: center;
+  gap: 13px;
   align-items: flex-start;
 }
-
-/* GK / lone striker */
-.sb-row[data-count="1"] { justify-content: center; }
-
-/* Two-card rows: even spacing, not fully spread to edges */
-.sb-row[data-count="2"] { justify-content: space-around; }
-
-/* Multi-card rows: spread across full pitch width */
-.sb-row[data-count="3"],
-.sb-row[data-count="4"],
-.sb-row[data-count="5"] { justify-content: space-between; }
 
 
 /* ─────────────────────────────────────────────────────────────────
@@ -144,9 +128,10 @@
   display: flex;
   justify-content: space-between;
   gap: 0;
-  padding:
-    12px 14px
-    max(14px, env(safe-area-inset-bottom));
+  padding-top: 12px;
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
+  padding-left: 14px;
+  padding-right: 14px;
   background: linear-gradient(180deg, rgba(2,8,3,0.99) 0%, rgba(1,4,2,1) 100%);
   border-top: 1px solid rgba(255,215,80,0.16);
   box-shadow:
@@ -154,7 +139,7 @@
     0 20px 50px rgba(0,0,0,0.60);
 }
 
-/* Bench mirrors the field's full-bleed break-out */
+/* Bench mirrors the field's full-bleed break-out exactly */
 @media (max-width: 639px) {
   .sb-bench {
     left: -24px;
@@ -164,7 +149,11 @@
   }
 }
 
-@media (max-width: 479px) {
+@media (max-width: 480px) {
+  .sb-field {
+    left: -12px;
+    width: calc(100% + 24px);
+  }
   .sb-bench {
     left: -12px;
     width: calc(100% + 24px);
