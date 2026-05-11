@@ -225,11 +225,7 @@ p {
   flex-direction: column;
   align-items: stretch;
   gap: 0;
-  /* Full-bleed: breaks out of .app padding to fill the full viewport width */
-  width: min(560px, 100vw);
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
 }
 
 /* ─── Formation Canvas — new flex-row layout system ─────────────────────── */
@@ -305,11 +301,11 @@ p {
 }
 
 /* Slot widths by row player count — desktop/large */
-.formation-row[data-count="1"] { --slot-w: 100px; }
-.formation-row[data-count="2"] { --slot-w: 100px; }
-.formation-row[data-count="3"] { --slot-w: 92px; }
-.formation-row[data-count="4"] { --slot-w: 84px; }
-.formation-row[data-count="5"] { --slot-w: 74px; }
+.formation-row[data-count="1"] { --slot-w: 96px; }
+.formation-row[data-count="2"] { --slot-w: 96px; }
+.formation-row[data-count="3"] { --slot-w: 88px; }
+.formation-row[data-count="4"] { --slot-w: 72px; }
+.formation-row[data-count="5"] { --slot-w: 62px; }
 
 /* Remove button anchored to the slot wrapper */
 .slot-remove-btn {
@@ -1348,11 +1344,11 @@ p {
   }
 
   /* Formation slot widths at 640px */
-  .formation-row[data-count="1"] { --slot-w: 96px; }
-  .formation-row[data-count="2"] { --slot-w: 96px; }
-  .formation-row[data-count="3"] { --slot-w: 86px; }
-  .formation-row[data-count="4"] { --slot-w: 78px; }
-  .formation-row[data-count="5"] { --slot-w: 68px; }
+  .formation-row[data-count="1"] { --slot-w: 92px; }
+  .formation-row[data-count="2"] { --slot-w: 92px; }
+  .formation-row[data-count="3"] { --slot-w: 82px; }
+  .formation-row[data-count="4"] { --slot-w: 68px; }
+  .formation-row[data-count="5"] { --slot-w: 58px; }
 
   .position-button {
     width: 100%;
