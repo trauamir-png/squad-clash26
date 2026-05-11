@@ -232,6 +232,95 @@ p {
   transform: translateX(-50%);
 }
 
+/* ─── Formation Canvas — new flex-row layout system ─────────────────────── */
+
+.formation-canvas {
+  position: relative;
+  width: 100%;
+}
+
+/* Grass + markings as a pure background layer */
+.formation-field-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 72% 52% at 18% 0%, rgba(255,255,220,0.09) 0%, transparent 58%),
+    radial-gradient(ellipse 72% 52% at 82% 0%, rgba(255,255,220,0.09) 0%, transparent 58%),
+    radial-gradient(ellipse 115% 55% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%),
+    repeating-linear-gradient(
+      to bottom,
+      #031608 0px, #031608 38px,
+      #061d0c 38px, #061d0c 76px
+    );
+}
+
+.formation-field-bg .field-markings {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 3px rgba(255,255,255,0.50));
+}
+
+/* Column of formation rows — each row is a flex strip */
+.formation-rows {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 10px 20px;
+  overflow: visible;
+}
+
+/* One horizontal row of player slots */
+.formation-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  /* justify-content set per data-count below */
+}
+
+/* 1–2 player rows: center (GK, lone striker) */
+.formation-row[data-count="1"],
+.formation-row[data-count="2"] {
+  justify-content: center;
+}
+
+/* 3–5 player rows: space-between for authentic formation spread */
+.formation-row[data-count="3"],
+.formation-row[data-count="4"],
+.formation-row[data-count="5"] {
+  justify-content: space-between;
+}
+
+/* Slot wrapper — controls card width via CSS variable */
+.slot-wrapper {
+  position: relative;
+  flex: 0 0 var(--slot-w, 82px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Slot widths by row player count — desktop/large */
+.formation-row[data-count="1"] { --slot-w: 100px; }
+.formation-row[data-count="2"] { --slot-w: 100px; }
+.formation-row[data-count="3"] { --slot-w: 92px; }
+.formation-row[data-count="4"] { --slot-w: 84px; }
+.formation-row[data-count="5"] { --slot-w: 74px; }
+
+/* Remove button anchored to the slot wrapper */
+.slot-remove-btn {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  white-space: nowrap;
+}
+
 .side-panel {
   width: min(360px, 100%);
 }
@@ -365,20 +454,20 @@ p {
 }
 
 .position-button {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  width: 86px;
-  height: 108px;
+  /* No longer absolute-positioned — lives in .slot-wrapper flex cell */
+  position: relative;
+  width: 100%;
+  height: 112px;
   border: none;
   border-radius: 8px;
   clip-path: none;
   background: linear-gradient(165deg, rgba(0,200,160,0.18) 0%, rgba(0,140,110,0.08) 60%, rgba(0,80,60,0.02) 100%);
   color: #ffffff;
   cursor: pointer;
-  padding: 14px 6px 12px;
+  padding: 12px 6px 10px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   gap: 4px;
   box-shadow: 0 0 6px rgba(0,200,160,0.38), 0 5px 12px rgba(0,0,0,0.65);
@@ -392,7 +481,7 @@ p {
 .position-button:not(.filled-card):hover {
   background: linear-gradient(165deg, rgba(0,220,180,0.28) 0%, rgba(0,160,130,0.14) 100%);
   box-shadow: 0 0 16px rgba(0,220,180,0.66), 0 6px 14px rgba(0,0,0,0.72);
-  transform: translate(-50%, -52%);
+  transform: translateY(-2px);
   animation: none;
 }
 
@@ -954,8 +1043,9 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 6px 7px 0;
+  padding: 5px 7px 0;
   flex-shrink: 0;
+  width: 100%;
 }
 
 .pitch-card .mini-rating {
@@ -1023,6 +1113,11 @@ p {
   pointer-events: none;
   z-index: 1;
 }
+
+/* Scale down typography in narrow 5-player rows */
+.formation-row[data-count="5"] .pitch-card .mini-rating { font-size: 15px; }
+.formation-row[data-count="5"] .pitch-card .mini-position { font-size: 8px; }
+.formation-row[data-count="5"] .pitch-card .mini-card-name { font-size: 7px; }
 
 /* Bench card content — same layout system */
 .bench-card-top {
@@ -1175,12 +1270,12 @@ p {
 }
 
 .position-button.filled-card {
-  /* Clean rectangle card — NO clip-path polygon */
+  /* Clean rectangle card — fills the .slot-wrapper width */
   clip-path: none;
   border-radius: 10px;
   overflow: hidden;
-  width: 94px;
-  height: 124px;
+  width: 100%;
+  height: 112px;
   padding: 0;
   gap: 0;
   filter: none;
@@ -1220,7 +1315,7 @@ p {
   box-shadow:
     0 12px 36px rgba(0,0,0,0.90),
     0 5px 16px rgba(0,0,0,0.70);
-  transform: translate(-50%, -54%) scale(1.07);
+  transform: translateY(-3px) scale(1.05);
 }
 
 @media (max-width: 1024px) {
@@ -1252,15 +1347,22 @@ p {
     gap: 16px;
   }
 
+  /* Formation slot widths at 640px */
+  .formation-row[data-count="1"] { --slot-w: 96px; }
+  .formation-row[data-count="2"] { --slot-w: 96px; }
+  .formation-row[data-count="3"] { --slot-w: 86px; }
+  .formation-row[data-count="4"] { --slot-w: 78px; }
+  .formation-row[data-count="5"] { --slot-w: 68px; }
+
   .position-button {
-    width: 80px;
-    height: 100px;
-    padding: 10px 5px 12px;
+    width: 100%;
+    height: 106px;
+    padding: 10px 5px 10px;
     gap: 3px;
   }
   .position-button.filled-card {
-    width: 82px;
-    height: 108px;
+    width: 100%;
+    height: 106px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 5px 7px 0; }
@@ -5214,15 +5316,24 @@ p {
 
 /* 3 — Position buttons: scale down to avoid card overlap on small fields */
 @media (max-width: 480px) {
+  /* Formation slot widths at 480px */
+  .formation-row[data-count="1"] { --slot-w: 90px; }
+  .formation-row[data-count="2"] { --slot-w: 90px; }
+  .formation-row[data-count="3"] { --slot-w: 80px; }
+  .formation-row[data-count="4"] { --slot-w: 72px; }
+  .formation-row[data-count="5"] { --slot-w: 62px; }
+
+  .formation-rows { gap: 10px; padding: 14px 8px 16px; }
+
   .position-button {
-    width: 70px;
-    height: 88px;
-    padding: 9px 4px 11px;
+    width: 100%;
+    height: 98px;
+    padding: 9px 4px 9px;
     gap: 2px;
   }
   .position-button.filled-card {
-    width: 72px;
-    height: 96px;
+    width: 100%;
+    height: 98px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 4px 6px 0; }
@@ -5232,14 +5343,23 @@ p {
 }
 
 @media (max-width: 390px) {
+  /* Formation slot widths at 390px (iPhone SE / small Android) */
+  .formation-row[data-count="1"] { --slot-w: 84px; }
+  .formation-row[data-count="2"] { --slot-w: 84px; }
+  .formation-row[data-count="3"] { --slot-w: 74px; }
+  .formation-row[data-count="4"] { --slot-w: 66px; }
+  .formation-row[data-count="5"] { --slot-w: 58px; }
+
+  .formation-rows { gap: 8px; padding: 12px 6px 14px; }
+
   .position-button {
-    width: 62px;
-    height: 80px;
-    padding: 8px 4px 10px;
+    width: 100%;
+    height: 90px;
+    padding: 8px 4px 8px;
   }
   .position-button.filled-card {
-    width: 64px;
-    height: 86px;
+    width: 100%;
+    height: 90px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 4px 5px 0; }

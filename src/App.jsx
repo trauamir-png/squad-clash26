@@ -20,6 +20,19 @@ import { PlayerImage } from "./PlayerImage";
 import { SplashScreen } from "./SplashScreen";
 import { FutCard } from "./FutCard";
 
+// Groups a flat formation array into ordered rows for flex-layout rendering.
+// Returns rows sorted top→bottom (lowest y first = forwards, highest y last = GK).
+function groupFormationRows(formation) {
+  const groups = {};
+  formation.forEach(pos => {
+    if (!groups[pos.y]) groups[pos.y] = [];
+    groups[pos.y].push({ ...pos });
+  });
+  return Object.entries(groups)
+    .sort(([a], [b]) => Number(a) - Number(b))
+    .map(([y, positions]) => ({ y: Number(y), positions: positions.sort((a, b) => a.x - b.x) }));
+}
+
 function getFormationAdjacency(formation) {
   const THRESHOLD = 40;
   const adj = {};
@@ -1363,184 +1376,91 @@ function App() {
 
       <div className="game-area">
         <div className="field-section">
-          <div className="field">
-            <svg
-              className="field-markings"
-              viewBox="0 0 420 680"
-              preserveAspectRatio="none"
-            >
-              {/* Top penalty area */}
-              <rect
-                x="85.5"
-                y="0"
-                width="249"
-                height="107"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              {/* Top goal area */}
-              <rect
-                x="153.5"
-                y="0"
-                width="113"
-                height="36"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              {/* Top penalty spot */}
-              <circle cx="210" cy="71" r="3" fill="rgba(255,255,255,0.92)" />
-              {/* Top D arc */}
-              <path
-                d="M 167.1 107 A 56 56 0 0 0 252.9 107"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
+          <div className="formation-canvas">
+            {/* Grass background with pitch markings — sits behind all cards */}
+            <div className="formation-field-bg">
+              <svg className="field-markings" viewBox="0 0 420 680" preserveAspectRatio="none">
+                <rect x="85.5" y="0" width="249" height="107" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <rect x="153.5" y="0" width="113" height="36" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <circle cx="210" cy="71" r="3" fill="rgba(255,255,255,0.92)" />
+                <path d="M 167.1 107 A 56 56 0 0 0 252.9 107" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <line x1="0" y1="340" x2="420" y2="340" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <circle cx="210" cy="340" r="56" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <circle cx="210" cy="340" r="3" fill="rgba(255,255,255,0.92)" />
+                <rect x="85.5" y="573" width="249" height="107" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <rect x="153.5" y="644" width="113" height="36" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <circle cx="210" cy="609" r="3" fill="rgba(255,255,255,0.92)" />
+                <path d="M 167.1 573 A 56 56 0 0 1 252.9 573" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <path d="M 8 0 A 8 8 0 0 1 0 8" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <path d="M 412 0 A 8 8 0 0 0 420 8" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <path d="M 0 672 A 8 8 0 0 1 8 680" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+                <path d="M 420 672 A 8 8 0 0 0 412 680" fill="none" stroke="rgba(255,255,255,0.92)" strokeWidth="2" />
+              </svg>
+            </div>
 
-              {/* Center line */}
-              <line
-                x1="0"
-                y1="340"
-                x2="420"
-                y2="340"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              {/* Center circle */}
-              <circle
-                cx="210"
-                cy="340"
-                r="56"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              {/* Center spot */}
-              <circle cx="210" cy="340" r="3" fill="rgba(255,255,255,0.92)" />
-
-              {/* Bottom penalty area */}
-              <rect
-                x="85.5"
-                y="573"
-                width="249"
-                height="107"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              {/* Bottom goal area */}
-              <rect
-                x="153.5"
-                y="644"
-                width="113"
-                height="36"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              {/* Bottom penalty spot */}
-              <circle cx="210" cy="609" r="3" fill="rgba(255,255,255,0.92)" />
-              {/* Bottom D arc */}
-              <path
-                d="M 167.1 573 A 56 56 0 0 1 252.9 573"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-
-              {/* Corner arcs */}
-              <path
-                d="M 8 0 A 8 8 0 0 1 0 8"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              <path
-                d="M 412 0 A 8 8 0 0 0 420 8"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              <path
-                d="M 0 672 A 8 8 0 0 1 8 680"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-              <path
-                d="M 420 672 A 8 8 0 0 0 412 680"
-                fill="none"
-                stroke="rgba(255,255,255,0.92)"
-                strokeWidth="2"
-              />
-            </svg>
-
-            {currentFormation.map((position) => {
-              const selectedPlayer = selectedPlayers[position.id];
-              const slotPos = position.id.replace(/\d+$/, "");
-              const fitScore = selectedPlayer ? getPositionFit(selectedPlayer.position, slotPos) : null;
-              const fitBadge = fitScore !== null && fitScore < 100 ? getFitBadge(fitScore) : null;
-              const isDragSrc = dragState?.fromId === position.id;
-              const isDragTgt = dragState?.isDragging && dragState?.toId === position.id && !isDragSrc;
-
-              return (
-                <button
-                  key={position.id}
-                  data-slot-id={position.id}
-                  className={`position-button ${selectedPlayer ? `filled-card ${getRatingCardClass(selectedPlayer.rating)}` : ''}${isDragSrc ? ' is-drag-source' : ''}${isDragTgt ? ' is-drag-target' : ''}${droppedIds.has(position.id) ? ' just-dropped' : ''}`}
-                  style={{
-                    top: `${position.y}%`,
-                    left: `${position.x}%`,
-                    ...(selectedPlayer ? getRatingCardStyle(selectedPlayer.rating) : {}),
-                    touchAction: selectedPlayer ? 'none' : undefined,
-                  }}
-                  onClick={selectedPlayer ? undefined : () => { setActiveRemoveId(null); handlePositionClick(position); }}
-                  onPointerDown={selectedPlayer ? (e) => handleSlotPointerDown(e, position.id) : undefined}
-                  onPointerMove={selectedPlayer ? handleSlotPointerMove : undefined}
-                  onPointerUp={selectedPlayer ? (e) => handleSlotPointerUp(e, position.id) : undefined}
-                  onPointerCancel={selectedPlayer ? handleSlotPointerCancel : undefined}
+            {/* Formation rows — proper flex layout, guaranteed no overlaps */}
+            <div className="formation-rows">
+              {groupFormationRows(currentFormation).map((row) => (
+                <div
+                  key={row.y}
+                  className="formation-row"
+                  data-count={row.positions.length}
                 >
-                  {selectedPlayer ? (
-                    <div className="mini-card pitch-card">
-                      <div className="pitch-card-top-row">
-                        <span className="mini-rating" style={{ color: getCardRatingColor(selectedPlayer.rating) }}>
-                          {selectedPlayer.rating}
-                        </span>
-                        <span className="mini-position">{selectedPlayer.position}</span>
+                  {row.positions.map((position) => {
+                    const selectedPlayer = selectedPlayers[position.id];
+                    const slotPos = position.id.replace(/\d+$/, '');
+                    const isDragSrc = dragState?.fromId === position.id;
+                    const isDragTgt = dragState?.isDragging && dragState?.toId === position.id && !isDragSrc;
+                    const isActiveRemove = activeRemoveId === position.id;
+
+                    return (
+                      <div key={position.id} className="slot-wrapper">
+                        {isActiveRemove && (
+                          <button
+                            className="floating-remove-btn slot-remove-btn"
+                            onClick={() => { handleRemovePlayer(position.id); setActiveRemoveId(null); }}
+                          >
+                            {t('remove')}
+                          </button>
+                        )}
+                        <button
+                          data-slot-id={position.id}
+                          className={`position-button${selectedPlayer ? ` filled-card ${getRatingCardClass(selectedPlayer.rating)}` : ''}${isDragSrc ? ' is-drag-source' : ''}${isDragTgt ? ' is-drag-target' : ''}${droppedIds.has(position.id) ? ' just-dropped' : ''}`}
+                          style={{
+                            ...(selectedPlayer ? getRatingCardStyle(selectedPlayer.rating) : {}),
+                            touchAction: selectedPlayer ? 'none' : undefined,
+                          }}
+                          onClick={selectedPlayer ? undefined : () => { setActiveRemoveId(null); handlePositionClick(position); }}
+                          onPointerDown={selectedPlayer ? (e) => handleSlotPointerDown(e, position.id) : undefined}
+                          onPointerMove={selectedPlayer ? handleSlotPointerMove : undefined}
+                          onPointerUp={selectedPlayer ? (e) => handleSlotPointerUp(e, position.id) : undefined}
+                          onPointerCancel={selectedPlayer ? handleSlotPointerCancel : undefined}
+                        >
+                          {selectedPlayer ? (
+                            <div className="mini-card pitch-card">
+                              <div className="pitch-card-top-row">
+                                <span className="mini-rating" style={{ color: getCardRatingColor(selectedPlayer.rating) }}>
+                                  {selectedPlayer.rating}
+                                </span>
+                                <span className="mini-position">{selectedPlayer.position}</span>
+                              </div>
+                              <PlayerImage player={selectedPlayer} className="mini-card-image" />
+                              <div className="mini-card-name">{selectedPlayer.name}</div>
+                              <div className="pitch-frame" aria-hidden="true" />
+                            </div>
+                          ) : (
+                            <>
+                              <span className="position-label">{slotPos}</span>
+                              <span className="player-name">{t('empty')}</span>
+                            </>
+                          )}
+                        </button>
                       </div>
-                      <PlayerImage
-                        player={selectedPlayer}
-                        className="mini-card-image"
-                      />
-                      <div className="mini-card-name">{selectedPlayer.name}</div>
-                      <div className="pitch-frame" aria-hidden="true" />
-                    </div>
-                  ) : (
-                    <>
-                      <span className="position-label">
-                        {position.id.replace(/\d+$/, "")}
-                      </span>
-                      <span className="player-name">{t('empty')}</span>
-                    </>
-                  )}
-                </button>
-              );
-            })}
-
-            {activeRemoveId && (() => {
-              const pos = currentFormation.find(p => p.id === activeRemoveId);
-              return pos ? (
-                <button
-                  className="floating-remove-btn"
-                  style={{ top: `calc(${pos.y}% - 72px)`, left: `${pos.x}%` }}
-                  onClick={() => { handleRemovePlayer(activeRemoveId); setActiveRemoveId(null); }}
-                >
-                  {t('remove')}
-                </button>
-              ) : null;
-            })()}
+                    );
+                  })}
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="bench">
