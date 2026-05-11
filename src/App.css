@@ -297,9 +297,9 @@ p {
 .bench-slot.filled-card {
   /* background/border/boxShadow from getRatingCardStyle inline style */
   position: relative;
-  clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+  clip-path: polygon(7% 0%, 93% 0%, 100% 6%, 100% 87%, 50% 100%, 0% 87%, 0% 6%);
   border-radius: 0;
-  height: 110px;
+  height: 112px;
   padding: 0;
   gap: 0;
   filter: drop-shadow(0 5px 14px rgba(0,0,0,0.80)) drop-shadow(0 2px 6px rgba(0,0,0,0.55));
@@ -312,30 +312,6 @@ p {
 .bench-slot.filled-card:hover {
   background: unset;
   transform: translateY(-3px) scale(1.04);
-}
-
-/* ── Bench filled card — full-bleed overlay (same system as pitch card) ── */
-.bench-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-  border-radius: 0;
-  border: none;
-  background: transparent;
-}
-.player-img-fallback.bench-img {
-  position: absolute;
-  inset: 0;
-  border-radius: 0;
-  background: rgba(0,0,0,0.28);
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .field {
@@ -951,15 +927,16 @@ p {
   -webkit-box-orient: vertical;
 }
 
-/* ── Pitch card — full-bleed overlay mini collectible ────────────
-   Image is the ENTIRE card face. Rating/pos badge overlaid top-left.
-   Name bar overlaid at bottom on dark gradient. Frame rings on top.
-   Shape (octagonal) is driven by clip-path on the position-button parent.
+/* ── Pitch card — compact premium mini collectible ───────────────
+   Layout (flex column): rating+pos header → face image (flex:1) → name
+   Shape: 7-point polygon with pointed bottom — driven by parent clip-path.
+   Image is larger than before but balanced within a proper card layout.
    ─────────────────────────────────────────────────────────────── */
 .pitch-card {
   position: absolute;
   inset: 0;
-  display: block;
+  display: flex;
+  flex-direction: column;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -967,102 +944,119 @@ p {
   overflow: hidden;
 }
 
-/* Full-bleed player photo fills the entire card */
+/* Rating + position row — top of card */
+.pitch-card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 8px 0;
+  flex-shrink: 0;
+}
+
+.pitch-card .mini-rating {
+  position: static;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+  /* color from getCardRatingColor inline style — preserves tier identity */
+}
+
+.pitch-card .mini-position {
+  position: static;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.88;
+  letter-spacing: 0.05em;
+}
+
+/* Hero face — fills all remaining space between header and name */
 .pitch-card .mini-card-image {
-  position: absolute;
-  inset: 0;
+  flex: 1;
   width: 100%;
-  height: 100%;
+  min-height: 0;
+  border-radius: 0;
   object-fit: cover;
   object-position: top center;
-  border-radius: 0;
   border: none;
   box-shadow: none;
   display: block;
   margin: 0;
 }
 
-/* Rating + position badge — overlaid top-left with dark scrim */
-.pitch-card-badge {
-  position: absolute;
-  top: 7px;
-  left: 7px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  background: rgba(0,0,0,0.52);
-  border-radius: 5px;
-  padding: 3px 5px 4px;
-  line-height: 1;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-}
-
-.pitch-card .mini-rating,
-.bench-card-rating {
-  font-size: 17px;
-  font-weight: 900;
-  line-height: 1;
-  color: #ffffff;
-}
-
-.pitch-card .mini-position,
-.bench-card-pos {
-  font-size: 8px;
-  font-weight: 800;
-  line-height: 1;
-  color: rgba(255,255,255,0.90);
-  letter-spacing: 0.06em;
-}
-
-/* Dark gradient name bar at the bottom */
-.pitch-card-name-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-  padding: 14px 6px 9px;
-  background: linear-gradient(
-    to top,
-    rgba(0,0,0,0.82) 0%,
-    rgba(0,0,0,0.52) 55%,
-    transparent 100%
-  );
-}
-
+/* Name — sits above the bottom taper point */
 .pitch-card .mini-card-name {
+  flex-shrink: 0;
   font-size: 9px;
   font-weight: 800;
   text-align: center;
   line-height: 1;
   width: 100%;
-  padding: 0;
+  padding: 4px 7px 14px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
-  color: #ffffff;
+  color: inherit;
   margin: 0;
-  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.50), 0 0 10px rgba(0,0,0,0.30);
 }
 
-/* Bench versions use same classes */
-.bench-card-name {
+/* Bench card content — same layout system */
+.bench-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 7px 0;
+  flex-shrink: 0;
+  width: 100%;
+}
+.bench-card-rating {
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1;
+  /* color from getCardRatingColor inline style */
+}
+.bench-card-pos {
   font-size: 8px;
+  font-weight: 800;
+  line-height: 1;
+  opacity: 0.88;
+  letter-spacing: 0.04em;
+}
+.bench-img {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+}
+.player-img-fallback.bench-img {
+  border-radius: 0;
+  background: rgba(0,0,0,0.22);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bench-card-name {
+  flex-shrink: 0;
+  font-size: 7px;
   font-weight: 800;
   text-align: center;
   line-height: 1;
   width: 100%;
+  padding: 3px 5px 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
-  color: #ffffff;
-  letter-spacing: 0.02em;
-  padding: 0;
+  color: inherit;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.45);
 }
 
 /* ── Pitch card frame rings (inset on the .pitch-frame overlay div) ──
@@ -1160,19 +1154,20 @@ p {
 }
 
 .position-button.filled-card {
-  clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+  /* 7-point: flat top, cut corners, straight sides, converging bottom point */
+  clip-path: polygon(7% 0%, 93% 0%, 100% 6%, 100% 87%, 50% 100%, 0% 87%, 0% 6%);
   border-radius: 0;
-  width: 86px;
-  height: 118px;
+  width: 88px;
+  height: 120px;
   padding: 0;
   gap: 0;
-  filter: drop-shadow(0 6px 22px rgba(0,0,0,0.84)) drop-shadow(0 2px 8px rgba(0,0,0,0.60));
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.84)) drop-shadow(0 2px 8px rgba(0,0,0,0.60));
   transition: filter 0.18s ease, transform 0.18s ease;
 }
 
 .position-button.filled-card:hover {
   filter: drop-shadow(0 10px 28px rgba(0,0,0,0.90)) drop-shadow(0 3px 10px rgba(0,0,0,0.68));
-  transform: translate(-50%, -54%) scale(1.07);
+  transform: translate(-50%, -54%) scale(1.06);
 }
 
 @media (max-width: 1024px) {
@@ -1208,10 +1203,13 @@ p {
     gap: 3px;
   }
   .position-button.filled-card {
-    width: 78px;
-    height: 108px;
+    width: 80px;
+    height: 110px;
     padding: 0;
   }
+  .position-button.filled-card .pitch-card-top-row { padding: 5px 7px 0; }
+  .position-button.filled-card .pitch-card .mini-rating { font-size: 15px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 6px 13px; }
 
   .bench-slot {
     width: 56px;
@@ -1221,9 +1219,10 @@ p {
   }
   .bench-slot.filled-card {
     width: 66px;
-    height: 102px;
+    height: 104px;
     padding: 0;
   }
+  .bench-slot.filled-card .bench-card-rating { font-size: 13px; }
 
   .picker-panel,
   .summary-panel,
@@ -4068,19 +4067,18 @@ p {
   font-size: 11px;
 }
 
-/* Pitch card fallback: absolute full-bleed, dark bg with centered initials */
+/* Pitch card fallback: flex:1 fill, dark bg, centered initials */
 .pitch-card .player-img-fallback.mini-card-image {
-  position: absolute;
-  inset: 0;
+  flex: 1;
+  min-height: 0;
   border-radius: 0;
-  background: rgba(0,0,0,0.32);
+  background: rgba(0,0,0,0.26);
   border: none;
   box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
 }
 
 /* ── Rectangular contexts: dark bg + inner circle ────────────── */
@@ -5161,39 +5159,37 @@ p {
 /* 3 — Position buttons: scale down to avoid card overlap on small fields */
 @media (max-width: 480px) {
   .position-button {
-    width: 72px;
+    width: 68px;
     height: 92px;
     padding: 9px 4px 13px;
     gap: 2px;
   }
   .position-button.filled-card {
-    width: 72px;
-    height: 100px;
+    width: 70px;
+    height: 98px;
     padding: 0;
   }
-  .position-button.filled-card .pitch-card-badge { top: 5px; left: 5px; padding: 2px 4px 3px; }
+  .position-button.filled-card .pitch-card-top-row { padding: 5px 6px 0; }
   .position-button.filled-card .pitch-card .mini-rating { font-size: 14px; }
-  .position-button.filled-card .pitch-card .mini-position { font-size: 7px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; }
-  .position-button.filled-card .pitch-card-name-bar { padding: 12px 5px 7px; }
+  .position-button.filled-card .pitch-card .mini-position { font-size: 8px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 12px; }
 }
 
 @media (max-width: 390px) {
   .position-button {
-    width: 64px;
-    height: 84px;
+    width: 60px;
+    height: 82px;
     padding: 8px 4px 12px;
   }
   .position-button.filled-card {
-    width: 64px;
-    height: 90px;
+    width: 62px;
+    height: 88px;
     padding: 0;
   }
-  .position-button.filled-card .pitch-card-badge { top: 4px; left: 4px; padding: 2px 3px 3px; gap: 0; }
+  .position-button.filled-card .pitch-card-top-row { padding: 4px 5px 0; }
   .position-button.filled-card .pitch-card .mini-rating { font-size: 13px; }
   .position-button.filled-card .pitch-card .mini-position { font-size: 7px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; }
-  .position-button.filled-card .pitch-card-name-bar { padding: 10px 4px 6px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 11px; }
 }
 
 /* 4 — Pack / onboarding card typography in 2-col layout */
