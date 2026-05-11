@@ -100,6 +100,9 @@ export function FutCard({ player, size='md', index=0, overlayLabel, dimmed=false
         <ClubBadge club={player.club} logoUrl={clubLogoUrl} />
       </div>
 
+      {/* Metallic frame rings + animated shimmer — rendered above content, below overlay */}
+      <div className="fut-frame" aria-hidden="true" />
+
       {overlayLabel && <div className="fut-overlay">{overlayLabel}</div>}
     </div>
   );
