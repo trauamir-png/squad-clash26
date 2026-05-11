@@ -223,9 +223,13 @@ p {
 .field-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: min(640px, 100%);
+  align-items: stretch;
+  gap: 0;
+  /* Full-bleed: breaks out of .app padding to fill the full viewport width */
+  width: min(560px, 100vw);
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .side-panel {
@@ -244,8 +248,8 @@ p {
     0 0 0 1px rgba(0, 0, 0, 0.50),
     0 30px 70px rgba(0, 0, 0, 0.65),
     0 8px 24px rgba(0, 0, 0, 0.45);
-  border-radius: 20px;
-  padding: 16px 20px;
+  border-radius: 0 0 20px 20px;
+  padding: 16px max(20px, env(safe-area-inset-right)) 16px max(20px, env(safe-area-inset-left));
   width: 100%;
   box-sizing: border-box;
 }
@@ -255,7 +259,8 @@ p {
   width: 76px;
   height: 90px;
   border: none;
-  clip-path: polygon(50% 0%, 100% 16%, 100% 100%, 0% 100%, 0% 16%);
+  border-radius: 8px;
+  clip-path: none;
   background: linear-gradient(165deg, rgba(0,200,160,0.16) 0%, rgba(0,120,96,0.06) 60%, rgba(0,60,48,0.02) 100%);
   color: #ffffff;
   cursor: pointer;
@@ -265,9 +270,9 @@ p {
   justify-content: flex-start;
   align-items: center;
   gap: 3px;
-  filter: drop-shadow(0 0 5px rgba(0,200,160,0.35)) drop-shadow(0 3px 7px rgba(0,0,0,0.55));
+  box-shadow: 0 0 6px rgba(0,200,160,0.35), 0 3px 7px rgba(0,0,0,0.55);
   flex-shrink: 0;
-  transition: filter 0.18s ease;
+  transition: box-shadow 0.18s ease;
 }
 
 .bench-slot:not(.filled-card) {
@@ -275,7 +280,7 @@ p {
 }
 
 .bench-slot:not(.filled-card):hover {
-  filter: drop-shadow(0 0 11px rgba(0,220,180,0.62)) drop-shadow(0 3px 8px rgba(0,0,0,0.65));
+  box-shadow: 0 0 13px rgba(0,220,180,0.64), 0 3px 8px rgba(0,0,0,0.65);
   animation: none;
   background: linear-gradient(165deg, rgba(0,220,180,0.26) 0%, rgba(0,140,110,0.12) 100%);
 }
@@ -297,17 +302,18 @@ p {
 .bench-slot.filled-card {
   /* background/border/boxShadow from getRatingCardStyle inline style */
   position: relative;
-  clip-path: polygon(7% 0%, 93% 0%, 100% 6%, 100% 87%, 50% 100%, 0% 87%, 0% 6%);
-  border-radius: 0;
+  clip-path: none;
+  border-radius: 8px;
   height: 112px;
   padding: 0;
   gap: 0;
-  filter: drop-shadow(0 5px 14px rgba(0,0,0,0.80)) drop-shadow(0 2px 6px rgba(0,0,0,0.55));
+  filter: none;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.80), 0 2px 6px rgba(0,0,0,0.55);
   color: inherit;
-  transition: transform 0.16s ease;
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
   flex-direction: column;
   justify-content: flex-start;
-  overflow: visible;
+  overflow: hidden;
 }
 .bench-slot.filled-card:hover {
   background: unset;
@@ -316,8 +322,8 @@ p {
 
 .field {
   position: relative;
-  width: min(560px, 100%);
-  aspect-ratio: 560 / 900;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   height: auto;
   background:
     /* Stadium spotlights — two cones from upper corners */
@@ -333,16 +339,14 @@ p {
       #061d0c 38px,
       #061d0c 76px
     );
-  border: 1.5px solid rgba(255, 215, 0, 0.55);
-  border-radius: 18px;
+  border: none;
+  border-radius: 0;
   box-shadow:
-    inset 0 0 100px rgba(0, 0, 0, 0.68),
-    inset 0 0 30px rgba(0, 0, 0, 0.42),
-    0 0 0 1px rgba(255, 215, 0, 0.12),
-    0 0 60px rgba(255, 215, 0, 0.09),
-    0 60px 120px rgba(0, 0, 0, 0.72),
-    0 24px 50px rgba(0, 0, 0, 0.52);
-  overflow: hidden;
+    inset 0 0 100px rgba(0, 0, 0, 0.62),
+    inset 0 0 30px rgba(0, 0, 0, 0.38),
+    0 18px 60px rgba(0, 0, 0, 0.70),
+    0 6px 24px rgba(0, 0, 0, 0.50);
+  overflow: visible;
 }
 
 .field-markings {
@@ -356,17 +360,18 @@ p {
 }
 
 @keyframes slot-idle-glow {
-  0%, 100% { filter: drop-shadow(0 0 5px rgba(0,200,160,0.30)) drop-shadow(0 4px 10px rgba(0,0,0,0.60)); }
-  50%       { filter: drop-shadow(0 0 10px rgba(0,220,180,0.56)) drop-shadow(0 4px 10px rgba(0,0,0,0.60)); }
+  0%, 100% { box-shadow: 0 0 5px rgba(0,200,160,0.28), 0 4px 10px rgba(0,0,0,0.60); }
+  50%       { box-shadow: 0 0 12px rgba(0,220,180,0.55), 0 4px 10px rgba(0,0,0,0.60); }
 }
 
 .position-button {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 88px;
-  height: 118px;
+  width: 86px;
+  height: 108px;
   border: none;
-  clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+  border-radius: 8px;
+  clip-path: none;
   background: linear-gradient(165deg, rgba(0,200,160,0.18) 0%, rgba(0,140,110,0.08) 60%, rgba(0,80,60,0.02) 100%);
   color: #ffffff;
   cursor: pointer;
@@ -376,8 +381,8 @@ p {
   justify-content: flex-start;
   align-items: center;
   gap: 4px;
-  filter: drop-shadow(0 0 6px rgba(0,200,160,0.40)) drop-shadow(0 5px 12px rgba(0,0,0,0.65));
-  transition: filter 0.18s ease, transform 0.18s ease;
+  box-shadow: 0 0 6px rgba(0,200,160,0.38), 0 5px 12px rgba(0,0,0,0.65);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 
 .position-button:not(.filled-card) {
@@ -386,7 +391,7 @@ p {
 
 .position-button:not(.filled-card):hover {
   background: linear-gradient(165deg, rgba(0,220,180,0.28) 0%, rgba(0,160,130,0.14) 100%);
-  filter: drop-shadow(0 0 14px rgba(0,220,180,0.68)) drop-shadow(0 6px 14px rgba(0,0,0,0.72));
+  box-shadow: 0 0 16px rgba(0,220,180,0.66), 0 6px 14px rgba(0,0,0,0.72);
   transform: translate(-50%, -52%);
   animation: none;
 }
@@ -949,13 +954,13 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 5px 7px 0;
+  padding: 6px 7px 0;
   flex-shrink: 0;
 }
 
 .pitch-card .mini-rating {
   position: static;
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 900;
   line-height: 1;
   /* color from getCardRatingColor inline style — preserves tier identity */
@@ -984,7 +989,7 @@ p {
   margin: 0;
 }
 
-/* Name — sits above the bottom taper point */
+/* Name — bottom strip */
 .pitch-card .mini-card-name {
   flex-shrink: 0;
   font-size: 9px;
@@ -992,7 +997,7 @@ p {
   text-align: center;
   line-height: 1;
   width: 100%;
-  padding: 4px 6px 11px;
+  padding: 4px 6px 6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1013,8 +1018,8 @@ p {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 30%;
-  background: linear-gradient(to top, rgba(0,0,0,0.38) 0%, transparent 100%);
+  height: 24%;
+  background: linear-gradient(to top, rgba(0,0,0,0.40) 0%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -1093,31 +1098,31 @@ p {
 
 .card-tier-gold .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(255,255,225,0.96),
-    inset 0 0 0 5px  rgba(52,22,0,0.80),
-    inset 0 0 0 9px  rgba(218,162,0,0.82);
+    inset 0 0 0 1.5px rgba(255,255,225,0.96),
+    inset 0 0 0 4px   rgba(52,22,0,0.78),
+    inset 0 0 0 7px   rgba(218,162,0,0.80);
 }
 
 .card-tier-silver .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(245,255,255,0.97),
-    inset 0 0 0 5px  rgba(12,36,68,0.74),
-    inset 0 0 0 9px  rgba(118,174,222,0.80);
+    inset 0 0 0 1.5px rgba(245,255,255,0.97),
+    inset 0 0 0 4px   rgba(12,36,68,0.72),
+    inset 0 0 0 7px   rgba(118,174,222,0.78);
 }
 
 .card-tier-bronze .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(255,232,155,0.94),
-    inset 0 0 0 5px  rgba(30,8,2,0.78),
-    inset 0 0 0 9px  rgba(182,88,20,0.80);
+    inset 0 0 0 1.5px rgba(255,232,155,0.94),
+    inset 0 0 0 4px   rgba(30,8,2,0.76),
+    inset 0 0 0 7px   rgba(182,88,20,0.78);
 }
 
 .card-tier-elite .pitch-frame {
   box-shadow:
-    inset 0 0 0 2px  rgba(255,255,210,1.00),
-    inset 0 0 0 5px  rgba(72,32,0,0.86),
-    inset 0 0 0 9px  rgba(255,200,0,0.92),
-    inset 0 0 0 14px rgba(175,135,0,0.48);
+    inset 0 0 0 1.5px rgba(255,255,210,1.00),
+    inset 0 0 0 4px   rgba(72,32,0,0.84),
+    inset 0 0 0 7px   rgba(255,200,0,0.90),
+    inset 0 0 0 11px  rgba(175,135,0,0.44);
 }
 
 .floating-remove-btn {
@@ -1169,44 +1174,53 @@ p {
   z-index: 3;
 }
 
-.position-button,
-.filled-card {
-  overflow: visible;
-}
-
 .position-button.filled-card {
-  /* 7-point: flat top, cut corners, straight sides, converging bottom point */
-  clip-path: polygon(7% 0%, 93% 0%, 100% 6%, 100% 87%, 50% 100%, 0% 87%, 0% 6%);
-  border-radius: 0;
-  width: 90px;
-  height: 132px;
+  /* Clean rectangle card — NO clip-path polygon */
+  clip-path: none;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 94px;
+  height: 124px;
   padding: 0;
   gap: 0;
-  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62));
-  transition: filter 0.18s ease, transform 0.18s ease;
+  filter: none;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.82),
+    0 3px 10px rgba(0,0,0,0.60);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 
-/* Tier-specific colored aura — separates card from pitch grass */
+/* Tier-specific colored aura via box-shadow outer glow */
 .card-tier-gold.position-button.filled-card {
-  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
-          drop-shadow(0 0 14px rgba(210,158,0,0.42));
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.82),
+    0 3px 10px rgba(0,0,0,0.60),
+    0 0 20px rgba(210,158,0,0.50);
 }
 .card-tier-silver.position-button.filled-card {
-  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
-          drop-shadow(0 0 12px rgba(140,194,235,0.34));
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.82),
+    0 3px 10px rgba(0,0,0,0.60),
+    0 0 16px rgba(140,194,235,0.44);
 }
 .card-tier-bronze.position-button.filled-card {
-  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
-          drop-shadow(0 0 12px rgba(168,80,14,0.36));
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.82),
+    0 3px 10px rgba(0,0,0,0.60),
+    0 0 16px rgba(168,80,14,0.46);
 }
 .card-tier-elite.position-button.filled-card {
-  filter: drop-shadow(0 5px 18px rgba(0,0,0,0.86)) drop-shadow(0 2px 7px rgba(0,0,0,0.62))
-          drop-shadow(0 0 20px rgba(255,200,0,0.56));
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.82),
+    0 3px 10px rgba(0,0,0,0.60),
+    0 0 28px rgba(255,200,0,0.64);
 }
 
 .position-button.filled-card:hover {
-  filter: drop-shadow(0 9px 26px rgba(0,0,0,0.92)) drop-shadow(0 3px 10px rgba(0,0,0,0.70));
-  transform: translate(-50%, -54%) scale(1.06);
+  box-shadow:
+    0 12px 36px rgba(0,0,0,0.90),
+    0 5px 16px rgba(0,0,0,0.70);
+  transform: translate(-50%, -54%) scale(1.07);
 }
 
 @media (max-width: 1024px) {
@@ -1216,9 +1230,12 @@ p {
   }
 
   .picker-panel,
-  .summary-panel,
-  .field {
+  .summary-panel {
     width: min(560px, 100%);
+  }
+
+  .field {
+    width: 100%;
   }
 
   .bench {
@@ -1236,19 +1253,19 @@ p {
   }
 
   .position-button {
-    width: 82px;
-    height: 108px;
-    padding: 10px 5px 14px;
+    width: 80px;
+    height: 100px;
+    padding: 10px 5px 12px;
     gap: 3px;
   }
   .position-button.filled-card {
-    width: 84px;
-    height: 122px;
+    width: 82px;
+    height: 108px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 5px 7px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 16px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 6px 13px; }
+  .position-button.filled-card .pitch-card .mini-rating { font-size: 17px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 6px 6px; }
 
   .bench-slot {
     width: 56px;
@@ -5198,37 +5215,37 @@ p {
 /* 3 — Position buttons: scale down to avoid card overlap on small fields */
 @media (max-width: 480px) {
   .position-button {
-    width: 74px;
-    height: 102px;
-    padding: 9px 4px 13px;
+    width: 70px;
+    height: 88px;
+    padding: 9px 4px 11px;
     gap: 2px;
   }
   .position-button.filled-card {
-    width: 76px;
-    height: 112px;
+    width: 72px;
+    height: 96px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 4px 6px 0; }
   .position-button.filled-card .pitch-card .mini-rating { font-size: 15px; }
   .position-button.filled-card .pitch-card .mini-position { font-size: 8px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 11px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 8px; padding: 3px 5px 5px; }
 }
 
 @media (max-width: 390px) {
   .position-button {
-    width: 66px;
-    height: 92px;
-    padding: 8px 4px 12px;
+    width: 62px;
+    height: 80px;
+    padding: 8px 4px 10px;
   }
   .position-button.filled-card {
-    width: 68px;
-    height: 100px;
+    width: 64px;
+    height: 86px;
     padding: 0;
   }
   .position-button.filled-card .pitch-card-top-row { padding: 4px 5px 0; }
-  .position-button.filled-card .pitch-card .mini-rating { font-size: 14px; }
+  .position-button.filled-card .pitch-card .mini-rating { font-size: 13px; }
   .position-button.filled-card .pitch-card .mini-position { font-size: 7px; }
-  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 10px; }
+  .position-button.filled-card .pitch-card .mini-card-name { font-size: 7px; padding: 3px 4px 5px; }
 }
 
 /* 4 — Pack / onboarding card typography in 2-col layout */
