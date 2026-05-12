@@ -1429,7 +1429,7 @@ function App() {
             {/* Formation rows */}
             <div className="sb-rows">
               {groupFormationRows(currentFormation).map((row) => (
-                <div key={row.y} className="sb-row" data-count={row.positions.length}>
+                <div key={row.y} className="sb-row">
                   {row.positions.map((pos) => {
                     const player = selectedPlayers[pos.id];
                     const label  = pos.id.replace(/\d+$/, '');

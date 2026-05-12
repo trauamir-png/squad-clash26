@@ -1,3 +1,21 @@
+/* ── App horizontal/vertical padding — single source of truth ──────
+   SquadPitch.css references these variables for the field/bench
+   full-bleed breakout so both files always stay in sync.            */
+:root {
+  --app-pad-l: max(24px, env(safe-area-inset-left));
+  --app-pad-r: max(24px, env(safe-area-inset-right));
+  --app-pad-t: max(28px, env(safe-area-inset-top));
+  --app-pad-b: max(28px, env(safe-area-inset-bottom));
+}
+@media (max-width: 480px) {
+  :root {
+    --app-pad-l: max(12px, env(safe-area-inset-left));
+    --app-pad-r: max(12px, env(safe-area-inset-right));
+    --app-pad-t: max(20px, env(safe-area-inset-top));
+    --app-pad-b: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
 body {
   font-family: Arial, sans-serif;
   color: #f8f0d4;
@@ -35,11 +53,7 @@ body::before {
   max-width: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  padding:
-    max(28px, env(safe-area-inset-top))
-    max(24px, env(safe-area-inset-right))
-    max(28px, env(safe-area-inset-bottom))
-    max(24px, env(safe-area-inset-left));
+  padding: var(--app-pad-t) var(--app-pad-r) var(--app-pad-b) var(--app-pad-l);
   text-align: center;
 }
 
@@ -228,44 +242,7 @@ p {
 
 /* bench-slot removed — bench rebuilt in SquadPitch.css */
 
-.field {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  height: auto;
-  background:
-    /* Stadium spotlights — two cones from upper corners */
-    radial-gradient(ellipse 72% 52% at 18% 0%, rgba(255,255,220,0.09) 0%, transparent 58%),
-    radial-gradient(ellipse 72% 52% at 82% 0%, rgba(255,255,220,0.09) 0%, transparent 58%),
-    /* Edge vignette */
-    radial-gradient(ellipse 115% 55% at 50% 50%, transparent 40%, rgba(0,0,0,0.75) 100%),
-    /* Darker stripe pattern — stadium night feel */
-    repeating-linear-gradient(
-      to bottom,
-      #031608 0px,
-      #031608 38px,
-      #061d0c 38px,
-      #061d0c 76px
-    );
-  border: none;
-  border-radius: 0;
-  box-shadow:
-    inset 0 0 100px rgba(0, 0, 0, 0.62),
-    inset 0 0 30px rgba(0, 0, 0, 0.38),
-    0 18px 60px rgba(0, 0, 0, 0.70),
-    0 6px 24px rgba(0, 0, 0, 0.50);
-  overflow: visible;
-}
-
-.field-markings {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  filter: drop-shadow(0 0 3px rgba(255,255,255,0.50));
-}
+/* .field and .field-markings removed — squad builder rebuilt in SquadPitch.css */
 
 .side-panel {
   display: flex;
@@ -853,14 +830,6 @@ p {
     width: min(560px, 100%);
   }
 
-  .field {
-    width: 100%;
-  }
-
-  .bench {
-    width: 100%;
-  }
-
   .summary-panel {
     margin-top: 14px;
   }
@@ -872,8 +841,7 @@ p {
   }
 
   .picker-panel,
-  .summary-panel,
-  .field {
+  .summary-panel {
     width: 100%;
   }
 
@@ -3700,22 +3668,7 @@ p {
   font-size: 11px;
 }
 
-/* ── Rectangular contexts: dark bg + inner circle ────────────── */
-.player-img-fallback.bench-img {
-  border-radius: 0;
-  background: rgba(0, 0, 0, 0.22);
-  border: none;
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.player-img-fallback.bench-img .player-img-initials {
-  width: 32px;
-  height: 32px;
-  font-size: 11px;
-}
+/* .player-img-fallback.bench-img removed — bench rebuilt in SquadPitch.css */
 
 .player-img-fallback.mc-card-img,
 .player-img-fallback.pack-card-img,
@@ -4768,16 +4721,7 @@ p {
    MOBILE RESPONSIVENESS — comprehensive fixes for ≤480px / ≤390px
    ═══════════════════════════════════════════════════════════════════ */
 
-/* 1 — App container: tighter side padding on phones */
-@media (max-width: 480px) {
-  .app {
-    padding:
-      max(20px, env(safe-area-inset-top))
-      max(12px, env(safe-area-inset-right))
-      max(20px, env(safe-area-inset-bottom))
-      max(12px, env(safe-area-inset-left));
-  }
-}
+/* .app padding at ≤480px now handled by :root variable override at top of file */
 
 /* formation-row / formation-rows overrides removed — managed by SquadPitch.css */
 
@@ -5762,20 +5706,10 @@ p {
 
 /* ── Global minimum touch target sizes ─────────────────────────── */
 @media (max-width: 640px) {
-  /* All interactive buttons min 44px tall for comfortable tap */
-  button:not(.position-button):not(.bench-slot):not(.fut-card):not(.floating-remove-btn) {
+  /* All interactive buttons min 44px tall for comfortable tap.
+     .spc excluded — pitch/bench cards have explicit heights. */
+  button:not(.position-button):not(.bench-slot):not(.fut-card):not(.floating-remove-btn):not(.spc) {
     min-height: 44px;
-  }
-
-  /* Bench bench slot wrapper extra tap buffer */
-  .bench-slot-wrapper {
-    padding: 4px 0;
-  }
-
-  /* Tighter app padding on small phones */
-  .app {
-    padding-left: max(16px, env(safe-area-inset-left));
-    padding-right: max(16px, env(safe-area-inset-right));
   }
 }
 
@@ -5879,7 +5813,4 @@ p {
   flex-direction: row-reverse;
 }
 
-/* Bench slot content */
-[dir="rtl"] .bench-card-top {
-  flex-direction: row-reverse;
-}
+/* [dir="rtl"] .bench-card-top removed — bench rebuilt in SquadPitch.css */

@@ -17,29 +17,38 @@
   width: 100%;
 }
 
+@media (min-width: 640px) {
+  .sb-field-section {
+    max-width: 480px;
+    margin-inline: auto;
+  }
+}
+
 
 /* ─────────────────────────────────────────────────────────────────
    FIELD CONTAINER
-   Full-bleed on mobile: escapes the .app horizontal padding so the
-   pitch stretches edge-to-edge.  The bench at the bottom re-adds
-   horizontal padding so its content stays inset.
+   Mobile full-bleed via negative margins.  Uses --app-pad-l/r CSS
+   variables defined in App.css :root — the single source of truth
+   for .app horizontal padding.  No hardcoded pixel offsets here.
+
+   aspect-ratio: 3/4 pins the field height proportionally so the SVG
+   pitch markings render identically for 4-row and 5-row formations.
+   At 390px wide the field is 520px tall — exactly matching the SVG
+   viewBox.  4-row formations gain visible pitch space behind the GK.
    ───────────────────────────────────────────────────────────────── */
 
 .sb-field {
   position: relative;
-  width: 100%;
-  /* .app default padding: 24px each side  →  break out by 24px */
+  aspect-ratio: 3 / 4;
 }
 
 @media (max-width: 639px) {
-  /* .app has 24px padding → shift left 24px, widen by 48px = 100vw */
   .sb-field {
-    left: -24px;
-    width: calc(100% + 48px);
+    margin-left:  calc(-1 * var(--app-pad-l));
+    margin-right: calc(-1 * var(--app-pad-r));
+    width: calc(100% + var(--app-pad-l) + var(--app-pad-r));
   }
 }
-
-/* .app shrinks to 12px padding at ≤480px — field override handled in the combined block below */
 
 
 /* ─────────────────────────────────────────────────────────────────
@@ -81,12 +90,10 @@
   );
 }
 
-/* SVG pitch-line markings layer */
+/* SVG pitch-line markings layer — inset:0 already fills the field */
 .sb-field-markings {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
   opacity: 0.88;
 }
@@ -105,13 +112,17 @@
   flex-direction: column;
   gap: 10px;
   padding: 14px 14px 16px;
+  /* Rows must not clip the remove-button tooltips that float above cards */
+  overflow: visible;
 }
 
 .sb-row {
   display: flex;
   width: 100%;
   justify-content: center;
-  gap: 13px;
+  /* Fluid gap: clamp prevents 5×62px cards from overflowing at narrow widths.
+     Formula distributes leftover width across 4 gaps for the worst-case 5-card row. */
+  gap: clamp(4px, calc((100% - 310px) / 4), 13px);
   align-items: flex-start;
 }
 
@@ -139,26 +150,16 @@
     0 20px 50px rgba(0,0,0,0.60);
 }
 
-/* Bench mirrors the field's full-bleed break-out exactly */
+/* Bench mirrors the field's full-bleed break-out.
+   --app-pad-l/r automatically change at ≤480px via App.css :root,
+   so one block handles both breakpoints. */
 @media (max-width: 639px) {
   .sb-bench {
-    left: -24px;
-    width: calc(100% + 48px);
+    margin-left:  calc(-1 * var(--app-pad-l));
+    margin-right: calc(-1 * var(--app-pad-r));
+    width: calc(100% + var(--app-pad-l) + var(--app-pad-r));
     padding-left:  max(14px, env(safe-area-inset-left));
     padding-right: max(14px, env(safe-area-inset-right));
-  }
-}
-
-@media (max-width: 480px) {
-  .sb-field {
-    left: -12px;
-    width: calc(100% + 24px);
-  }
-  .sb-bench {
-    left: -12px;
-    width: calc(100% + 24px);
-    padding-left:  max(12px, env(safe-area-inset-left));
-    padding-right: max(12px, env(safe-area-inset-right));
   }
 }
 
@@ -210,6 +211,8 @@
   outline: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  /* Override the global button min-height: 44px rule in App.css */
+  min-height: unset;
 
   /* Layout */
   display: flex;
@@ -234,34 +237,67 @@
 .spc-empty {
   align-items: center;
   justify-content: center;
-  background: rgba(0,180,140,0.09);
-  border: 1.5px dashed rgba(0,210,165,0.38);
-  transition: border-color 0.2s, background 0.2s;
-  animation: spc-idle 3s ease-in-out infinite;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 25%, rgba(0,50,28,0.82) 0%, rgba(0,14,8,0.97) 100%);
+  border: 1.5px solid rgba(0,210,150,0.22);
+  box-shadow: inset 0 0 0 1px rgba(0,210,150,0.06), 0 3px 10px rgba(0,0,0,0.55);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  animation: spc-idle 3.5s ease-in-out infinite;
+  position: relative;
+}
+
+/* "+" indicator floating in the middle of empty slots */
+.spc-empty::before {
+  content: '+';
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: 200;
+  color: rgba(0,220,175,0.28);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.spc-bench.spc-empty::before {
+  font-size: 14px;
+  top: 40%;
 }
 
 .spc-empty:active {
-  background: rgba(0,200,155,0.16);
+  background: rgba(0,60,35,0.85);
   transform: scale(0.94);
 }
 
+/* Position label — anchored to bottom of empty card */
 .spc-label {
-  font-size: 11px;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
   font-weight: 900;
-  letter-spacing: 0.06em;
-  color: rgba(0,220,175,0.80);
-  text-shadow: 0 0 10px rgba(0,220,175,0.40);
+  letter-spacing: 0.10em;
+  color: rgba(0,220,175,0.72);
+  text-shadow: 0 0 8px rgba(0,220,175,0.30);
   user-select: none;
+  white-space: nowrap;
+}
+
+.spc-bench .spc-label {
+  font-size: 7px;
+  bottom: 4px;
 }
 
 @keyframes spc-idle {
   0%, 100% {
-    border-color: rgba(0,210,165,0.30);
-    box-shadow: none;
+    border-color: rgba(0,210,150,0.18);
+    box-shadow: inset 0 0 0 1px rgba(0,210,150,0.04), 0 3px 10px rgba(0,0,0,0.55);
   }
   50% {
-    border-color: rgba(0,220,175,0.60);
-    box-shadow: 0 0 10px rgba(0,220,175,0.18);
+    border-color: rgba(0,220,175,0.48);
+    box-shadow: inset 0 0 0 1px rgba(0,210,150,0.10), 0 0 14px rgba(0,210,150,0.14);
   }
 }
 
@@ -308,37 +344,54 @@
 }
 
 
-/* ─ Card header: rating + position (top-left corner) ───────────── */
+/* ─ Card header: rating (left) + position (right) ───────────────── */
 
 .spc-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: flex-start;
-  padding: 4px 0 0 5px;
+  width: 100%;
+  padding: 5px 5px 0 5px;
   flex-shrink: 0;
   position: relative;
   z-index: 2;
-  line-height: 1;
-  /* Subtle text shadow so numbers read on any card material */
-  text-shadow: 0 1px 4px rgba(0,0,0,0.55);
 }
 
 .spc-rating {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 900;
   line-height: 1;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.65), 0 0 10px rgba(0,0,0,0.35);
   /* color from getCardRatingColor() inline style */
 }
 
 .spc-position {
   font-size: 7px;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1;
-  margin-top: 1px;
-  letter-spacing: 0.04em;
-  opacity: 0.88;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.70);
   color: inherit;
 }
+
+/* Gold / bronze: light text on warm card face */
+.card-tier-gold.spc-filled .spc-position,
+.card-tier-elite.spc-filled .spc-position,
+.card-tier-bronze.spc-filled .spc-position {
+  color: rgba(255,255,255,0.90);
+}
+
+/* Silver: dark text stays readable on steel face */
+.card-tier-silver.spc-filled .spc-position {
+  color: rgba(12,28,64,0.92);
+}
+
+/* Bench-specific header scaling */
+.spc-bench .spc-header { padding: 4px 4px 0 4px; }
+.spc-bench .spc-rating  { font-size: 13px; }
+.spc-bench .spc-position { font-size: 6px; margin-top: 1px; }
 
 
 /* ─ Player image zone ───────────────────────────────────────────── */
@@ -364,7 +417,7 @@
   box-shadow: none;
 }
 
-/* Initials fallback div: fill the zone, center the avatar circle */
+/* Initials fallback — transparent so card gradient shows through; circle floats centered */
 .player-img-fallback.spc-img {
   display: flex;
   align-items: center;
@@ -372,16 +425,22 @@
   width: 100%;
   height: 100%;
   border-radius: 0;
-  background: rgba(0,0,0,0.28);
+  background: transparent;
   border: none;
   flex-shrink: unset;
   flex: unset;
 }
 
 .player-img-fallback.spc-img .player-img-initials {
-  width: 28px;
-  height: 28px;
-  font-size: 10px;
+  width: 30px;
+  height: 30px;
+  font-size: 11px;
+}
+
+.spc-bench .player-img-fallback.spc-img .player-img-initials {
+  width: 22px;
+  height: 22px;
+  font-size: 8px;
 }
 
 
@@ -390,35 +449,50 @@
 .spc-name {
   flex-shrink: 0;
   width: 100%;
-  padding: 2px 3px 3px;
+  padding: 2px 4px 4px;
   font-size: 7.5px;
   font-weight: 800;
   text-align: center;
-  line-height: 1.2;
-  /* Single line with ellipsis — keeps card layout stable */
-  white-space: nowrap;
+  line-height: 1.18;
+  /* Up to 2 lines — handles two-part surnames cleanly */
   overflow: hidden;
-  text-overflow: ellipsis;
-  color: inherit;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  /* Always white — scrim provides contrast on any tier */
+  color: #ffffff;
   position: relative;
   z-index: 2;
   text-shadow:
-    0 1px 5px rgba(0,0,0,0.85),
-    0 0 12px rgba(0,0,0,0.55);
+    0 1px 6px rgba(0,0,0,0.95),
+    0 0 14px rgba(0,0,0,0.65);
 }
 
-/* Gradient scrim behind name so it reads on any card material */
+/* Bench: single line only (not enough room for 2) */
+.spc-bench .spc-name {
+  -webkit-line-clamp: 1;
+  font-size: 6.5px;
+  padding: 2px 3px 3px;
+}
+
+/* Gradient scrim — deeper on pitch cards to cover potential 2-line name */
 .spc-filled::before {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 36%;
-  background: linear-gradient(to top, rgba(0,0,0,0.60) 0%, transparent 100%);
+  height: 46%;
+  background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.28) 55%, transparent 100%);
   pointer-events: none;
   z-index: 1;
   border-radius: 0 0 8px 8px;
+}
+
+.spc-bench.spc-filled::before {
+  height: 42%;
 }
 
 

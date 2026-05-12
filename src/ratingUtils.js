@@ -32,9 +32,9 @@ export function getRatingColor(rating) {
 }
 
 export function getCardRatingColor(rating) {
-  if (rating >= 75) return '#1a1a1a';
-  if (rating >= 65) return '#111111';
-  return '#ffffff';
+  if (rating >= 75) return '#fff8d0';   // warm cream on gold
+  if (rating >= 65) return '#0f1e3c';   // deep navy on silver
+  return '#fff2c8';                      // warm white on bronze/copper
 }
 
 export function getRatingCardClass(rating) {
