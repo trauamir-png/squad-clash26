@@ -42,6 +42,24 @@ function groupFormationRows(formation) {
     .map(([y, positions]) => ({ y: Number(y), positions: positions.sort((a, b) => a.x - b.x) }));
 }
 
+// Maps a formation row's y-coordinate to a football-realistic vertical zone (% from top).
+// Formation y goes low→top (attack) to high→bottom (GK). The display zones ensure
+// each line sits in its correct third of the pitch regardless of row count:
+//   GK ≥ 84   → 91 %   (near own goal line)
+//   DEF 65-83 → 72 %   (defensive third)
+//   CDM 55-64 → 52 %   (just behind center circle)
+//   CM  44-54 → 47 %   (center circle — 4-row formations only)
+//   CAM 35-43 → 32 %   (attacking half — 5-row formations)
+//   ATT < 35  → 12 %   (opponent box area)
+function getRowDisplayY(rowY) {
+  if (rowY >= 84) return 91;
+  if (rowY >= 65) return 72;
+  if (rowY >= 55) return 52;
+  if (rowY >= 44) return 47;
+  if (rowY >= 35) return 32;
+  return 12;
+}
+
 function getFormationAdjacency(formation) {
   const THRESHOLD = 40;
   const adj = {};
@@ -1429,7 +1447,11 @@ function App() {
             {/* Formation rows */}
             <div className="sb-rows">
               {groupFormationRows(currentFormation).map((row) => (
-                <div key={row.y} className="sb-row">
+                <div
+                  key={row.y}
+                  className="sb-row"
+                  style={{ top: `${getRowDisplayY(row.y)}%`, transform: 'translateY(-50%)' }}
+                >
                   {row.positions.map((pos) => {
                     const player = selectedPlayers[pos.id];
                     const label  = pos.id.replace(/\d+$/, '');

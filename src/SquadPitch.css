@@ -110,22 +110,23 @@
    ───────────────────────────────────────────────────────────────── */
 
 .sb-rows {
-  position: relative;
+  /* Absolute overlay so each row can be positioned at its football zone.
+     The top% + translateY(-50%) inline style on each .sb-row centers it
+     on the correct vertical position derived from getRowDisplayY(). */
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  /* Fill the full field height so space-between distributes rows
-     from the opponent box (top) to the GK area (bottom). */
-  height: 100%;
-  justify-content: space-between;
-  padding: 8px 14px 8px;
-  /* Rows must not clip the remove-button tooltips that float above cards */
+  /* overflow: visible lets remove-button tooltips float above the field edge */
   overflow: visible;
 }
 
 .sb-row {
+  /* Each row is absolutely positioned within .sb-rows.
+     left/right replace the old padding on .sb-rows (14px each side). */
+  position: absolute;
+  left: 14px;
+  right: 14px;
   display: flex;
-  width: 100%;
   justify-content: center;
   /* Fluid gap: distributes leftover width after 5 × 17vw cards across 4 gaps.
      Using vw matches the full-bleed field width on mobile. Clamped so 5-card
