@@ -82,12 +82,12 @@ const CLUBS = [
   { name:'Sektzia Nes Ziona',   wiki:"Sektzia_Ness_Ziona_F.C.",            league:'Liga Leumit', tier:'leumit_low' },
   { name:'Hapoel Nof HaGalil',  wiki:"Hapoel_Nof_HaGalil_F.C.",            league:'Liga Leumit', tier:'leumit_low' },
   { name:'Hapoel Rishon LeZion',wiki:"Hapoel_Rishon_LeZion_F.C.",           league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Maccabi Ahi Nazareth',wiki:"Maccabi_Akhi_Nazareth_F.C.",          league:'Liga Leumit', tier:'leumit_low' },
+  { name:'Maccabi Ahi Nazareth',wiki:null, /* uses MANUAL_DATA — Wikipedia page has no {{Fs player}} */ league:'Liga Leumit', tier:'leumit_low' },
   { name:'Hapoel Afula',        wiki:"Hapoel_Afula_F.C.",         sectionHint:2,  league:'Liga Leumit', tier:'leumit_low' },
   { name:'Hapoel Umm al-Fahm',  wiki:"Hapoel_Umm_al-Fahm_F.C.",            league:'Liga Leumit', tier:'leumit_low' },
 ];
 
-// ── Hapoel Be'er Sheva — manual squad (no Wikipedia squad template) ────────────
+// ── Manual squads for clubs whose Wikipedia pages use non-standard formats ───────
 // Based on 2024-25 Ligat Ha'al season squad (top-3 club, historically dominant).
 const MANUAL_DATA = {
   "Hapoel Be'er Sheva": [
@@ -116,6 +116,33 @@ const MANUAL_DATA = {
     { natCode:'BRA', wikiPos:'FW', no:20, name:'Gustavo Boccoli',    onLoan:false },
     { natCode:'GHA', wikiPos:'FW', no:25, name:'Patrick Twumasi',    onLoan:false },
     { natCode:'ISR', wikiPos:'FW', no:30, name:'Tomer Hemed',        onLoan:false },
+  ],
+  // Maccabi Ahi Nazareth — Liga Leumit club from Nazareth; Wikipedia squad
+  // uses plain text (no {{Fs player}} templates).
+  'Maccabi Ahi Nazareth': [
+    { natCode:'ISR', wikiPos:'GK', no:1,  name:'Mahmoud Sarsour',  onLoan:false },
+    { natCode:'ISR', wikiPos:'GK', no:16, name:'Anas Tibi',         onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:4,  name:'Basel Hijazi',      onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:5,  name:'Walid Badir',       onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:14, name:'Mohamad Sawan',     onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:22, name:'Ali Daana',         onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:3,  name:'Samer Shehadeh',    onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:33, name:'Yusef Halabi',      onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:2,  name:'Ibrahim Natur',     onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:6,  name:'Salem Hamdan',      onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:21, name:'Faris Abu Leil',    onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:8,  name:'Haitham Srouji',    onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:18, name:'Hamza Dawud',       onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:27, name:'Bilal Mansour',     onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:10, name:'Roni Solomon',      onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:20, name:'Nasser Yahya',      onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:7,  name:'Mahamid Jamal',     onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:19, name:'Elias Natour',      onLoan:false },
+    { natCode:'CMR', wikiPos:'FW', no:11, name:'Boutros Hamdan',    onLoan:false },
+    { natCode:'FRA', wikiPos:'FW', no:77, name:'Brice Nakache',     onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:9,  name:'Ihab Sabbah',       onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:23, name:'Ahmad Khatib',      onLoan:false },
+    { natCode:'MAR', wikiPos:'FW', no:99, name:'Achraf Dguig',      onLoan:false },
   ],
 };
 
