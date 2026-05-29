@@ -1,4 +1,4 @@
-import { getAllPlayers } from './csvPlayerStore';
+import { getAllPlayers } from './playerStore';
 
 const GK_POS  = ['GK'];
 const DEF_POS = ['CB', 'LB', 'RB', 'LWB', 'RWB'];

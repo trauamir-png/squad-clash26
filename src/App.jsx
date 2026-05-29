@@ -13,6 +13,8 @@ import { pickRandomOpponent } from "./data/opponents";
 import { generateOpponentSquad, calculateOpponentPower } from "./data/opponentSquadService";
 import { MyClubScreen } from "./MyClubScreen";
 import { loadGameSave, saveGameState, resetGameSave } from "./data/saveService";
+import { DATA_SOURCE } from "./config/dataSource";
+import { DebugPanel } from "./DebugPanel";
 import { getRatingColor, getCardRatingColor, getRatingCardStyle, getRatingCardClass } from "./ratingUtils";
 import { getClubLogo, getLeagueLogo, initClubLogos } from "./utils/imageResolvers";
 import { generateMatchEvents } from "./data/matchSimulator";
@@ -40,6 +42,24 @@ function groupFormationRows(formation) {
   return Object.entries(groups)
     .sort(([a], [b]) => Number(a) - Number(b))
     .map(([y, positions]) => ({ y: Number(y), positions: positions.sort((a, b) => a.x - b.x) }));
+}
+
+// Maps a formation row's y-coordinate to a football-realistic vertical zone (% from top).
+// Formation y goes low→top (attack) to high→bottom (GK). The display zones ensure
+// each line sits in its correct third of the pitch regardless of row count:
+//   GK ≥ 84   → 91 %   (near own goal line)
+//   DEF 65-83 → 72 %   (defensive third)
+//   CDM 55-64 → 52 %   (just behind center circle)
+//   CM  44-54 → 47 %   (center circle — 4-row formations only)
+//   CAM 35-43 → 32 %   (attacking half — 5-row formations)
+//   ATT < 35  → 12 %   (opponent box area)
+function getRowDisplayY(rowY) {
+  if (rowY >= 84) return 91;
+  if (rowY >= 65) return 72;
+  if (rowY >= 55) return 52;
+  if (rowY >= 44) return 47;
+  if (rowY >= 35) return 32;
+  return 12;
 }
 
 function getFormationAdjacency(formation) {
@@ -86,6 +106,48 @@ function computeTeamChemistry(formation, selectedPlayers) {
 }
 
 const PACK_PRICES = { bronze: 400, silver: 1500, gold: 5000 };
+
+// ── Save migration ────────────────────────────────────────────────────────────
+// Runs once at module-load time (before React mounts) so that useState()
+// lazy initialisers always read a clean, source-compatible save.
+// When DATA_SOURCE = 'israel', any clubPlayers / selectedPlayers that came
+// from the FIFA CSV (_source: 'csv') are removed. The starter-pack flag is
+// also reset so the user re-opens the onboarding pack with Israeli players.
+(function migrateSaveToDataSource() {
+  const save = loadGameSave();
+  if (!save || !DATA_SOURCE) return;
+
+  const rawClub     = save.clubPlayers      ?? [];
+  const rawSelected = save.selectedPlayers  ?? {};
+
+  const cleanClub     = rawClub.filter(p => p._source === DATA_SOURCE || (DATA_SOURCE === 'israeli' && p._source === 'israeli'));
+  const cleanSelected = Object.fromEntries(
+    Object.entries(rawSelected).filter(([, p]) => p._source === DATA_SOURCE || (DATA_SOURCE === 'israeli' && p._source === 'israeli'))
+  );
+
+  // Determine the correct _source string for the active data source
+  const expectedSource = DATA_SOURCE === 'israel' ? 'israeli' : 'csv';
+
+  const migratedClub = rawClub.filter(p => p._source === expectedSource);
+  const migratedSelected = Object.fromEntries(
+    Object.entries(rawSelected).filter(([, p]) => p._source === expectedSource)
+  );
+
+  const clubChanged     = migratedClub.length     !== rawClub.length;
+  const selectedChanged = Object.keys(migratedSelected).length !== Object.keys(rawSelected).length;
+
+  if (clubChanged || selectedChanged) {
+    // If club is now empty, reset the starter-pack flag so onboarding reruns
+    const hasOpenedStarterPack = migratedClub.length > 0 ? save.hasOpenedStarterPack : false;
+    saveGameState({ ...save, clubPlayers: migratedClub, selectedPlayers: migratedSelected, hasOpenedStarterPack });
+    console.warn(
+      `%c🔄 Save migrated to DATA_SOURCE="${DATA_SOURCE}"`, 'color: #fbbf24; font-weight: bold',
+      `\n  Club players  : ${rawClub.length} → ${migratedClub.length}`,
+      `\n  XI players    : ${Object.keys(rawSelected).length} → ${Object.keys(migratedSelected).length}`,
+      `\n  Starter pack  : ${save.hasOpenedStarterPack} → ${hasOpenedStarterPack}`,
+    );
+  }
+}());
 
 function App() {
   const logos = [
@@ -1429,7 +1491,11 @@ function App() {
             {/* Formation rows */}
             <div className="sb-rows">
               {groupFormationRows(currentFormation).map((row) => (
-                <div key={row.y} className="sb-row">
+                <div
+                  key={row.y}
+                  className="sb-row"
+                  style={{ top: `${getRowDisplayY(row.y)}%`, transform: 'translateY(-50%)' }}
+                >
                   {row.positions.map((pos) => {
                     const player = selectedPlayers[pos.id];
                     const label  = pos.id.replace(/\d+$/, '');
@@ -1647,6 +1713,7 @@ function App() {
           <p className="picker-hint">{t('clickPosition')}</p>
         </div>
       </div>
+      <DebugPanel />
     </div>
   );
 }

@@ -1,34 +1,64 @@
-import { getAllPlayers } from './csvPlayerStore';
+import { getAllPlayers } from './playerStore';
+import { DATA_SOURCE }  from '../config/dataSource';
 
-const allPlayers = getAllPlayers();
+// ── Israeli safety filter ─────────────────────────────────────────────────────
+// When DATA_SOURCE='israel' this filter is a HARD REQUIREMENT.
+// Players that do not satisfy ANY of these criteria are rejected.
+// There is no silent fallback to FIFA data — an empty pool produces a console
+// error and an empty pack rather than returning global players.
+function applySourceFilter(players) {
+  if (DATA_SOURCE !== 'israel') return players;
 
-const bronzePlayers = allPlayers.filter(p => p.rating <= 64);
-const silverPlayers = allPlayers.filter(p => p.rating >= 65 && p.rating <= 74);
-const goldPlayers   = allPlayers.filter(p => p.rating >= 75);
-
-console.log('🎴 Pack Service ready:',
-  `bronze=${bronzePlayers.length}`,
-  `silver=${silverPlayers.length}`,
-  `gold=${goldPlayers.length}`,
-);
-
-const PACKS = {
-  bronze: { pool: bronzePlayers, size: 12 },
-  silver: { pool: silverPlayers, size: 12 },
-  gold:   { pool: goldPlayers,   size: 12 },
-};
-
-function pickRandom(pool, count) {
-  if (pool.length < count) {
-    console.warn(`Pool has only ${pool.length} players, requested ${count}`);
-  }
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, Math.min(count, pool.length));
+  return players.filter(p =>
+    p._source        === 'israeli'     ||
+    p.country        === 'Israel'      ||
+    p.nationality    === 'Israel'      ||
+    (typeof p.leagueName === 'string' && p.leagueName.includes("Ha'al"))
+  );
 }
 
-// Starter Pack: exactly 24 players covering all positions so users can
-// switch formations freely.
-// Positions without dataset entries (LWB, RWB) fall back to LB/RB.
+// ── Pool builder — called fresh inside every pack function ────────────────────
+// Never cached at module level: avoids stale data from HMR or browser cache.
+function buildPool() {
+  const raw      = getAllPlayers();
+  const filtered = applySourceFilter(raw);
+
+  console.log(
+    `%c🎴 packService.buildPool()`, 'color: #4ade80; font-weight: bold',
+    `\n  DATA_SOURCE      : ${DATA_SOURCE}`,
+    `\n  getAllPlayers()  : ${raw.length} players`,
+    `\n  After filter     : ${filtered.length} players`,
+    `\n  First 10 names   : ${filtered.slice(0, 10).map(p => p.name).join(', ')}`,
+    `\n  Sources present  : ${[...new Set(filtered.map(p => p._source))].join(', ')}`,
+  );
+
+  if (DATA_SOURCE === 'israel' && filtered.length === 0) {
+    console.error(
+      '❌ CRITICAL — Israeli player pool is EMPTY after filtering.',
+      '\n  Raw pool had:', raw.length, 'players.',
+      '\n  _source values in raw pool:', [...new Set(raw.map(p => p._source))],
+      '\n  Check: src/config/dataSource.js  (DATA_SOURCE should be "israel")',
+      '\n  Check: src/data/israeliPlayers.js (players need _source:"israeli")',
+      '\n  Check: src/data/playerStore.js   (should import israeliPlayers)',
+    );
+  }
+
+  return filtered;
+}
+
+// ── pickRandom: pick n random items from pool ─────────────────────────────────
+function pickRandom(pool, count) {
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  const picked   = shuffled.slice(0, Math.min(count, shuffled.length));
+  if (picked.length < count) {
+    console.warn(
+      `pickRandom: requested ${count} but pool only has ${pool.length} players.`,
+    );
+  }
+  return picked;
+}
+
+// ── STARTER_SLOTS: 24-player starter pack position coverage ──────────────────
 const STARTER_SLOTS = [
   { pos: 'GK',  count: 2, fallback: [] },
   { pos: 'LB',  count: 2, fallback: [] },
@@ -44,31 +74,34 @@ const STARTER_SLOTS = [
   { pos: 'LW',  count: 1, fallback: ['LM'] },
   { pos: 'RW',  count: 1, fallback: ['RM'] },
   { pos: 'ST',  count: 3, fallback: ['CF'] },
-]; // total: 24
+]; // total requested: 24
 
 export function openStarterPack() {
+  // Fresh pool — no module-level caching
+  const pool    = buildPool();
   const usedIds = new Set();
-  const result = [];
+  const result  = [];
 
   for (const { pos, count, fallback } of STARTER_SLOTS) {
     const positions = [pos, ...fallback];
-    const pool = allPlayers
+    const eligible  = pool
       .filter(p => positions.includes(p.position) && !usedIds.has(p.id))
       .sort(() => Math.random() - 0.5);
-    pool.slice(0, count).forEach(p => { usedIds.add(p.id); result.push(p); });
+    eligible.slice(0, count).forEach(p => { usedIds.add(p.id); result.push(p); });
   }
 
-  // Safety fill if any pool was exhausted
+  // Safety fill — top-up to 24 if any position pool was exhausted
   while (result.length < 24) {
-    const p = allPlayers.find(p => !usedIds.has(p.id));
-    if (!p) break;
-    usedIds.add(p.id);
-    result.push(p);
+    const extra = pool.find(p => !usedIds.has(p.id));
+    if (!extra) break;
+    usedIds.add(extra.id);
+    result.push(extra);
   }
 
-  // Guarantee at least one 87+ rated player
+  // 87+ guarantee is skipped silently when no such player exists in the pool
+  // (Israeli dataset tops out at ~80)
   if (!result.some(p => p.rating >= 87)) {
-    const elite = allPlayers
+    const elite = pool
       .filter(p => p.rating >= 87 && !usedIds.has(p.id))
       .sort(() => Math.random() - 0.5)[0];
     if (elite) {
@@ -82,33 +115,72 @@ export function openStarterPack() {
 
   const byPos = {};
   result.forEach(p => { byPos[p.position] = (byPos[p.position] || 0) + 1; });
+
+  // ── Hard validation ──────────────────────────────────────────────────────────
+  if (DATA_SOURCE === 'israel') {
+    const violations = result.filter(p => p._source !== 'israeli');
+    if (violations.length > 0) {
+      console.error(
+        '❌ STARTER PACK VALIDATION FAILED — non-Israeli players in result:',
+        violations.map(p => `${p.name} (_source:${p._source})`),
+      );
+      throw new Error(
+        `Starter pack validation failed: ${violations.length} non-Israeli player(s) returned. Check playerStore / DATA_SOURCE.`
+      );
+    }
+  }
+
   console.log(
     `%c📦 STARTER PACK OPENED (${result.length} players)`, 'color: #fff; font-weight: bold',
-    '\n  By position:', JSON.stringify(byPos),
+    `\n  DATA_SOURCE : ${DATA_SOURCE}`,
+    `\n  By position : ${JSON.stringify(byPos)}`,
     `\n  bronze=${result.filter(p => p.rating <= 64).length}`,
     `  silver=${result.filter(p => p.rating >= 65 && p.rating <= 74).length}`,
     `  gold=${result.filter(p => p.rating >= 75).length}`,
-    `\n  87+ guaranteed: ${result.some(p => p.rating >= 87) ? '✅' : '❌'}`,
+    `\n  Selected players:`,
+    result.map(p => `    ${p.name} | ${p.position} | ${p.rating} | ${p.club} | ${p.leagueName} | ${p.nationality} | _source:${p._source}`).join('\n'),
   );
 
   return result;
 }
 
 export function openPack(type) {
-  const config = PACKS[type];
-  if (!config) {
-    throw new Error(`Unknown pack type: "${type}". Valid types: bronze, silver, gold`);
+  // Fresh pool — no module-level caching
+  const pool = buildPool();
+
+  const tierPool = {
+    bronze: pool.filter(p => p.rating <= 64),
+    silver: pool.filter(p => p.rating >= 65 && p.rating <= 74),
+    gold:   pool.filter(p => p.rating >= 75),
+  }[type];
+
+  if (tierPool === undefined) {
+    throw new Error(`Unknown pack type: "${type}". Valid: bronze, silver, gold`);
   }
 
-  const players = pickRandom(config.pool, config.size);
+  const players = pickRandom(tierPool, 12);
 
-  console.log(`%c📦 ${type.toUpperCase()} PACK OPENED (${players.length} players)`, 'color: #f7d774; font-weight: bold');
-  console.table(players.map(p => ({
-    name:     p.name,
-    rating:   p.rating,
-    position: p.position,
-    club:     p.club,
-  })));
+  // ── Hard validation ──────────────────────────────────────────────────────────
+  if (DATA_SOURCE === 'israel') {
+    const violations = players.filter(p => p._source !== 'israeli');
+    if (violations.length > 0) {
+      console.error(
+        `❌ ${type.toUpperCase()} PACK VALIDATION FAILED — non-Israeli players in result:`,
+        violations.map(p => `${p.name} (_source:${p._source})`),
+      );
+      throw new Error(
+        `Pack validation failed: ${violations.length} non-Israeli player(s) in ${type} pack. Check playerStore / DATA_SOURCE.`
+      );
+    }
+  }
+
+  console.log(
+    `%c📦 ${type.toUpperCase()} PACK OPENED (${players.length} players)`, 'color: #f7d774; font-weight: bold',
+    `\n  DATA_SOURCE : ${DATA_SOURCE}`,
+    `\n  Tier pool size: ${tierPool.length}`,
+    `\n  Selected players:`,
+    players.map(p => `    ${p.name} | ${p.position} | ${p.rating} | ${p.club} | ${p.leagueName} | ${p.nationality} | _source:${p._source}`).join('\n'),
+  );
 
   return players;
 }
