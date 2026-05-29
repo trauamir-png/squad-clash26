@@ -1,19 +1,33 @@
 import { getAllPlayers } from './playerStore';
 import { DATA_SOURCE }  from '../config/dataSource';
 
-// ── Israeli safety filter ─────────────────────────────────────────────────────
-// When DATA_SOURCE='israel' this filter is a HARD REQUIREMENT.
-// Players that do not satisfy ANY of these criteria are rejected.
-// There is no silent fallback to FIFA data — an empty pool produces a console
-// error and an empty pack rather than returning global players.
+// ── Israeli football league / club lists ─────────────────────────────────────
+// Used to identify players who belong to the Israeli football ecosystem.
+// This is NOT based on nationality — foreign players at Israeli clubs qualify.
+const ISRAELI_LEAGUES = ["Ligat Ha'al", 'Liga Leumit', 'Israeli Premier League'];
+
+const ISRAELI_CLUBS = new Set([
+  'Maccabi Tel Aviv', 'Maccabi Haifa', 'Hapoel Beer Sheva',
+  'Hapoel Tel Aviv', 'Beitar Jerusalem', 'Bnei Yehuda',
+  'Maccabi Petah Tikva', 'Ironi Kiryat Shmona', 'Maccabi Netanya',
+  'Hapoel Haifa', 'Maccabi Bnei Raina', 'Hapoel Jerusalem',
+  'Ironi Tiberias', 'Hapoel Raanana', 'Hapoel Hadera',
+  'Maccabi Ironi Nes Ziona', 'Ironi Nof HaGalil', 'Bnei Sakhnin',
+]);
+
+// ── Israeli football filter ───────────────────────────────────────────────────
+// When DATA_SOURCE='israel' this is a HARD REQUIREMENT.
+// Criteria: tagged in the Israeli dataset (_source) OR plays in an Israeli
+// league OR plays for an Israeli club.
+// Nationality is NOT a criterion — a Brazilian at Maccabi Tel Aviv qualifies;
+// an Israeli playing abroad (e.g. in the Premier League) does NOT.
 function applySourceFilter(players) {
   if (DATA_SOURCE !== 'israel') return players;
 
   return players.filter(p =>
-    p._source        === 'israeli'     ||
-    p.country        === 'Israel'      ||
-    p.nationality    === 'Israel'      ||
-    (typeof p.leagueName === 'string' && p.leagueName.includes("Ha'al"))
+    p._source === 'israeli' ||
+    ISRAELI_LEAGUES.some(l => typeof p.leagueName === 'string' && p.leagueName.includes(l)) ||
+    ISRAELI_CLUBS.has(p.club)
   );
 }
 

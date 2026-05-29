@@ -266,18 +266,163 @@ const ISRAELI_PLAYERS = [
     eaId: null, image: null, _source: 'israeli',
   },
 
+  // ── Foreign players in Israeli clubs ────────────────────────────────────────
+  // These players are NOT Israeli nationals, but they play in Ligat Ha'al clubs.
+  // They are part of the Israeli football ecosystem and appear in packs/squads.
+  // _source is 'israeli' because they belong to the Israeli football dataset,
+  // not because of their nationality.
+
+  // Gold (≥75) ─────────────────────────────────────────────────────────────────
+  {
+    id: 'isr_34', name: 'Deni Jurić', position: 'ST', rating: 76,
+    nationality: 'Croatia', country: 'Croatia',
+    club: 'Maccabi Tel Aviv', leagueName: "Ligat Ha'al",
+    stats: { pac: 78, sho: 82, pas: 62, dri: 74, def: 32, phy: 80 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_35', name: 'Predrag Rajković', position: 'GK', rating: 75,
+    nationality: 'Serbia', country: 'Serbia',
+    club: 'Beitar Jerusalem', leagueName: "Ligat Ha'al",
+    stats: { pac: 65, sho: 14, pas: 60, dri: 58, def: 22, phy: 76 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+
+  // Silver (65-74) ──────────────────────────────────────────────────────────────
+  {
+    id: 'isr_36', name: 'Tjaronn Chery', position: 'CAM', rating: 74,
+    nationality: 'Suriname', country: 'Suriname',
+    club: 'Maccabi Haifa', leagueName: "Ligat Ha'al",
+    stats: { pac: 74, sho: 72, pas: 80, dri: 82, def: 40, phy: 64 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_37', name: 'Mërgim Vojvoda', position: 'RB', rating: 73,
+    nationality: 'Kosovo', country: 'Kosovo',
+    club: 'Hapoel Beer Sheva', leagueName: "Ligat Ha'al",
+    stats: { pac: 78, sho: 42, pas: 66, dri: 72, def: 73, phy: 72 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_38', name: 'Gershon Koffie', position: 'CDM', rating: 72,
+    nationality: 'Ghana', country: 'Ghana',
+    club: 'Maccabi Haifa', leagueName: "Ligat Ha'al",
+    stats: { pac: 68, sho: 36, pas: 70, dri: 64, def: 74, phy: 74 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_39', name: 'Louis Schaub', position: 'CAM', rating: 72,
+    nationality: 'Austria', country: 'Austria',
+    club: 'Hapoel Tel Aviv', leagueName: "Ligat Ha'al",
+    stats: { pac: 70, sho: 68, pas: 76, dri: 76, def: 36, phy: 62 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_40', name: 'Maximiliano Caufriez', position: 'CB', rating: 72,
+    nationality: 'Belgium', country: 'Belgium',
+    club: 'Hapoel Beer Sheva', leagueName: "Ligat Ha'al",
+    stats: { pac: 68, sho: 26, pas: 54, dri: 58, def: 74, phy: 78 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_41', name: 'Carlos Strandberg', position: 'ST', rating: 71,
+    nationality: 'Sweden', country: 'Sweden',
+    club: 'Maccabi Tel Aviv', leagueName: "Ligat Ha'al",
+    stats: { pac: 70, sho: 76, pas: 54, dri: 68, def: 26, phy: 80 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_42', name: 'Leeroy Owusu', position: 'LW', rating: 71,
+    nationality: 'Ghana', country: 'Ghana',
+    club: 'Hapoel Beer Sheva', leagueName: "Ligat Ha'al",
+    stats: { pac: 82, sho: 64, pas: 64, dri: 76, def: 36, phy: 66 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_43', name: 'Patrick Twumasi', position: 'LW', rating: 71,
+    nationality: 'Ghana', country: 'Ghana',
+    club: 'Beitar Jerusalem', leagueName: "Ligat Ha'al",
+    stats: { pac: 84, sho: 62, pas: 62, dri: 76, def: 34, phy: 64 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_44', name: 'Jon Guridi', position: 'CDM', rating: 71,
+    nationality: 'Spain', country: 'Spain',
+    club: 'Maccabi Tel Aviv', leagueName: "Ligat Ha'al",
+    stats: { pac: 66, sho: 34, pas: 68, dri: 62, def: 73, phy: 74 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_45', name: 'Abdoulaye Seck', position: 'CB', rating: 71,
+    nationality: 'Senegal', country: 'Senegal',
+    club: 'Bnei Yehuda', leagueName: "Ligat Ha'al",
+    stats: { pac: 66, sho: 22, pas: 52, dri: 54, def: 73, phy: 76 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_46', name: 'Jodel Dossou', position: 'RW', rating: 71,
+    nationality: 'Benin', country: 'Benin',
+    club: 'Maccabi Haifa', leagueName: "Ligat Ha'al",
+    stats: { pac: 84, sho: 66, pas: 60, dri: 74, def: 36, phy: 62 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_47', name: 'Claudemir', position: 'CDM', rating: 70,
+    nationality: 'Brazil', country: 'Brazil',
+    club: 'Hapoel Beer Sheva', leagueName: "Ligat Ha'al",
+    stats: { pac: 64, sho: 32, pas: 66, dri: 60, def: 72, phy: 74 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_48', name: 'Stef Pinho', position: 'ST', rating: 70,
+    nationality: 'Belgium', country: 'Belgium',
+    club: 'Maccabi Haifa', leagueName: "Ligat Ha'al",
+    stats: { pac: 70, sho: 74, pas: 52, dri: 66, def: 26, phy: 76 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_49', name: 'Franck Kom', position: 'CDM', rating: 70,
+    nationality: 'Cameroon', country: 'Cameroon',
+    club: 'Maccabi Tel Aviv', leagueName: "Ligat Ha'al",
+    stats: { pac: 64, sho: 32, pas: 64, dri: 58, def: 72, phy: 74 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_50', name: 'Gustavo Boccoli', position: 'ST', rating: 70,
+    nationality: 'Brazil', country: 'Brazil',
+    club: 'Beitar Jerusalem', leagueName: "Ligat Ha'al",
+    stats: { pac: 72, sho: 72, pas: 52, dri: 68, def: 26, phy: 74 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_51', name: 'Erik Sabo', position: 'CM', rating: 69,
+    nationality: 'Slovakia', country: 'Slovakia',
+    club: 'Ironi Kiryat Shmona', leagueName: "Ligat Ha'al",
+    stats: { pac: 68, sho: 52, pas: 68, dri: 66, def: 50, phy: 64 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_52', name: 'Giani Crețu', position: 'LW', rating: 69,
+    nationality: 'Romania', country: 'Romania',
+    club: 'Beitar Jerusalem', leagueName: "Ligat Ha'al",
+    stats: { pac: 78, sho: 62, pas: 60, dri: 74, def: 34, phy: 60 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+  {
+    id: 'isr_53', name: 'Azer Busuladzic', position: 'ST', rating: 68,
+    nationality: 'Bosnia', country: 'Bosnia',
+    club: 'Ironi Kiryat Shmona', leagueName: "Ligat Ha'al",
+    stats: { pac: 68, sho: 72, pas: 50, dri: 64, def: 24, phy: 74 },
+    eaId: null, image: null, _source: 'israeli',
+  },
+
 ];
 
-// Rating distribution check (development reference):
-// Gold   (≥75): Glazer 76, Bitton 76, Refaelov 76, Tawatha 75,
-//               Peretz 78, Solomon 78, Zahavi 80, Weissman 75  → 8 players
-// Silver (65-74): Radi 73, Nachmias 74, Loai Taha 72, Cohen 68,
-//                 Yeini 74, Ali 71, Almog 70, Eli Dasa 73, Yali 70,
-//                 Shem Tov 72, Micha 69, Khalaila 72, Davidzada 72,
-//                 Buzaglo 73, Eliel 70, Atzili 73, Haziza 72,
-//                 Jehezkel 74, Dia Saba 73, Hemed 70             → 20 players
-// Bronze (≤64): Ben Zion 62, Gordana 63, Spungin 62, Golasa 63,
-//               Or Dayan 64                                       → 5 players
+// ── Rating distribution (53 players total) ────────────────────────────────────
+// Gold   (≥75): Zahavi 80, Peretz 78, Solomon 78, Glazer 76, Bitton 76,
+//               Refaelov 76, Jurić 76, Tawatha 75, Weissman 75, Rajković 75 → 10
+// Silver (65-74): 38 players (Israeli + foreign league players)
+// Bronze (≤64): Ben Zion 62, Gordana 63, Spungin 62, Golasa 63, Or Dayan 64 → 5
 
 export function getAllPlayers() {
   return ISRAELI_PLAYERS;

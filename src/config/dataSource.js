@@ -10,4 +10,4 @@ export const DATA_SOURCE = 'israel';
 // Bump this string every time you deploy a meaningful data/logic change.
 // It appears in the on-screen debug panel so you can verify the live build
 // is actually the latest deployment.
-export const APP_VERSION = 'Israel-v3';
+export const APP_VERSION = 'Israel-v4';
