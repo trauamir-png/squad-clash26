@@ -116,6 +116,20 @@ export function openStarterPack() {
   const byPos = {};
   result.forEach(p => { byPos[p.position] = (byPos[p.position] || 0) + 1; });
 
+  // ── Hard validation ──────────────────────────────────────────────────────────
+  if (DATA_SOURCE === 'israel') {
+    const violations = result.filter(p => p._source !== 'israeli');
+    if (violations.length > 0) {
+      console.error(
+        '❌ STARTER PACK VALIDATION FAILED — non-Israeli players in result:',
+        violations.map(p => `${p.name} (_source:${p._source})`),
+      );
+      throw new Error(
+        `Starter pack validation failed: ${violations.length} non-Israeli player(s) returned. Check playerStore / DATA_SOURCE.`
+      );
+    }
+  }
+
   console.log(
     `%c📦 STARTER PACK OPENED (${result.length} players)`, 'color: #fff; font-weight: bold',
     `\n  DATA_SOURCE : ${DATA_SOURCE}`,
@@ -145,6 +159,20 @@ export function openPack(type) {
   }
 
   const players = pickRandom(tierPool, 12);
+
+  // ── Hard validation ──────────────────────────────────────────────────────────
+  if (DATA_SOURCE === 'israel') {
+    const violations = players.filter(p => p._source !== 'israeli');
+    if (violations.length > 0) {
+      console.error(
+        `❌ ${type.toUpperCase()} PACK VALIDATION FAILED — non-Israeli players in result:`,
+        violations.map(p => `${p.name} (_source:${p._source})`),
+      );
+      throw new Error(
+        `Pack validation failed: ${violations.length} non-Israeli player(s) in ${type} pack. Check playerStore / DATA_SOURCE.`
+      );
+    }
+  }
 
   console.log(
     `%c📦 ${type.toUpperCase()} PACK OPENED (${players.length} players)`, 'color: #f7d774; font-weight: bold',

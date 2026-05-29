@@ -14,6 +14,7 @@ import { generateOpponentSquad, calculateOpponentPower } from "./data/opponentSq
 import { MyClubScreen } from "./MyClubScreen";
 import { loadGameSave, saveGameState, resetGameSave } from "./data/saveService";
 import { DATA_SOURCE } from "./config/dataSource";
+import { DebugPanel } from "./DebugPanel";
 import { getRatingColor, getCardRatingColor, getRatingCardStyle, getRatingCardClass } from "./ratingUtils";
 import { getClubLogo, getLeagueLogo, initClubLogos } from "./utils/imageResolvers";
 import { generateMatchEvents } from "./data/matchSimulator";
@@ -1712,6 +1713,7 @@ function App() {
           <p className="picker-hint">{t('clickPosition')}</p>
         </div>
       </div>
+      <DebugPanel />
     </div>
   );
 }
