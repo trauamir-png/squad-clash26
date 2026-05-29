@@ -1,4 +1,4 @@
-import { getAllPlayers } from '../data/csvPlayerStore';
+import { getAllPlayers } from '../data/playerStore';
 
 // ─── Shared normalisation ─────────────────────────────────────────────────────
 

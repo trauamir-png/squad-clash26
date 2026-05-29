@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { t } from './i18n/index.js';
 import { getCardRatingColor, getRatingCardStyle, getRatingCardClass, sortByRating } from './ratingUtils';
 import { getClubLogo } from './utils/imageResolvers';
-import { getAllPlayers } from './data/csvPlayerStore';
+import { getAllPlayers } from './data/playerStore';
 import { FutCard } from './FutCard';
 
 const STAT_KEYS = ['PAC', 'SHO', 'PAS', 'DRI', 'DEF', 'PHY'];
