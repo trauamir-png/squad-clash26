@@ -1,0 +1,703 @@
+id,name,age,nationality,country,club,leagueName,position,alternativePositions,preferredFoot,marketValue,OVR,PAC,SHO,PAS,DRI,DEF,PHY,cardType,source
+isr_1,Ofek Melika,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,GK,,,,84,44,35,56,50,35,62,active,israeli
+isr_2,Roei Amedi,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,GK,,,,86,46,35,58,43,35,65,active,israeli
+isr_3,Shalev Sa'adia,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,GK,,,,87,46,35,58,52,35,64,active,israeli
+isr_4,Roi Mishpati,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,GK,,,,79,46,35,48,43,35,63,active,israeli
+isr_5,Roy Revivo,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,CB,,,,80,56,35,47,50,92,89,active,israeli
+isr_6,Heitor,,Brazil,Brazil,Maccabi Tel Aviv,Ligat Ha'al,CB,,,,80,61,35,43,46,97,94,active,israeli
+isr_7,Mohamed Ali Camara,,Guinea,Guinea,Maccabi Tel Aviv,Ligat Ha'al,CB,,,,81,62,35,45,48,99,87,active,israeli
+isr_8,Tyrese Asante,,Netherlands,Netherlands,Maccabi Tel Aviv,Ligat Ha'al,LB,,,,83,72,39,55,60,79,57,active,israeli
+isr_9,Sagiv Yehezkel,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,RB,,,,83,72,39,55,60,79,57,active,israeli
+isr_10,Raz Shlomo,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,CB,,,,78,57,35,49,43,93,89,active,israeli
+isr_11,Denny Gropper,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,CB,,,,74,55,35,39,42,89,86,active,israeli
+isr_12,Noam Ben Harush,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,CB,,,,73,57,35,40,43,90,78,active,israeli
+isr_13,Itay Ben Hemo,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,LB,,,,74,69,40,54,50,67,55,active,israeli
+isr_14,Kervin Andrade,,Venezuela,Venezuela,Maccabi Tel Aviv,Ligat Ha'al,CDM,,,,88,64,38,75,59,97,91,active,israeli
+isr_15,Kristijan Belić,,Serbia,Serbia,Maccabi Tel Aviv,Ligat Ha'al,CM,,,,78,66,51,78,65,55,52,active,israeli
+isr_16,Ben Lederman,,Poland,Poland,Maccabi Tel Aviv,Ligat Ha'al,CM,,,,85,64,57,86,72,61,58,active,israeli
+isr_17,Issouf Sissokho,,Mali,Mali,Maccabi Tel Aviv,Ligat Ha'al,CAM,,,,82,61,72,90,92,35,47,active,israeli
+isr_18,Itamar Noy,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,LM,,,,75,85,57,64,82,35,47,active,israeli
+isr_19,Ido Shahar,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,RM,,,,86,94,71,80,91,35,60,active,israeli
+isr_20,Dor Peretz,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,CDM,,,,84,60,44,80,55,91,86,active,israeli
+isr_21,Osher Davida,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,CM,,,,76,57,51,77,64,55,52,active,israeli
+isr_22,Yonas Malede,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,ST,,,,82,80,99,49,78,35,83,active,israeli
+isr_23,Elad Madmon,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,ST,,,,84,84,99,52,73,35,87,active,israeli
+isr_24,Hélio Varela,,Cape Verde,Cape Verde,Maccabi Tel Aviv,Ligat Ha'al,LW,,,,85,99,74,63,99,35,55,active,israeli
+isr_25,Sayed Abu Farchi,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,RW,,,,83,97,77,67,94,35,50,active,israeli
+isr_26,Ilay Ben Simon,,Israel,Israel,Maccabi Tel Aviv,Ligat Ha'al,ST,,,,77,75,93,46,73,35,78,active,israeli
+isr_27,Emir Sahiti,,Kosovo,Kosovo,Maccabi Tel Aviv,Ligat Ha'al,ST,,,,87,91,99,48,79,35,85,active,israeli
+isr_28,Ion Nicolaescu,,Moldova,Moldova,Maccabi Tel Aviv,Ligat Ha'al,LW,,,,88,99,79,69,99,35,51,active,israeli
+isr_29,Shareef Keouf,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,GK,,,,79,45,35,47,42,35,62,active,israeli
+isr_30,Roee Fucs,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,GK,,,,86,47,35,59,44,35,66,active,israeli
+isr_31,Heorhiy Yermakov,,Ukraine,Ukraine,Maccabi Haifa,Ligat Ha'al,GK,,,,88,49,35,61,46,35,68,active,israeli
+isr_32,Glenn Alvin,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,GK,,,,82,45,35,56,42,35,63,active,israeli
+isr_33,Zohar Zasno,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CB,,,,83,63,35,45,48,99,97,active,israeli
+isr_34,Sean Goldberg,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CB,,,,82,57,35,49,52,94,91,active,israeli
+isr_35,Lisav Eissat,,ROU,ROU,Maccabi Haifa,Ligat Ha'al,CB,,,,86,62,35,53,47,99,97,active,israeli
+isr_36,Jelle Bataille,,Belgium,Belgium,Maccabi Haifa,Ligat Ha'al,LB,,,,85,78,44,61,56,76,62,active,israeli
+isr_37,Pierre Cornud,,France,France,Maccabi Haifa,Ligat Ha'al,RB,,,,81,78,36,52,57,76,62,active,israeli
+isr_38,Yinon Feingezicht,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CB,,,,73,53,35,45,39,86,83,active,israeli
+isr_39,Abdoulaye Seck,,Senegal,Senegal,Maccabi Haifa,Ligat Ha'al,CB,,,,85,63,35,45,48,99,98,active,israeli
+isr_40,Noam Sztejfman,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CB,,,,84,64,35,47,50,99,90,active,israeli
+isr_41,Elad Amir,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,LB,,,,82,72,39,56,60,79,57,active,israeli
+isr_42,Eylon Baruch,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,RB,,,,72,66,38,52,47,64,53,active,israeli
+isr_43,Pedrão,,Brazil,Brazil,Maccabi Haifa,Ligat Ha'al,CB,,,,78,56,35,48,42,92,88,active,israeli
+isr_44,Tomi Tsitoashvili,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CB,,,,76,59,35,42,45,93,81,active,israeli
+isr_45,Ali Mohamed,,NIG,NIG,Maccabi Haifa,Ligat Ha'al,CDM,,,,81,55,40,74,59,85,80,active,israeli
+isr_46,Dolev Haziza,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CM,,,,85,68,61,90,67,56,62,active,israeli
+isr_47,Manuel Benson,,Angola,Angola,Maccabi Haifa,Ligat Ha'al,CM,,,,83,67,60,89,66,55,62,active,israeli
+isr_48,Lior Kasa,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CAM,,,,79,60,71,88,89,35,46,active,israeli
+isr_49,Kenny Saief,,United States,United States,Maccabi Haifa,Ligat Ha'al,LM,,,,90,97,73,82,94,35,62,active,israeli
+isr_50,Ethan Azoulay,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,RM,,,,85,94,62,71,91,35,61,active,israeli
+isr_51,Michael Ohana,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CDM,,,,72,53,35,62,49,80,76,active,israeli
+isr_52,Daniel Darzi,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CM,,,,79,59,53,80,67,57,54,active,israeli
+isr_53,Itay Solomon,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CM,,,,84,68,61,90,67,56,62,active,israeli
+isr_54,Navot Ratner,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,CAM,,,,78,60,71,88,80,35,47,active,israeli
+isr_55,Peter Agba,,Nigeria,Nigeria,Maccabi Haifa,Ligat Ha'al,LM,,,,90,97,73,82,94,35,62,active,israeli
+isr_56,Silva Kani,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,ST,,,,82,82,99,51,71,35,85,active,israeli
+isr_57,Trivante Stewart,,Jamaica,Jamaica,Maccabi Haifa,Ligat Ha'al,ST,,,,86,88,99,46,76,35,91,active,israeli
+isr_58,Kenji Gorré,,CUW,CUW,Maccabi Haifa,Ligat Ha'al,LW,,,,83,99,79,69,96,35,52,active,israeli
+isr_59,Suf Podgoreanu,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,RW,,,,84,99,80,70,97,35,52,active,israeli
+isr_60,Guy Melamed,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,ST,,,,82,86,96,46,75,35,80,active,israeli
+isr_61,Liam Luski,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,ST,,,,80,76,95,45,74,35,79,active,israeli
+isr_62,Adam Grimberg,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,LW,,,,77,87,68,59,93,35,43,active,israeli
+isr_63,Niv Gabay,,Israel,Israel,Maccabi Haifa,Ligat Ha'al,RW,,,,80,93,74,64,90,35,48,active,israeli
+isr_64,Cédric Don,,Côte d'Ivoire,Côte d'Ivoire,Maccabi Haifa,Ligat Ha'al,ST,,,,88,88,99,54,76,35,91,active,israeli
+isr_65,Asaf Tzur,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,GK,,,,81,42,35,53,48,35,59,active,israeli
+isr_66,Or Gilad,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,GK,,,,85,50,35,52,47,35,68,active,israeli
+isr_67,Ben David Cohen,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,GK,,,,85,44,35,55,50,35,62,active,israeli
+isr_68,Yosef Tuaf,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,CB,,,,82,56,35,48,51,99,90,active,israeli
+isr_69,Matan Baltaxa,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,CB,,,,77,52,35,45,48,96,84,active,israeli
+isr_70,Maximiliano Caufriez,,Belgium,Belgium,Hapoel Be'er Sheva,Ligat Ha'al,CB,,,,82,57,35,49,52,94,91,active,israeli
+isr_71,Matan Ohayon,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,LB,,,,72,69,35,46,50,67,56,active,israeli
+isr_72,Mërgim Vojvoda,,Kosovo,Kosovo,Hapoel Be'er Sheva,Ligat Ha'al,RB,,,,78,70,38,54,59,68,55,active,israeli
+isr_74,Lidor Cohen,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,CB,,,,75,58,35,42,45,92,80,active,israeli
+isr_75,Tzah Doron,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,CB,,,,72,55,35,39,42,87,85,active,israeli
+isr_76,Daniel Afriyie,,Ghana,Ghana,Hapoel Be'er Sheva,Ligat Ha'al,CDM,,,,86,61,45,81,56,94,88,active,israeli
+isr_77,Almog Cohen,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,CM,,,,79,64,58,85,63,53,59,active,israeli
+isr_79,Claudemir,,Brazil,Brazil,Hapoel Be'er Sheva,Ligat Ha'al,CAM,,,,86,63,75,94,95,35,49,active,israeli
+isr_80,Nimrod Oved,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,LM,,,,78,85,65,73,82,35,55,active,israeli
+isr_81,Gal Peled,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,RM,,,,76,85,56,64,82,35,56,active,israeli
+isr_83,Leeroy Owusu,,Ghana,Ghana,Hapoel Be'er Sheva,Ligat Ha'al,CM,,,,82,66,59,87,64,54,60,active,israeli
+isr_84,Maor Buzaglo,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,CM,,,,82,63,56,84,70,60,57,active,israeli
+isr_85,Munas Dabbur,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,ST,,,,83,81,99,49,79,35,84,active,israeli
+isr_86,Dia Saba,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,ST,,,,79,75,94,45,73,35,78,active,israeli
+isr_87,Gustavo Boccoli,,Brazil,Brazil,Hapoel Be'er Sheva,Ligat Ha'al,LW,,,,90,99,80,69,99,35,51,active,israeli
+isr_88,Patrick Twumasi,,Ghana,Ghana,Hapoel Be'er Sheva,Ligat Ha'al,RW,,,,85,96,76,65,99,35,48,active,israeli
+isr_89,Tomer Hemed,,Israel,Israel,Hapoel Be'er Sheva,Ligat Ha'al,ST,,,,76,79,88,41,68,35,82,active,israeli
+isr_90,Dor Binyamini,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,GK,,,,84,49,35,52,46,35,67,active,israeli
+isr_91,Assaf Tzur,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,GK,,,,80,46,35,48,43,35,63,active,israeli
+isr_92,Gad Amos,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,GK,,,,75,40,35,51,37,35,56,active,israeli
+isr_93,Sagi Pinhas,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,GK,,,,77,46,35,48,43,35,54,active,israeli
+isr_94,Chico,,Brazil,Brazil,Hapoel Tel Aviv,Ligat Ha'al,CB,,,,79,60,35,43,46,96,92,active,israeli
+isr_95,Fernand Mayembo,,CGO,CGO,Hapoel Tel Aviv,Ligat Ha'al,CB,,,,74,53,35,46,40,87,84,active,israeli
+isr_96,Doron Leidner,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,CB,,,,70,49,35,43,37,81,78,active,israeli
+isr_97,Tal Archel,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,LB,,,,79,75,35,50,54,73,60,active,israeli
+isr_98,Shahar Piven,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,RB,,,,74,70,35,46,51,68,56,active,israeli
+isr_99,Ofer Gelbard,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,CB,,,,73,51,35,43,46,84,81,active,israeli
+isr_100,Yazan Nassar,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,CB,,,,72,49,35,42,45,90,79,active,israeli
+isr_101,Marcus Coco,,GLP,GLP,Hapoel Tel Aviv,Ligat Ha'al,CB,,,,76,53,35,45,48,87,84,active,israeli
+isr_102,Andrian Kraev,,Bulgaria,Bulgaria,Hapoel Tel Aviv,Ligat Ha'al,CDM,,,,74,50,37,68,54,77,73,active,israeli
+isr_103,Xande Silva,,Portugal,Portugal,Hapoel Tel Aviv,Ligat Ha'al,CM,,,,78,58,52,79,66,56,53,active,israeli
+isr_104,Stav Turiel,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,CM,,,,78,63,57,84,62,52,58,active,israeli
+isr_105,El Yam Kancepolsky,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,CAM,,,,73,61,62,78,80,35,40,active,israeli
+isr_106,Roei Alkukin,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,LM,,,,71,77,58,65,74,35,49,active,israeli
+isr_107,Amit Lemkin,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,RM,,,,77,84,64,72,81,35,54,active,israeli
+isr_108,Falcão,,Brazil,Brazil,Hapoel Tel Aviv,Ligat Ha'al,CDM,,,,83,59,44,79,54,90,85,active,israeli
+isr_109,Roy Korine,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,ST,,,,80,80,99,49,69,35,83,active,israeli
+isr_110,Emmanuel Boateng,,Ghana,Ghana,Hapoel Tel Aviv,Ligat Ha'al,ST,,,,76,73,91,44,71,35,76,active,israeli
+isr_111,Anas Mahamid,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,LW,,,,85,99,80,69,97,35,52,active,israeli
+isr_112,Mor Buskila,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,RW,,,,85,98,78,67,99,35,50,active,israeli
+isr_113,Daniel Dappa,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,ST,,,,84,83,99,51,72,35,86,active,israeli
+isr_114,Omri Altman,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,ST,,,,79,78,97,48,67,35,81,active,israeli
+isr_115,Loizos Loizou,,CYP,CYP,Hapoel Tel Aviv,Ligat Ha'al,LW,,,,82,97,77,67,94,35,50,active,israeli
+isr_116,Omri Levy,,Israel,Israel,Hapoel Tel Aviv,Ligat Ha'al,RW,,,,77,92,73,64,89,35,48,active,israeli
+isr_117,Yehonathan Ozer,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,GK,,,,73,43,35,44,40,35,59,active,israeli
+isr_118,Miguel Silva,,Portugal,Portugal,Beitar Jerusalem,Ligat Ha'al,GK,,,,84,47,35,59,44,35,65,active,israeli
+isr_119,Nana Antwi,,Ghana,Ghana,Beitar Jerusalem,Ligat Ha'al,CB,,,,72,55,35,39,42,87,85,active,israeli
+isr_120,Brayan Carabalí,,Colombia,Colombia,Beitar Jerusalem,Ligat Ha'al,CB,,,,82,55,35,47,50,99,89,active,israeli
+isr_121,Gil Cohen,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,CB,,,,77,54,35,47,41,89,86,active,israeli
+isr_122,Roey Elimelech,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,LB,,,,77,73,35,48,53,71,58,active,israeli
+isr_123,Yarden Cohen,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,RB,,,,77,71,40,55,51,69,56,active,israeli
+isr_124,Grigori Morozov,,Russia,Russia,Beitar Jerusalem,Ligat Ha'al,CB,,,,83,59,35,50,44,97,93,active,israeli
+isr_125,Uri Dahan,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,CB,,,,79,61,35,44,47,97,84,active,israeli
+isr_126,Yuval Shalev,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,CB,,,,69,53,35,37,40,84,81,active,israeli
+isr_127,Luka Gadrani,,Georgia,Georgia,Beitar Jerusalem,Ligat Ha'al,LB,,,,82,72,39,56,60,79,57,active,israeli
+isr_128,Ziv Ben Shimol,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,CDM,,,,77,56,35,65,51,85,80,active,israeli
+isr_129,Adi Yona,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,CM,,,,75,63,48,74,61,52,58,active,israeli
+isr_130,Dor Micha,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,CM,,,,81,69,53,81,67,57,54,active,israeli
+isr_131,Boris Enow,,Cameroon,Cameroon,Beitar Jerusalem,Ligat Ha'al,CAM,,,,78,63,65,82,83,35,50,active,israeli
+isr_132,Aílson Tavares,,Cape Verde,Cape Verde,Beitar Jerusalem,Ligat Ha'al,LM,,,,74,80,61,68,77,35,51,active,israeli
+isr_133,Yarden Shua,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,ST,,,,82,86,96,46,75,35,80,active,israeli
+isr_134,Johnbosco Kalu,,Nigeria,Nigeria,Beitar Jerusalem,Ligat Ha'al,ST,,,,77,80,89,42,69,35,83,active,israeli
+isr_135,Timothy Muzie,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,LW,,,,85,99,79,68,96,35,51,active,israeli
+isr_136,Dor Hugi,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,RW,,,,77,87,68,59,93,35,43,active,israeli
+isr_137,Omer Atzili,,Israel,Israel,Beitar Jerusalem,Ligat Ha'al,ST,,,,81,81,99,50,70,35,84,active,israeli
+isr_138,Yoav Gerafi,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,GK,,,,79,39,35,50,45,35,56,active,israeli
+isr_139,Benjamin Macini,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,GK,,,,73,44,35,45,41,35,51,active,israeli
+isr_140,Matan Ambar,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,GK,,,,74,39,35,49,45,35,55,active,israeli
+isr_141,Ori Levy,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,GK,,,,71,35,35,45,41,35,50,active,israeli
+isr_142,Harel Attia,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,GK,,,,80,45,35,56,42,35,62,active,israeli
+isr_143,Tamir Arbel,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CB,,,,72,56,35,40,43,88,77,active,israeli
+isr_144,Dor Malul,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CB,,,,79,54,35,46,49,99,86,active,israeli
+isr_145,Ivan Kričak,,Serbia,Serbia,Hapoel Haifa,Ligat Ha'al,CB,,,,72,48,35,41,44,89,78,active,israeli
+isr_146,Oren Biton,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,LB,,,,68,66,35,43,48,64,53,active,israeli
+isr_147,Dario Župarić,,Croatia,Croatia,Hapoel Haifa,Ligat Ha'al,RB,,,,71,67,35,44,49,65,54,active,israeli
+isr_148,Naftali Balay,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CB,,,,71,49,35,42,45,81,79,active,israeli
+isr_149,Liran Serdal,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CB,,,,77,57,35,41,44,92,89,active,israeli
+isr_150,George Diba,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CB,,,,76,53,35,45,48,87,84,active,israeli
+isr_151,Ahmed Mahajna,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,LB,,,,80,74,41,57,53,72,59,active,israeli
+isr_152,Saná Gomes,,Guinea-Bissau,Guinea-Bissau,Hapoel Haifa,Ligat Ha'al,RB,,,,78,75,35,50,55,73,60,active,israeli
+isr_153,Yonatan Farber,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CDM,,,,75,56,35,65,51,84,79,active,israeli
+isr_154,Sa'ar Fadida,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CM,,,,76,63,48,74,61,52,58,active,israeli
+isr_155,Roy Nawi,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CM,,,,78,64,49,76,63,53,59,active,israeli
+isr_156,Ya'ad Gonen,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CAM,,,,80,66,68,86,87,35,44,active,israeli
+isr_157,Ofek Biton,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,LM,,,,78,81,61,69,87,35,51,active,israeli
+isr_158,Sandro Altunashvili,,Georgia,Georgia,Hapoel Haifa,Ligat Ha'al,RM,,,,80,89,59,67,86,35,58,active,israeli
+isr_159,Liran Rotman,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CDM,,,,72,46,35,64,51,82,69,active,israeli
+isr_160,Shay Balahsan,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CM,,,,82,65,58,86,63,53,59,active,israeli
+isr_161,Yahali Va'aknin,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CM,,,,82,62,55,83,69,59,56,active,israeli
+isr_162,Naor Sabag,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,CAM,,,,73,56,66,82,75,35,44,active,israeli
+isr_163,Itay Buganim,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,ST,,,,77,79,88,41,68,35,82,active,israeli
+isr_164,Rotem Hatuel,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,ST,,,,77,76,94,47,65,35,79,active,israeli
+isr_165,Anis Porat Ayash,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,LW,,,,79,90,71,62,96,35,45,active,israeli
+isr_166,Alon Turgeman,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,RW,,,,74,87,70,61,84,35,45,active,israeli
+isr_167,Ahmed Hamam,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,ST,,,,78,79,98,49,68,35,82,active,israeli
+isr_168,Roei Zikri,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,ST,,,,77,79,88,41,68,35,82,active,israeli
+isr_169,Idan Dadia,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,LW,,,,80,95,76,66,92,35,50,active,israeli
+isr_170,Andrija Radulović,,Montenegro,Montenegro,Hapoel Haifa,Ligat Ha'al,RW,,,,77,89,70,61,95,35,45,active,israeli
+isr_171,Régis N'do,,Burkina Faso,Burkina Faso,Hapoel Haifa,Ligat Ha'al,ST,,,,83,84,99,52,73,35,87,active,israeli
+isr_172,Sa'ar Elkayam,,Israel,Israel,Hapoel Haifa,Ligat Ha'al,ST,,,,85,88,99,46,77,35,91,active,israeli
+isr_173,David Ben Lulu,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,GK,,,,77,42,35,53,39,35,59,active,israeli
+isr_174,Mohammed Abu Nil,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,GK,,,,76,44,35,45,41,35,60,active,israeli
+isr_175,Majid Suleiman,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,GK,,,,74,40,35,50,37,35,56,active,israeli
+isr_176,Maroun Gantous,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,CB,,,,68,53,35,37,40,84,72,active,israeli
+isr_177,Karlo Bručić,,Croatia,Croatia,Bnei Sakhnin,Ligat Ha'al,CB,,,,78,53,35,45,48,98,85,active,israeli
+isr_178,Alon Azugi,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,CB,,,,71,48,35,41,44,89,78,active,israeli
+isr_179,Hassan Hilu,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,LB,,,,65,60,35,47,43,58,48,active,israeli
+isr_180,Omer Korsia,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,RB,,,,71,62,35,48,53,69,49,active,israeli
+isr_181,Max Grechkin,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,CB,,,,64,46,35,40,35,75,73,active,israeli
+isr_182,Mustapha Sheikh Yousef,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,CDM,,,,66,50,35,57,46,75,62,active,israeli
+isr_183,Maicom David,,Brazil,Brazil,Bnei Sakhnin,Ligat Ha'al,CM,,,,77,58,51,78,65,55,52,active,israeli
+isr_184,Mathew Anim Cudjoe,,Ghana,Ghana,Bnei Sakhnin,Ligat Ha'al,CM,,,,70,59,45,68,57,49,54,active,israeli
+isr_185,Omer Abuhav,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,CAM,,,,67,54,55,70,71,35,43,active,israeli
+isr_186,Mohammed Ganame,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,LM,,,,74,81,62,69,78,35,52,active,israeli
+isr_187,Jubayer Bushnak,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,RM,,,,67,73,56,63,70,35,48,active,israeli
+isr_188,Eden Shamir,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,CDM,,,,74,51,38,69,46,78,74,active,israeli
+isr_189,Johan Nzi,,MAD,MAD,Bnei Sakhnin,Ligat Ha'al,CM,,,,75,62,47,73,60,51,57,active,israeli
+isr_190,Durel Avounou,,CGO,CGO,Bnei Sakhnin,Ligat Ha'al,CM,,,,71,57,51,75,55,46,52,active,israeli
+isr_191,Artur Miranyan,,Armenia,Armenia,Bnei Sakhnin,Ligat Ha'al,ST,,,,71,70,87,43,60,35,72,active,israeli
+isr_192,Ibrahima Dramé,,Senegal,Senegal,Bnei Sakhnin,Ligat Ha'al,ST,,,,76,73,91,44,71,35,76,active,israeli
+isr_193,Shaker Abu Husein,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,LW,,,,73,85,68,59,82,35,44,active,israeli
+isr_194,Stav Nahmani,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,RW,,,,77,90,71,62,87,35,46,active,israeli
+isr_195,Ahmed Salman,,Israel,Israel,Bnei Sakhnin,Ligat Ha'al,ST,,,,76,73,91,44,71,35,76,active,israeli
+isr_196,James Adeniyi,,Nigeria,Nigeria,Bnei Sakhnin,Ligat Ha'al,ST,,,,81,82,99,51,71,35,85,active,israeli
+isr_197,Nikola Đurković,,Serbia,Serbia,Hapoel Hadera,Ligat Ha'al,GK,,,,72,44,35,45,41,35,50,active,israeli
+isr_198,Robi Levkovich,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,GK,,,,79,46,35,48,43,35,63,active,israeli
+isr_199,Shahar Mark,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,GK,,,,71,38,35,48,35,35,53,active,israeli
+isr_200,Ido Krebs,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CB,,,,69,48,35,41,44,79,76,active,israeli
+isr_201,Abdi Farhat,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CB,,,,74,54,35,47,41,88,85,active,israeli
+isr_202,Ilay Tomer,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CB,,,,70,46,35,40,43,87,75,active,israeli
+isr_203,Sapir Itah,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,LB,,,,66,63,35,41,45,61,51,active,israeli
+isr_204,Roy Hazan,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,RB,,,,72,69,35,46,50,67,56,active,israeli
+isr_205,Bashar Abdach,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CB,,,,68,47,35,40,43,78,75,active,israeli
+isr_206,Ofek Geller,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CB,,,,66,46,35,39,42,75,73,active,israeli
+isr_207,Uri Magbo,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CB,,,,71,52,35,45,39,84,82,active,israeli
+isr_208,Francois Dulysse,,HAI,HAI,Hapoel Hadera,Ligat Ha'al,LB,,,,71,65,37,51,47,63,52,active,israeli
+isr_209,Lior Rokach,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CDM,,,,65,49,35,56,44,73,69,active,israeli
+isr_210,Shlomi Azulay,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CM,,,,70,56,51,74,54,46,51,active,israeli
+isr_211,Christian Bella,,Cameroon,Cameroon,Hapoel Hadera,Ligat Ha'al,CM,,,,70,55,50,73,53,45,50,active,israeli
+isr_212,Mido Badarna,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CAM,,,,76,61,63,80,81,35,49,active,israeli
+isr_213,Haim Mekonen,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,LM,,,,68,75,49,56,72,35,49,active,israeli
+isr_214,Menashe Zalka,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,RM,,,,66,68,51,58,74,35,43,active,israeli
+isr_215,Sagas Tambi,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CDM,,,,66,45,35,61,41,70,66,active,israeli
+isr_216,Tom Aida,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CM,,,,67,56,42,64,54,46,51,active,israeli
+isr_217,Sarel Shlomo Cohen,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CM,,,,67,56,42,64,54,46,51,active,israeli
+isr_218,Ladji Mallé,,Mali,Mali,Hapoel Hadera,Ligat Ha'al,CAM,,,,80,59,70,88,89,35,46,active,israeli
+isr_219,Yoav Turgeman,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,LM,,,,72,74,55,62,80,35,46,active,israeli
+isr_220,Noam Shemesh,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,RM,,,,76,84,55,63,81,35,55,active,israeli
+isr_221,Yanai Ben Shushan,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CDM,,,,75,50,36,68,54,87,73,active,israeli
+isr_222,Itay Shalev,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,CM,,,,75,62,47,73,60,51,57,active,israeli
+isr_223,Netanel Hagani,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,ST,,,,80,77,96,46,75,35,80,active,israeli
+isr_224,Mor Fadida,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,ST,,,,80,79,98,48,68,35,82,active,israeli
+isr_225,Baseel Khoury,,Israel,Israel,Hapoel Hadera,Ligat Ha'al,LW,,,,75,89,71,62,86,35,46,active,israeli
+isr_226,Ben Gordin,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,GK,,,,73,41,35,51,38,35,57,active,israeli
+isr_227,Nadav Zamir,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,GK,,,,68,35,35,45,41,35,50,active,israeli
+isr_228,Ilay Tovim,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,GK,,,,69,42,35,43,39,35,48,active,israeli
+isr_229,Inon Eliyahu,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CB,,,,73,52,35,44,38,85,82,active,israeli
+isr_230,Noam Malmoud,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CB,,,,75,50,35,43,46,93,81,active,israeli
+isr_231,Yonathan Laish,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CB,,,,75,51,35,44,47,94,82,active,israeli
+isr_232,Omer Agvadish,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,LB,,,,72,62,35,48,52,69,49,active,israeli
+isr_233,Ofek Nadir,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,RB,,,,76,73,35,49,53,71,59,active,israeli
+isr_234,Tamir Haimovich,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CB,,,,71,47,35,40,43,88,77,active,israeli
+isr_235,Harel Shalom,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CB,,,,73,51,35,43,46,84,81,active,israeli
+isr_236,David Domgjoni,,KVX,KVX,Hapoel Jerusalem,Ligat Ha'al,CB,,,,78,53,35,45,48,98,85,active,israeli
+isr_237,Awaka Ashta,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CDM,,,,76,54,40,72,50,83,78,active,israeli
+isr_238,Ilay Madmon,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CM,,,,73,54,49,73,62,53,50,active,israeli
+isr_239,John Otomewo,,Nigeria,Nigeria,Hapoel Jerusalem,Ligat Ha'al,CM,,,,68,52,47,70,60,42,48,active,israeli
+isr_240,Yanai Distelfeld,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CAM,,,,70,57,58,73,75,35,45,active,israeli
+isr_241,Ayano Preda,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,LM,,,,68,76,50,57,73,35,50,active,israeli
+isr_242,Netanel Shiferaw,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,RM,,,,70,79,52,59,76,35,52,active,israeli
+isr_243,Daniel Koudougou,,Côte d'Ivoire,Côte d'Ivoire,Hapoel Jerusalem,Ligat Ha'al,CDM,,,,78,54,39,72,49,83,78,active,israeli
+isr_244,Itay Zada,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,CM,,,,66,50,45,67,57,49,46,active,israeli
+isr_245,Matan Hozez,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,ST,,,,78,77,96,47,66,35,80,active,israeli
+isr_246,Marko Rakonjac,,Montenegro,Montenegro,Hapoel Jerusalem,Ligat Ha'al,ST,,,,83,79,99,47,77,35,82,active,israeli
+isr_247,Ruel Sotiriou,,CYP,CYP,Hapoel Jerusalem,Ligat Ha'al,LW,,,,76,94,66,57,91,35,42,active,israeli
+isr_248,Guy Badash,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,RW,,,,74,86,69,60,83,35,44,active,israeli
+isr_249,Andrew Idoko,,Nigeria,Nigeria,Hapoel Jerusalem,Ligat Ha'al,ST,,,,81,79,98,48,77,35,82,active,israeli
+isr_250,Mohamed Diab,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,ST,,,,74,78,87,41,68,35,71,active,israeli
+isr_251,Ibeh Ransom,,Nigeria,Nigeria,Hapoel Jerusalem,Ligat Ha'al,LW,,,,83,99,79,69,96,35,52,active,israeli
+isr_252,Israel Dappa,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,RW,,,,72,87,61,52,84,35,46,active,israeli
+isr_253,Ohad Almagor,,Israel,Israel,Hapoel Jerusalem,Ligat Ha'al,ST,,,,75,75,93,47,65,35,78,active,israeli
+isr_254,Tomer Tzarfati,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,GK,,,,77,46,35,48,43,35,54,active,israeli
+isr_255,Omer Nir'on,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,GK,,,,74,38,35,48,44,35,54,active,israeli
+isr_256,Niv Antman,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,GK,,,,79,44,35,55,41,35,61,active,israeli
+isr_257,Daniel Cohen,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,GK,,,,74,39,35,49,45,35,55,active,israeli
+isr_258,Tohar Teana,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CB,,,,69,47,35,40,43,87,75,active,israeli
+isr_259,Itay Ben Shabat,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CB,,,,68,46,35,39,42,86,74,active,israeli
+isr_260,Denis Kulikov,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CB,,,,65,43,35,37,40,81,70,active,israeli
+isr_261,Bakary Konaté,,Mali,Mali,Maccabi Netanya,Ligat Ha'al,LB,,,,69,64,37,51,46,62,52,active,israeli
+isr_262,Amit Cohen,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,RB,,,,72,68,35,45,49,66,55,active,israeli
+isr_263,Karem Jaber,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CB,,,,70,48,35,42,45,80,77,active,israeli
+isr_264,Saba Khvadagiani,,Georgia,Georgia,Maccabi Netanya,Ligat Ha'al,CB,,,,78,52,35,44,47,97,84,active,israeli
+isr_265,Benny Feldman,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CB,,,,73,56,35,39,42,89,86,active,israeli
+isr_266,Rotem Keller,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,LB,,,,69,66,35,44,48,64,54,active,israeli
+isr_267,Li On Mizrahi,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,RB,,,,73,71,35,48,52,69,49,active,israeli
+isr_268,Heriberto Tavares,,Cape Verde,Cape Verde,Maccabi Netanya,Ligat Ha'al,CB,,,,69,53,35,37,40,84,81,active,israeli
+isr_269,Maxim Plakuschenko,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CDM,,,,66,48,35,55,44,73,69,active,israeli
+isr_270,Yuval Sade,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CM,,,,68,56,42,65,55,46,52,active,israeli
+isr_271,Oz Bilu,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CM,,,,69,58,44,67,57,48,54,active,israeli
+isr_272,Liam Cohen,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CAM,,,,72,60,61,77,79,35,39,active,israeli
+isr_273,Maor Levi,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,LM,,,,70,75,57,64,72,35,48,active,israeli
+isr_274,Bassam Zarora,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,RM,,,,78,83,63,71,80,35,53,active,israeli
+isr_275,Omri Shamir,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CDM,,,,72,49,37,67,45,76,72,active,israeli
+isr_276,Saher Taji,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,CM,,,,78,58,52,79,66,56,53,active,israeli
+isr_277,Wylan Cyprien,,France,France,Maccabi Netanya,Ligat Ha'al,CM,,,,80,64,57,85,63,52,59,active,israeli
+isr_278,Aziz Ouattara,,Côte d'Ivoire,Côte d'Ivoire,Maccabi Netanya,Ligat Ha'al,CAM,,,,68,50,60,75,76,35,39,active,israeli
+isr_279,Gontie Diomandé,,Côte d'Ivoire,Côte d'Ivoire,Maccabi Netanya,Ligat Ha'al,LM,,,,73,80,61,68,77,35,52,active,israeli
+isr_280,Wilson Harris,,United States,United States,Maccabi Netanya,Ligat Ha'al,ST,,,,82,80,99,49,78,35,83,active,israeli
+isr_281,Loai Helf,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,ST,,,,69,71,79,36,61,35,73,active,israeli
+isr_282,Pedrinho,,Brazil,Brazil,Maccabi Netanya,Ligat Ha'al,LW,,,,79,95,67,58,92,35,50,active,israeli
+isr_283,Aleksei Talpa,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,RW,,,,70,79,62,54,85,35,39,active,israeli
+isr_284,Daniel Atlan,,Israel,Israel,Maccabi Netanya,Ligat Ha'al,ST,,,,80,77,96,46,75,35,80,active,israeli
+isr_285,Matheus Davó,,Brazil,Brazil,Maccabi Netanya,Ligat Ha'al,ST,,,,82,86,96,46,75,35,80,active,israeli
+isr_286,Matan Zalmanović,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,GK,,,,76,42,35,52,39,35,58,active,israeli
+isr_287,Daniel Tenenbaum,,Brazil,Brazil,Ironi Kiryat Shmona,Ligat Ha'al,GK,,,,73,36,35,46,42,35,52,active,israeli
+isr_288,Roy Shedo,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,GK,,,,76,42,35,52,39,35,58,active,israeli
+isr_289,Amit Glazer,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CB,,,,72,48,35,41,44,89,78,active,israeli
+isr_290,Ofir Benbenisti,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CB,,,,65,44,35,38,41,82,71,active,israeli
+isr_291,Harel Goldenberg,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CB,,,,75,50,35,43,46,93,81,active,israeli
+isr_292,Itzik Shoolmayster,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,LB,,,,67,63,36,50,45,61,50,active,israeli
+isr_293,Ovadia Darwish,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,RB,,,,70,62,35,49,53,60,49,active,israeli
+isr_294,Nemanja Ljubisavljević,,Serbia,Serbia,Ironi Kiryat Shmona,Ligat Ha'al,CB,,,,72,49,35,42,45,90,79,active,israeli
+isr_295,Ido Vaier,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CB,,,,73,52,35,44,38,85,82,active,israeli
+isr_296,Shay Ben David,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CB,,,,70,50,35,44,38,82,79,active,israeli
+isr_297,Liel Deri,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,LB,,,,64,57,35,45,49,55,45,active,israeli
+isr_298,Bilal Shahin,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,RB,,,,72,63,35,49,53,70,50,active,israeli
+isr_299,Fernando Pacheco,,Peru,Peru,Ironi Kiryat Shmona,Ligat Ha'al,CDM,,,,73,53,35,62,49,80,76,active,israeli
+isr_300,Mor Siman Tov,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CM,,,,73,56,51,75,64,46,52,active,israeli
+isr_301,Ariel Sheratzky,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CM,,,,78,65,50,77,64,54,60,active,israeli
+isr_302,Aviv Avraham,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,CAM,,,,78,63,65,82,83,35,50,active,israeli
+isr_303,Wale Musa Alli,,Nigeria,Nigeria,Ironi Kiryat Shmona,Ligat Ha'al,LM,,,,78,88,59,67,85,35,49,active,israeli
+isr_304,Yoav Karadi,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,RM,,,,66,74,48,55,71,35,49,active,israeli
+isr_305,Cristian Martínez,,Panama,Panama,Ironi Kiryat Shmona,Ligat Ha'al,CDM,,,,77,57,35,66,52,86,81,active,israeli
+isr_306,Yaw Ackah,,Ghana,Ghana,Ironi Kiryat Shmona,Ligat Ha'al,CM,,,,74,59,53,78,58,48,54,active,israeli
+isr_307,Christian Bella,,Cameroon,Cameroon,Ironi Kiryat Shmona,Ligat Ha'al,CM,,,,80,62,55,83,70,50,57,active,israeli
+isr_308,Yair Mordechai,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,ST,,,,74,78,87,41,68,35,71,active,israeli
+isr_309,Adrián Ugarriza,,Peru,Peru,Ironi Kiryat Shmona,Ligat Ha'al,ST,,,,76,74,92,45,72,35,77,active,israeli
+isr_310,Joan Halabi,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,LW,,,,74,89,63,54,86,35,47,active,israeli
+isr_311,Ori Shnaper,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,RW,,,,81,96,76,66,93,35,50,active,israeli
+isr_312,Yehonathan Malka,,Israel,Israel,Ironi Kiryat Shmona,Ligat Ha'al,ST,,,,75,76,94,48,66,35,79,active,israeli
+isr_313,Marco Wolff,,Argentina,Argentina,Maccabi Petah Tikva,Ligat Ha'al,GK,,,,79,44,35,55,41,35,61,active,israeli
+isr_314,Maor Erlich,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,GK,,,,71,40,35,50,37,35,55,active,israeli
+isr_315,Yanir Zeigerman,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CB,,,,76,55,35,47,41,89,86,active,israeli
+isr_316,Hadar Fuchs,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CB,,,,67,45,35,39,42,84,73,active,israeli
+isr_317,Aviv Salem,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CB,,,,75,50,35,43,46,93,81,active,israeli
+isr_318,Eitan Tibi,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,LB,,,,74,64,35,49,54,71,50,active,israeli
+isr_319,Gal Maatouk,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,RB,,,,74,72,35,48,53,70,49,active,israeli
+isr_320,Ben Vehava,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CB,,,,70,54,35,39,42,86,74,active,israeli
+isr_321,Guy Dezent,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CB,,,,70,49,35,43,37,81,78,active,israeli
+isr_322,Mohammed Hindy,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CB,,,,65,50,35,35,38,79,77,active,israeli
+isr_323,Nowaf Bazea,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CDM,,,,75,55,35,64,50,83,78,active,israeli
+isr_324,Niv Yehoshua,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CM,,,,69,51,46,69,59,50,47,active,israeli
+isr_325,Omer Shirazi,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CM,,,,70,58,44,67,56,48,53,active,israeli
+isr_326,Idan Vered,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CAM,,,,76,55,66,83,84,35,43,active,israeli
+isr_327,Ido Cohen,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,LM,,,,69,75,57,64,72,35,48,active,israeli
+isr_328,Liran Hazan,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,RM,,,,67,75,49,56,72,35,50,active,israeli
+isr_329,Eyal Inbrum,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,CDM,,,,73,53,35,62,49,80,76,active,israeli
+isr_330,Samuel Owusu,,Ghana,Ghana,Maccabi Petah Tikva,Ligat Ha'al,ST,,,,78,78,97,48,67,35,81,active,israeli
+isr_331,Ariel Lugassy,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,ST,,,,73,70,88,42,69,35,72,active,israeli
+isr_332,Mohamed Khatib,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,LW,,,,78,92,73,64,89,35,48,active,israeli
+isr_333,Franck Rivollier,,France,France,Maccabi Petah Tikva,Ligat Ha'al,RW,,,,75,85,67,58,91,35,42,active,israeli
+isr_334,José Cortés,,Colombia,Colombia,Maccabi Petah Tikva,Ligat Ha'al,ST,,,,80,81,99,50,70,35,84,active,israeli
+isr_335,Idan Dahan,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,ST,,,,79,79,98,49,68,35,82,active,israeli
+isr_336,Yuval Kretzo,,Israel,Israel,Maccabi Petah Tikva,Ligat Ha'al,LW,,,,77,92,73,64,89,35,48,active,israeli
+isr_337,Tomer Litvinov,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,GK,,,,71,43,35,44,40,35,49,active,israeli
+isr_338,Ohad Levita,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,GK,,,,76,39,35,49,45,35,55,active,israeli
+isr_339,Amit Harel,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,GK,,,,71,39,35,49,36,35,54,active,israeli
+isr_340,Or Yitzhak,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,GK,,,,72,42,35,43,39,35,57,active,israeli
+isr_341,Tamir Berman,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CB,,,,71,47,35,40,43,88,77,active,israeli
+isr_342,Michael Pistiner,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CB,,,,67,46,35,40,43,76,74,active,israeli
+isr_343,Jonatan Agiyapong,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CB,,,,64,43,35,37,40,81,70,active,israeli
+isr_344,Matan Levi,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,LB,,,,67,58,35,45,49,65,45,active,israeli
+isr_345,Stav Israeli,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,RB,,,,74,70,35,46,51,68,56,active,israeli
+isr_346,Raz Nachmias,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CB,,,,70,53,35,38,41,85,82,active,israeli
+isr_347,Maor Kandil,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CB,,,,65,47,35,41,35,76,74,active,israeli
+isr_348,Ilay Trost,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CDM,,,,72,50,38,68,46,77,73,active,israeli
+isr_349,Golan Beni,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CM,,,,69,52,47,70,60,51,48,active,israeli
+isr_350,Sagi Dror,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CM,,,,78,66,51,78,65,55,52,active,israeli
+isr_351,Adar Ratner,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CAM,,,,74,62,63,79,81,35,40,active,israeli
+isr_352,Shahar Mizrahi,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,LM,,,,71,77,58,65,74,35,49,active,israeli
+isr_353,Avihay Wodaje,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,RM,,,,76,84,55,63,81,35,55,active,israeli
+isr_354,Ori Hassan,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CDM,,,,76,52,38,70,48,81,76,active,israeli
+isr_355,Yuval Piven,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CM,,,,75,57,51,77,65,55,52,active,israeli
+isr_356,Elad Shahaf,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CM,,,,68,56,42,65,55,46,52,active,israeli
+isr_357,Nehoray Uzana,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,CAM,,,,76,58,69,86,78,35,46,active,israeli
+isr_358,Joel Nyrako,,Ghana,Ghana,Bnei Yehuda,Ligat Ha'al,LM,,,,70,78,51,58,75,35,51,active,israeli
+isr_359,Arad Bar,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,RM,,,,71,79,51,58,76,35,51,active,israeli
+isr_360,Victor Stînă,,Moldova,Moldova,Bnei Yehuda,Ligat Ha'al,CDM,,,,69,49,37,66,45,75,71,active,israeli
+isr_361,Ben Hadadi,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,ST,,,,80,79,98,48,68,35,82,active,israeli
+isr_362,Rave Assayag,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,ST,,,,81,83,93,43,72,35,86,active,israeli
+isr_363,Dani Amer,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,LW,,,,80,96,68,58,93,35,51,active,israeli
+isr_364,Noam Gissim,,Israel,Israel,Bnei Yehuda,Ligat Ha'al,RW,,,,77,87,68,59,93,35,43,active,israeli
+isr_365,Lior Gliklich,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,GK,,,,69,35,35,44,40,35,49,active,israeli
+isr_366,Guy Herman,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,GK,,,,70,39,35,49,36,35,54,active,israeli
+isr_367,Mor Barami,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CB,,,,71,47,35,40,43,88,77,active,israeli
+isr_368,Eyad Abu Abaid,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CB,,,,66,48,35,41,35,77,75,active,israeli
+isr_369,Ayid Habshi,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CB,,,,71,47,35,40,43,88,77,active,israeli
+isr_370,Abdallah Jaber,,PLE,PLE,Maccabi Bnei Raina,Ligat Ha'al,LB,,,,69,63,36,50,45,61,51,active,israeli
+isr_371,Ahmed Taha,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,RB,,,,72,68,35,45,49,66,55,active,israeli
+isr_372,Eyad Hutba,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CB,,,,67,48,35,42,36,78,76,active,israeli
+isr_373,Junior Pius,,Nigeria,Nigeria,Maccabi Bnei Raina,Ligat Ha'al,CB,,,,68,53,35,37,40,84,72,active,israeli
+isr_374,Mahmoud Jabarin,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CB,,,,66,46,35,39,42,75,73,active,israeli
+isr_375,Miladin Stevanović,,Serbia,Serbia,Maccabi Bnei Raina,Ligat Ha'al,LB,,,,73,66,37,52,47,64,53,active,israeli
+isr_376,Nevo Shedo,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,RB,,,,64,57,35,45,49,55,45,active,israeli
+isr_377,Ihab Ganayem,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CDM,,,,67,49,35,56,45,74,70,active,israeli
+isr_378,Ilay Elmkies,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CM,,,,70,53,48,71,60,52,48,active,israeli
+isr_379,Emmanuel Banda,,Zambia,Zambia,Maccabi Bnei Raina,Ligat Ha'al,CM,,,,79,62,56,83,61,51,57,active,israeli
+isr_380,Eyad Khalaily,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,CAM,,,,73,54,64,80,82,35,42,active,israeli
+isr_381,Christ Tiéhi,,Côte d'Ivoire,Côte d'Ivoire,Maccabi Bnei Raina,Ligat Ha'al,LM,,,,74,76,57,64,82,35,47,active,israeli
+isr_382,Ali Ibrahim,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,RM,,,,77,81,61,69,87,35,51,active,israeli
+isr_383,Antonio Sefer,,ROU,ROU,Maccabi Bnei Raina,Ligat Ha'al,ST,,,,80,79,98,48,68,35,82,active,israeli
+isr_384,Zé Turbo,,Guinea-Bissau,Guinea-Bissau,Maccabi Bnei Raina,Ligat Ha'al,ST,,,,83,79,99,47,77,35,82,active,israeli
+isr_385,Virgile Pinson,,France,France,Maccabi Bnei Raina,Ligat Ha'al,LW,,,,72,87,61,52,84,35,46,active,israeli
+isr_386,Mohammed Shaker,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,RW,,,,76,94,66,57,91,35,42,active,israeli
+isr_387,Asil Kna'ani,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,ST,,,,69,70,87,44,60,35,72,active,israeli
+isr_388,Vitalie Damașcan,,Moldova,Moldova,Maccabi Bnei Raina,Ligat Ha'al,ST,,,,81,78,97,47,76,35,81,active,israeli
+isr_389,Idan Goren,,Israel,Israel,Maccabi Bnei Raina,Ligat Ha'al,LW,,,,72,84,67,58,81,35,43,active,israeli
+isr_390,Dor Hebron,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,GK,,,,65,35,35,43,40,35,48,active,israeli
+isr_391,Gil Barda,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,GK,,,,67,40,35,41,37,35,54,active,israeli
+isr_392,Nir Ohayon,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,GK,,,,71,36,35,46,42,35,51,active,israeli
+isr_393,Adir Córdoba,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CB,,,,66,51,35,35,38,80,78,active,israeli
+isr_394,Tarek Boshanek,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CB,,,,61,45,35,39,35,72,70,active,israeli
+isr_395,Aviv Lin,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CB,,,,64,49,35,35,37,78,76,active,israeli
+isr_396,Itamar Gueta,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,LB,,,,66,62,36,49,44,60,50,active,israeli
+isr_397,Harel Lichtenstein,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,RB,,,,64,56,35,44,48,63,44,active,israeli
+isr_398,Ron Gabay,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CB,,,,71,53,35,37,40,85,83,active,israeli
+isr_399,Noam Agmon,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CB,,,,66,47,35,40,35,76,74,active,israeli
+isr_400,Hamed Sawadogo,,Côte d'Ivoire,Côte d'Ivoire,Hapoel Ra'anana,Liga Leumit,CB,,,,73,53,35,45,39,86,83,active,israeli
+isr_401,Gal Kolani,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CDM,,,,66,43,35,59,48,77,64,active,israeli
+isr_402,Yuvel Titelman,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CM,,,,66,51,46,68,58,41,47,active,israeli
+isr_403,Snir Shoker,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CM,,,,63,51,47,68,50,42,47,active,israeli
+isr_404,Awajo Asefa,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CAM,,,,69,50,60,75,77,35,38,active,israeli
+isr_405,Ihab Abu Alsheikh,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,LM,,,,68,75,49,56,72,35,49,active,israeli
+isr_406,Roee Satularo,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,RM,,,,63,66,50,56,72,35,42,active,israeli
+isr_407,Lee-Yam Dan,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CDM,,,,68,44,35,60,48,78,65,active,israeli
+isr_408,Saidu Fofanah,,SLE,SLE,Hapoel Ra'anana,Liga Leumit,CM,,,,74,59,53,78,58,48,54,active,israeli
+isr_409,Dor Kochav,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CM,,,,72,58,52,76,56,47,53,active,israeli
+isr_410,Tom Berkovic,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,CAM,,,,65,52,61,76,68,35,41,active,israeli
+isr_411,Michael Maman,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,ST,,,,66,65,81,40,55,35,67,active,israeli
+isr_412,Omer Senior,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,ST,,,,73,69,87,41,68,35,71,active,israeli
+isr_413,Isaac Oppong,,Ghana,Ghana,Hapoel Ra'anana,Liga Leumit,LW,,,,76,90,71,62,87,35,47,active,israeli
+isr_414,Omer Dahan,,Israel,Israel,Hapoel Ra'anana,Liga Leumit,RW,,,,71,84,67,58,81,35,44,active,israeli
+isr_415,Wonderson Yakubu,,Nigeria,Nigeria,Hapoel Ra'anana,Liga Leumit,ST,,,,67,71,78,37,61,35,64,active,israeli
+isr_416,Shon Ben Nesher,,Israel,Israel,Maccabi Herzliya,Liga Leumit,GK,,,,63,35,35,40,37,35,44,active,israeli
+isr_417,Tal Bomshtein,,Israel,Israel,Maccabi Herzliya,Liga Leumit,GK,,,,69,35,35,45,41,35,50,active,israeli
+isr_418,Roei Herman,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CB,,,,65,46,35,40,35,75,73,active,israeli
+isr_419,Alon Ginat,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CB,,,,70,46,35,40,43,87,75,active,israeli
+isr_420,Ali Kayal,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CB,,,,67,48,35,42,36,78,76,active,israeli
+isr_421,Karem Badran,,Israel,Israel,Maccabi Herzliya,Liga Leumit,LB,,,,59,56,35,36,40,54,45,active,israeli
+isr_422,Rom Elias,,Israel,Israel,Maccabi Herzliya,Liga Leumit,RB,,,,61,55,35,43,39,53,44,active,israeli
+isr_423,Ori Ziv,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CB,,,,63,41,35,36,39,79,68,active,israeli
+isr_424,Ziv Leigh,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CB,,,,71,52,35,45,39,84,82,active,israeli
+isr_425,Ran Vaturi,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CB,,,,63,44,35,39,35,73,71,active,israeli
+isr_426,Ori Tza'adon,,Israel,Israel,Maccabi Herzliya,Liga Leumit,LB,,,,61,54,35,42,47,52,43,active,israeli
+isr_427,Shay Ayzen,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CDM,,,,60,40,35,55,45,62,59,active,israeli
+isr_428,Eylon Yerushalmi,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CM,,,,68,57,43,66,56,47,53,active,israeli
+isr_429,Tom Alen Tolić,,Croatia,Croatia,Maccabi Herzliya,Liga Leumit,CM,,,,65,49,44,66,56,48,45,active,israeli
+isr_430,Ofek Ovadia,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CAM,,,,70,53,63,78,80,35,41,active,israeli
+isr_431,Paz Shifman,,Israel,Israel,Maccabi Herzliya,Liga Leumit,LM,,,,71,74,55,62,80,35,46,active,israeli
+isr_432,Amit Yeverbaum,,Israel,Israel,Maccabi Herzliya,Liga Leumit,RM,,,,61,64,49,55,70,35,40,active,israeli
+isr_433,Ofek Mishan,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CDM,,,,65,47,35,63,42,71,67,active,israeli
+isr_434,Tal Naim,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CM,,,,73,58,53,77,57,48,54,active,israeli
+isr_435,Maor Silvas,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CM,,,,68,57,43,66,56,47,53,active,israeli
+isr_436,Amit Ben Kish,,Israel,Israel,Maccabi Herzliya,Liga Leumit,CAM,,,,71,56,66,82,75,35,45,active,israeli
+isr_437,Or Inbrum,,Israel,Israel,Maccabi Herzliya,Liga Leumit,ST,,,,66,70,77,36,60,35,63,active,israeli
+isr_438,Ansony Frías,,Panama,Panama,Maccabi Herzliya,Liga Leumit,ST,,,,66,62,78,37,61,35,64,active,israeli
+isr_439,Ohad Barzilay,,Israel,Israel,Maccabi Herzliya,Liga Leumit,LW,,,,71,82,65,56,88,35,42,active,israeli
+isr_440,Wilinton Aponzá,,Colombia,Colombia,Maccabi Herzliya,Liga Leumit,RW,,,,74,89,63,54,86,35,47,active,israeli
+isr_441,Razi Abu Hamdan,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,GK,,,,70,37,35,47,43,35,52,active,israeli
+isr_442,Yanir Nimni,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,GK,,,,72,41,35,51,38,35,56,active,israeli
+isr_443,Getachew Yabelo,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CB,,,,68,49,35,42,36,80,77,active,israeli
+isr_444,Eliran Zadok,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CB,,,,63,42,35,37,40,80,69,active,israeli
+isr_445,Noam Cohen,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CB,,,,66,48,35,41,35,77,75,active,israeli
+isr_446,Alon Demol,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,LB,,,,68,66,35,43,48,64,53,active,israeli
+isr_447,Konadu Yiadom,,Ghana,Ghana,Hapoel Kfar Saba,Liga Leumit,RB,,,,69,67,35,45,49,65,46,active,israeli
+isr_448,Tomer Arbel,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CB,,,,67,50,35,35,38,80,78,active,israeli
+isr_449,Guy Shelach,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CB,,,,65,47,35,41,35,76,74,active,israeli
+isr_450,Gitay Sofir,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CDM,,,,62,45,35,52,41,68,65,active,israeli
+isr_451,Itay Ehud,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CM,,,,59,51,38,58,49,42,38,active,israeli
+isr_452,Adi Tzur,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CM,,,,62,47,42,63,54,46,43,active,israeli
+isr_453,Roy Harel,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CAM,,,,62,49,59,72,65,35,39,active,israeli
+isr_454,Hamza Shibli,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,LM,,,,62,68,52,59,65,35,44,active,israeli
+isr_455,Liad Shmueli,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,RM,,,,71,73,54,61,79,35,45,active,israeli
+isr_456,Ofek Peretz,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CDM,,,,63,42,35,58,47,65,62,active,israeli
+isr_457,Itay Shavit,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CM,,,,64,49,45,66,56,40,45,active,israeli
+isr_458,Gilbert Bandama,,Côte d'Ivoire,Côte d'Ivoire,Hapoel Kfar Saba,Liga Leumit,CM,,,,72,54,48,72,61,52,49,active,israeli
+isr_459,Amit Arazi,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,CAM,,,,62,45,55,68,70,35,35,active,israeli
+isr_460,Dan Kaduri,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,LM,,,,62,64,48,55,70,35,40,active,israeli
+isr_461,Almog Elshtein,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,RM,,,,63,70,45,51,67,35,46,active,israeli
+isr_462,Yoav Koren,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,ST,,,,71,67,84,40,66,35,69,active,israeli
+isr_463,Julio César,,Brazil,Brazil,Hapoel Kfar Saba,Liga Leumit,ST,,,,73,72,90,44,62,35,74,active,israeli
+isr_464,Niv Tubul,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,LW,,,,70,85,59,51,82,35,45,active,israeli
+isr_465,Lion Caro,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,RW,,,,70,80,63,55,86,35,40,active,israeli
+isr_466,Roy Buganim,,Israel,Israel,Hapoel Kfar Saba,Liga Leumit,ST,,,,63,66,73,35,57,35,68,active,israeli
+isr_467,Rogério Santos,,Portugal,Portugal,Ironi Tiberias,Liga Leumit,GK,,,,71,40,35,50,37,35,55,active,israeli
+isr_468,Ido Sharon,,Israel,Israel,Ironi Tiberias,Liga Leumit,GK,,,,62,38,35,38,35,35,43,active,israeli
+isr_469,Jones Abu Ganima,,Israel,Israel,Ironi Tiberias,Liga Leumit,GK,,,,68,39,35,40,36,35,54,active,israeli
+isr_470,Omer Itzhak,,Israel,Israel,Ironi Tiberias,Liga Leumit,CB,,,,66,51,35,35,38,80,78,active,israeli
+isr_471,Sambinha,,Guinea-Bissau,Guinea-Bissau,Ironi Tiberias,Liga Leumit,CB,,,,63,49,35,35,38,78,67,active,israeli
+isr_472,Eli Balilty,,Israel,Israel,Ironi Tiberias,Liga Leumit,CB,,,,66,44,35,37,40,82,71,active,israeli
+isr_473,Ron Unger,,Israel,Israel,Ironi Tiberias,Liga Leumit,LB,,,,59,58,35,38,42,56,38,active,israeli
+isr_474,Yehonatan Hasson,,Israel,Israel,Ironi Tiberias,Liga Leumit,RB,,,,62,59,35,38,42,57,48,active,israeli
+isr_475,Ondřej Bačo,,Czech Republic,Czech Republic,Ironi Tiberias,Liga Leumit,CB,,,,69,48,35,41,44,79,76,active,israeli
+isr_476,Daniel Joulani,,Ukraine,Ukraine,Ironi Tiberias,Liga Leumit,CB,,,,63,49,35,35,38,78,67,active,israeli
+isr_477,Nehoray Chen,,Israel,Israel,Ironi Tiberias,Liga Leumit,CB,,,,65,49,35,35,37,78,76,active,israeli
+isr_478,Haroun Shapso,,Israel,Israel,Ironi Tiberias,Liga Leumit,LB,,,,67,65,35,43,47,63,52,active,israeli
+isr_479,David Keltjens,,Israel,Israel,Ironi Tiberias,Liga Leumit,CDM,,,,63,48,35,55,44,71,59,active,israeli
+isr_480,Yonatan Teper,,Israel,Israel,Ironi Tiberias,Liga Leumit,CM,,,,61,47,42,63,54,37,43,active,israeli
+isr_481,Firas Abu Akel,,Israel,Israel,Ironi Tiberias,Liga Leumit,CM,,,,63,46,42,63,54,46,42,active,israeli
+isr_482,Guy Hadida,,Israel,Israel,Ironi Tiberias,Liga Leumit,CAM,,,,64,51,60,74,67,35,40,active,israeli
+isr_483,Eithan Velblum,,Israel,Israel,Ironi Tiberias,Liga Leumit,LM,,,,67,72,55,62,69,35,47,active,israeli
+isr_484,Muhammed Usman,,Nigeria,Nigeria,Ironi Tiberias,Liga Leumit,RM,,,,68,71,54,61,77,35,45,active,israeli
+isr_485,Niv Gotlieb,,Israel,Israel,Ironi Tiberias,Liga Leumit,CDM,,,,63,44,35,60,40,67,64,active,israeli
+isr_486,Yarin Swisa,,Israel,Israel,Ironi Tiberias,Liga Leumit,CM,,,,63,54,41,62,53,45,41,active,israeli
+isr_487,Matan Dgani,,Israel,Israel,Ironi Tiberias,Liga Leumit,CM,,,,60,48,44,64,46,39,44,active,israeli
+isr_488,Waheb Habiballah,,Israel,Israel,Ironi Tiberias,Liga Leumit,ST,,,,68,69,86,43,59,35,71,active,israeli
+isr_489,Idan Baranes,,Israel,Israel,Ironi Tiberias,Liga Leumit,ST,,,,63,61,77,38,61,35,63,active,israeli
+isr_490,Itamar Shviro,,Israel,Israel,Ironi Tiberias,Liga Leumit,LW,,,,63,77,54,46,74,35,42,active,israeli
+isr_491,Agam Yehuda,,Israel,Israel,Ironi Tiberias,Liga Leumit,RW,,,,69,84,59,51,81,35,45,active,israeli
+isr_492,Peter Michael,,Nigeria,Nigeria,Ironi Tiberias,Liga Leumit,ST,,,,66,67,83,42,57,35,69,active,israeli
+isr_493,Ofek Antman,,Israel,Israel,Hapoel Acre,Liga Leumit,GK,,,,60,35,35,40,37,35,44,active,israeli
+isr_494,Omri Zuarets,,Israel,Israel,Hapoel Acre,Liga Leumit,GK,,,,65,35,35,44,35,35,49,active,israeli
+isr_495,Ofer Weiss,,Israel,Israel,Hapoel Acre,Liga Leumit,GK,,,,65,35,35,41,38,35,46,active,israeli
+isr_496,Jeffrey Nisembaum,,Israel,Israel,Hapoel Acre,Liga Leumit,CB,,,,67,44,35,38,41,83,72,active,israeli
+isr_497,Liad Levi,,Israel,Israel,Hapoel Acre,Liga Leumit,CB,,,,59,38,35,35,36,74,63,active,israeli
+isr_498,Kauan,,Brazil,Brazil,Hapoel Acre,Liga Leumit,CB,,,,61,44,35,38,35,71,69,active,israeli
+isr_499,Aviv Kanarik,,Israel,Israel,Hapoel Acre,Liga Leumit,LB,,,,63,56,35,44,48,54,44,active,israeli
+isr_500,Romi Cohen,,Israel,Israel,Hapoel Acre,Liga Leumit,RB,,,,55,48,35,37,42,55,38,active,israeli
+isr_501,Reef Amsalem,,Israel,Israel,Hapoel Acre,Liga Leumit,CB,,,,65,48,35,42,36,77,75,active,israeli
+isr_502,Salah Hussein,,Israel,Israel,Hapoel Acre,Liga Leumit,CB,,,,65,50,35,35,38,79,77,active,israeli
+isr_503,Loai Taha,,Israel,Israel,Hapoel Acre,Liga Leumit,CB,,,,66,50,35,35,37,79,77,active,israeli
+isr_504,Ashraf Rabah,,Israel,Israel,Hapoel Acre,Liga Leumit,LB,,,,63,60,35,39,43,58,48,active,israeli
+isr_505,Yakov Ababa,,Israel,Israel,Hapoel Acre,Liga Leumit,RB,,,,59,54,35,43,38,52,43,active,israeli
+isr_506,Rauf Jabarin,,Israel,Israel,Hapoel Acre,Liga Leumit,CDM,,,,56,38,35,52,35,59,56,active,israeli
+isr_507,Junior Traore,,Côte d'Ivoire,Côte d'Ivoire,Hapoel Acre,Liga Leumit,CM,,,,59,47,43,63,45,38,43,active,israeli
+isr_508,Ben Zaid,,Israel,Israel,Hapoel Acre,Liga Leumit,CM,,,,69,55,50,73,54,45,51,active,israeli
+isr_509,Ohad Edri,,Israel,Israel,Hapoel Acre,Liga Leumit,CAM,,,,58,42,51,64,66,35,35,active,israeli
+isr_510,Sali Pahima,,Israel,Israel,Hapoel Acre,Liga Leumit,LM,,,,61,66,51,57,63,35,42,active,israeli
+isr_511,Seri Dadjet,,Côte d'Ivoire,Côte d'Ivoire,Hapoel Acre,Liga Leumit,RM,,,,59,66,42,48,63,35,43,active,israeli
+isr_512,Roei Shukrani,,Israel,Israel,Hapoel Acre,Liga Leumit,CDM,,,,67,44,35,60,49,78,65,active,israeli
+isr_513,Saar Schwartz,,Israel,Israel,Hapoel Acre,Liga Leumit,CM,,,,59,47,43,63,45,38,43,active,israeli
+isr_514,Ellis Spikner,,United States,United States,Hapoel Acre,Liga Leumit,ST,,,,71,72,89,45,62,35,74,active,israeli
+isr_515,Osama Khalaila,,Israel,Israel,Hapoel Acre,Liga Leumit,ST,,,,72,74,82,38,64,35,76,active,israeli
+isr_516,Raz Twizer,,Israel,Israel,Hapoel Acre,Liga Leumit,LW,,,,68,82,57,49,79,35,44,active,israeli
+isr_517,Emmanuel Solomon,,Nigeria,Nigeria,Hapoel Acre,Liga Leumit,RW,,,,72,85,68,59,82,35,44,active,israeli
+isr_518,Levan Kutalia,,Georgia,Georgia,Hapoel Acre,Liga Leumit,ST,,,,67,64,80,39,63,35,66,active,israeli
+isr_519,Ori Azulay,,Israel,Israel,Hapoel Acre,Liga Leumit,ST,,,,64,60,76,36,60,35,62,active,israeli
+isr_520,Jad Shibli,,Israel,Israel,Hapoel Acre,Liga Leumit,LW,,,,70,85,59,51,82,35,45,active,israeli
+isr_521,Noam Rudik,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,GK,,,,67,37,35,47,35,35,51,active,israeli
+isr_522,Ziv Sa'adon,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,GK,,,,66,35,35,44,40,35,49,active,israeli
+isr_523,Re'em Golan,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,GK,,,,67,37,35,47,35,35,51,active,israeli
+isr_524,Ilay Ivgi,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CB,,,,57,44,35,35,35,69,68,active,israeli
+isr_525,Eitan Komisarov,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CB,,,,64,46,35,40,35,75,73,active,israeli
+isr_526,Eitan Aviran,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CB,,,,67,51,35,36,39,81,79,active,israeli
+isr_527,David Mantayeev,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,LB,,,,58,56,35,36,41,54,46,active,israeli
+isr_528,Ido Schwarz,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,RB,,,,66,62,36,49,44,60,50,active,israeli
+isr_529,Daniel Shwarzboim,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CB,,,,58,38,35,35,36,73,62,active,israeli
+isr_530,Shalev Saban,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CB,,,,63,47,35,35,36,76,74,active,israeli
+isr_531,Shay Moshel,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CB,,,,62,48,35,35,36,75,73,active,israeli
+isr_532,Amos Machluf,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,LB,,,,61,57,35,45,41,55,46,active,israeli
+isr_533,Ilay Cohen,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,RB,,,,63,60,35,39,43,58,48,active,israeli
+isr_534,Nirel Mahpud,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CDM,,,,56,41,35,46,37,62,59,active,israeli
+isr_535,Bentzi Moshel,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CM,,,,61,52,38,59,50,42,48,active,israeli
+isr_536,Adi Giat,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CM,,,,68,57,43,66,56,47,53,active,israeli
+isr_537,Daniel Gretz,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CAM,,,,57,41,50,63,65,35,35,active,israeli
+isr_538,Ben Reboah,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,LM,,,,61,63,48,54,69,35,39,active,israeli
+isr_539,David Daburkin,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,RM,,,,66,73,47,54,70,35,48,active,israeli
+isr_540,Ofek Lilus,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,CDM,,,,66,47,36,63,43,72,68,active,israeli
+isr_541,Liad Cohen,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,ST,,,,67,71,78,37,61,35,64,active,israeli
+isr_542,Ahmed Masry,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,ST,,,,60,59,74,37,50,35,61,active,israeli
+isr_543,Yoel Negrin,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,LW,,,,69,77,61,53,83,35,38,active,israeli
+isr_544,Roy Turgeman,,Israel,Israel,Maccabi Ironi Ashdod,Liga Leumit,RW,,,,70,83,66,58,80,35,43,active,israeli
+isr_545,Lidor Cohen,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,GK,,,,66,35,35,44,40,35,49,active,israeli
+isr_546,Omer Ouliel,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,GK,,,,65,35,35,43,40,35,48,active,israeli
+isr_547,Daniel Cohen,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CB,,,,56,40,35,35,35,65,64,active,israeli
+isr_548,Sagiv Cohen,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CB,,,,56,43,35,35,35,68,67,active,israeli
+isr_549,Sagi Kabilio,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CB,,,,59,39,35,35,37,75,64,active,israeli
+isr_550,Omer Rismani,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,LB,,,,64,58,35,46,41,56,46,active,israeli
+isr_551,Bantayo Damane,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,RB,,,,65,64,35,42,47,62,43,active,israeli
+isr_552,Almog Asraf,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CB,,,,64,45,35,39,35,74,72,active,israeli
+isr_553,Ido Ben Yosef,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CB,,,,55,44,35,35,35,68,58,active,israeli
+isr_554,Eve Bukris,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CB,,,,56,36,35,35,35,70,60,active,israeli
+isr_555,Tal Gromes,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,LB,,,,61,60,35,39,44,58,40,active,israeli
+isr_556,Sliman Al Kadiem,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CDM,,,,55,40,35,54,35,60,57,active,israeli
+isr_557,Mervi Bergebedze,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CM,,,,62,51,46,67,49,41,47,active,israeli
+isr_558,Mohammed Alajo,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CM,,,,65,54,40,62,52,44,50,active,israeli
+isr_559,Yanai David,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CAM,,,,66,55,56,71,72,35,36,active,israeli
+isr_560,Yonatan Cohen,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,LM,,,,62,64,48,55,70,35,40,active,israeli
+isr_561,Ron Yosef,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,RM,,,,65,73,48,54,70,35,48,active,israeli
+isr_562,Sergey Kurik,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CDM,,,,66,44,35,60,49,69,65,active,israeli
+isr_563,Omer Shirazi,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CM,,,,58,49,36,56,48,40,46,active,israeli
+isr_564,Gil Pahima,,Israel,Israel,Hapoel Bnei Lod,Liga Leumit,CM,,,,64,50,46,67,48,41,46,active,israeli
+isr_565,Roee Cohen,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,GK,,,,64,38,35,39,35,35,52,active,israeli
+isr_566,Ilay Tomer,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CB,,,,66,48,35,41,35,77,75,active,israeli
+isr_567,Giorgi Kopreba,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CB,,,,56,41,35,36,35,66,65,active,israeli
+isr_568,Miki Siroshtein,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CB,,,,60,42,35,37,35,69,67,active,israeli
+isr_569,Amir Ben Shimon,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,LB,,,,58,55,35,35,40,53,45,active,israeli
+isr_570,Uri Tzaadon,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,RB,,,,58,55,35,35,40,53,45,active,israeli
+isr_571,Liam Nagar,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CB,,,,64,46,35,40,35,75,73,active,israeli
+isr_572,Amnon Tadela,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CDM,,,,57,43,35,48,39,64,61,active,israeli
+isr_573,Ben Khawaz,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CM,,,,61,46,41,62,53,45,42,active,israeli
+isr_574,Sivan Talmi,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CM,,,,57,43,39,58,50,43,39,active,israeli
+isr_575,Dan Kaduri,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CAM,,,,58,46,55,68,61,35,37,active,israeli
+isr_576,Sean Malka,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,LM,,,,67,68,51,58,74,35,43,active,israeli
+isr_577,Lior Berkovich,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,RM,,,,64,66,50,56,72,35,42,active,israeli
+isr_578,Yoav Librus,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CDM,,,,64,48,35,55,44,71,68,active,israeli
+isr_579,Adir Rotstein,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,CM,,,,67,54,49,71,52,44,49,active,israeli
+isr_580,Eden Hershkovitz,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,ST,,,,72,70,87,43,69,35,72,active,israeli
+isr_581,Yanai David,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,ST,,,,66,65,81,40,55,35,67,active,israeli
+isr_582,Sean Buskila,,Israel,Israel,Sektzia Nes Ziona,Liga Leumit,LW,,,,64,79,55,47,76,35,42,active,israeli
+isr_583,Tamir Lalou,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,GK,,,,69,35,35,44,40,35,49,active,israeli
+isr_584,Ido Artzi,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,GK,,,,60,35,35,40,37,35,44,active,israeli
+isr_585,Omri Ohana,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CB,,,,66,46,35,39,42,75,73,active,israeli
+isr_586,Hamidou Diallo,,Mali,Mali,Hapoel Nof HaGalil,Liga Leumit,CB,,,,68,49,35,42,36,80,77,active,israeli
+isr_587,Pedro Sass,,Brazil,Brazil,Hapoel Nof HaGalil,Liga Leumit,CB,,,,68,52,35,36,39,83,80,active,israeli
+isr_588,Jenia Berkman,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,LB,,,,65,56,35,43,48,63,44,active,israeli
+isr_589,Liam Bitan,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,RB,,,,57,54,35,35,39,52,44,active,israeli
+isr_590,Ayman Ali,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CB,,,,62,49,35,35,37,76,65,active,israeli
+isr_591,Shay Mosinenko,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CB,,,,60,42,35,37,35,69,67,active,israeli
+isr_592,Dolev Azulay,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CB,,,,63,47,35,35,36,76,74,active,israeli
+isr_593,Mufalah Shlaata,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,LB,,,,55,52,35,41,37,50,42,active,israeli
+isr_594,Daniel Mor Yosef,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,RB,,,,55,53,35,35,38,51,43,active,israeli
+isr_595,Itamar Guri,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CB,,,,61,48,35,35,36,75,64,active,israeli
+isr_596,Julian Shelufe,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CDM,,,,61,44,35,59,39,66,63,active,israeli
+isr_597,Ohad Rabinovich,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CM,,,,57,45,41,60,43,36,41,active,israeli
+isr_598,Matanel Tadesa,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CM,,,,59,43,39,59,50,43,39,active,israeli
+isr_599,Amit Gorvich,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,CAM,,,,59,49,49,62,64,35,39,active,israeli
+isr_600,Or Dasa,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,LM,,,,58,62,47,53,59,35,39,active,israeli
+isr_601,Anas Dabour,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,ST,,,,64,60,76,36,60,35,62,active,israeli
+isr_602,Idan Golan,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,ST,,,,71,68,85,41,67,35,70,active,israeli
+isr_603,Nehorai Ifrach,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,LW,,,,65,77,62,54,74,35,40,active,israeli
+isr_604,Shahar Hirsh,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,RW,,,,72,86,69,60,83,35,45,active,israeli
+isr_605,Peter Onyekachi,,Nigeria,Nigeria,Hapoel Nof HaGalil,Liga Leumit,ST,,,,70,73,81,38,63,35,75,active,israeli
+isr_606,Kennedy Musonda,,Zambia,Zambia,Hapoel Nof HaGalil,Liga Leumit,ST,,,,63,62,78,39,53,35,64,active,israeli
+isr_607,Ido Elmshily,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,LW,,,,67,79,63,55,76,35,41,active,israeli
+isr_608,Muhammad Taha,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,RW,,,,68,79,63,55,76,35,41,active,israeli
+isr_609,Ofek Osher,,Israel,Israel,Hapoel Nof HaGalil,Liga Leumit,ST,,,,70,73,81,38,63,35,75,active,israeli
+isr_610,Dvir Nir,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,GK,,,,68,35,35,43,39,35,48,active,israeli
+isr_611,Arik Yanko,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,GK,,,,66,35,35,42,38,35,47,active,israeli
+isr_612,Matan Peleg,,GUA,GUA,Hapoel Rishon LeZion,Liga Leumit,CB,,,,63,43,35,38,41,72,70,active,israeli
+isr_613,Roei Zrihan,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CB,,,,61,47,35,35,35,74,72,active,israeli
+isr_614,Omri Luzon,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CB,,,,66,44,35,37,40,82,71,active,israeli
+isr_615,Ali Khatib,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,LB,,,,60,51,35,40,44,58,40,active,israeli
+isr_616,Shon Edri,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,RB,,,,62,58,35,46,41,56,47,active,israeli
+isr_617,Fadi Najar,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CB,,,,59,39,35,35,37,75,64,active,israeli
+isr_618,Jawad Kadah,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CDM,,,,57,36,35,50,41,66,54,active,israeli
+isr_619,Elian Rohana,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CM,,,,69,59,45,68,58,49,46,active,israeli
+isr_620,Jekob Jeno,,NCL,NCL,Hapoel Rishon LeZion,Liga Leumit,CM,,,,70,57,52,75,55,47,52,active,israeli
+isr_621,Roy Dayan,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CAM,,,,62,44,54,67,69,35,35,active,israeli
+isr_622,Shay Sabah,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,LM,,,,67,71,54,61,68,35,46,active,israeli
+isr_623,Roi Hare,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,RM,,,,65,70,54,60,67,35,45,active,israeli
+isr_624,Evyatar Mizrahi,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CDM,,,,58,39,35,53,43,60,57,active,israeli
+isr_625,Amit Zur,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CM,,,,62,46,41,62,53,45,42,active,israeli
+isr_626,Manamto Asefa,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,CM,,,,65,49,44,66,56,48,45,active,israeli
+isr_627,Leroy Mondzenga,,CGO,CGO,Hapoel Rishon LeZion,Liga Leumit,CAM,,,,68,49,59,74,75,35,38,active,israeli
+isr_628,Liam Levy,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,LM,,,,64,67,51,57,73,35,43,active,israeli
+isr_629,Dor Jan,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,ST,,,,70,72,80,37,62,35,74,active,israeli
+isr_630,Ahmad Khalaila,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,ST,,,,62,62,77,39,53,35,64,active,israeli
+isr_631,Amit Zenati,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,LW,,,,70,87,61,53,84,35,38,active,israeli
+isr_632,Hisham Taha,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,RW,,,,67,79,63,55,76,35,41,active,israeli
+isr_633,Daniel Hayle,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,ST,,,,68,72,80,37,62,35,65,active,israeli
+isr_634,Eligijus Jankauskas,,LIT,LIT,Hapoel Rishon LeZion,Liga Leumit,ST,,,,64,64,80,40,55,35,66,active,israeli
+isr_635,Amir Berkovits,,Israel,Israel,Hapoel Rishon LeZion,Liga Leumit,LW,,,,68,81,65,57,78,35,43,active,israeli
+isr_636,Sahar Hasson,,Israel,Israel,Hapoel Afula,Liga Leumit,GK,,,,59,35,35,37,35,35,41,active,israeli
+isr_637,Lidor Cohen,,Israel,Israel,Hapoel Afula,Liga Leumit,GK,,,,58,35,35,40,35,35,44,active,israeli
+isr_638,Nitay Bitan,,Israel,Israel,Hapoel Afula,Liga Leumit,CB,,,,64,47,35,41,35,76,74,active,israeli
+isr_639,Philip Ipole,,Nigeria,Nigeria,Hapoel Afula,Liga Leumit,CB,,,,65,48,35,42,36,77,75,active,israeli
+isr_640,Ofek Fishler,,Israel,Israel,Hapoel Afula,Liga Leumit,CB,,,,56,43,35,35,35,68,67,active,israeli
+isr_641,Mor Naaman,,Israel,Israel,Hapoel Afula,Liga Leumit,LB,,,,58,54,35,43,39,52,44,active,israeli
+isr_642,Ben Ezer Cohen,,Israel,Israel,Hapoel Afula,Liga Leumit,RB,,,,58,56,35,36,41,54,46,active,israeli
+isr_643,Idan Rata,,Israel,Israel,Hapoel Afula,Liga Leumit,CB,,,,56,36,35,35,35,70,60,active,israeli
+isr_644,Miloš Stojanović,,Serbia,Serbia,Hapoel Afula,Liga Leumit,CB,,,,57,40,35,35,35,65,64,active,israeli
+isr_645,Roei Rabinovich,,Israel,Israel,Hapoel Afula,Liga Leumit,CDM,,,,58,43,35,48,38,64,61,active,israeli
+isr_646,Yaniv Brik,,Israel,Israel,Hapoel Afula,Liga Leumit,CM,,,,64,52,48,69,50,43,48,active,israeli
+isr_647,Ilay Azar,,Israel,Israel,Hapoel Afula,Liga Leumit,CM,,,,57,45,41,60,43,36,41,active,israeli
+isr_648,Snir Talias,,Israel,Israel,Hapoel Afula,Liga Leumit,CAM,,,,69,50,60,75,77,35,38,active,israeli
+isr_649,Ran Meir,,Israel,Israel,Hapoel Afula,Liga Leumit,LM,,,,60,69,45,51,66,35,37,active,israeli
+isr_650,Orel Danan,,Israel,Israel,Hapoel Afula,Liga Leumit,RM,,,,57,65,41,47,62,35,43,active,israeli
+isr_651,Liran Turgeman,,Israel,Israel,Hapoel Afula,Liga Leumit,CDM,,,,58,43,35,48,38,64,61,active,israeli
+isr_652,Ilay Ben David,,Israel,Israel,Hapoel Afula,Liga Leumit,CM,,,,59,50,37,57,48,41,46,active,israeli
+isr_653,Oded Checkol,,Israel,Israel,Hapoel Afula,Liga Leumit,CM,,,,69,59,45,68,58,49,46,active,israeli
+isr_654,Afik Cohen,,Israel,Israel,Hapoel Afula,Liga Leumit,CAM,,,,57,41,50,63,65,35,35,active,israeli
+isr_655,Yaniv Mizrahi,,Israel,Israel,Hapoel Afula,Liga Leumit,ST,,,,69,69,86,43,59,35,71,active,israeli
+isr_656,Ahmed Darawshe,,Israel,Israel,Hapoel Afula,Liga Leumit,ST,,,,66,64,80,39,63,35,66,active,israeli
+isr_657,Eilon Elimelech,,Israel,Israel,Hapoel Afula,Liga Leumit,LW,,,,72,87,61,52,84,35,46,active,israeli
+isr_658,Kule Mbombo,,DR Congo,DR Congo,Hapoel Afula,Liga Leumit,RW,,,,63,70,56,48,76,35,35,active,israeli
+isr_659,Ameer Rayan,,Israel,Israel,Hapoel Afula,Liga Leumit,ST,,,,71,70,87,43,60,35,72,active,israeli
+isr_660,Orel Yehuda,,Israel,Israel,Hapoel Afula,Liga Leumit,ST,,,,72,74,82,38,64,35,76,active,israeli
+isr_661,Andrézinho,,Brazil,Brazil,Hapoel Afula,Liga Leumit,LW,,,,67,82,57,49,79,35,44,active,israeli
+isr_662,David Ben Lulu,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,GK,,,,65,35,35,43,40,35,48,active,israeli
+isr_663,Yosef Mahamid,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,GK,,,,69,35,35,44,40,35,49,active,israeli
+isr_664,Aviv Bitton,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CB,,,,65,46,35,40,35,75,73,active,israeli
+isr_665,Shahar Tzafrir,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CB,,,,56,38,35,35,36,63,62,active,israeli
+isr_666,Ahmed Switat,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CB,,,,58,39,35,35,37,74,63,active,israeli
+isr_667,Mohammed Awadeh,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,LB,,,,56,55,35,35,39,53,44,active,israeli
+isr_668,Jaber Jabarin,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,RB,,,,60,56,35,45,40,54,45,active,israeli
+isr_669,Ahmed Jabarin,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CB,,,,65,43,35,37,40,81,70,active,israeli
+isr_670,Oudai Mahamid,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CB,,,,65,44,35,38,41,82,71,active,israeli
+isr_671,Niran Rotshtein,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CB,,,,61,46,35,35,35,73,71,active,israeli
+isr_672,Gal Kolani,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CDM,,,,60,39,35,54,44,70,58,active,israeli
+isr_673,Abdallah Jabarin,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CM,,,,62,50,45,66,48,40,46,active,israeli
+isr_674,Noor Aladeen Jabarin,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CM,,,,58,43,39,59,51,43,40,active,israeli
+isr_675,Bashar Mahagna,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CAM,,,,58,49,49,62,64,35,35,active,israeli
+isr_676,Ilay Segev,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,LM,,,,59,64,49,55,61,35,41,active,israeli
+isr_677,Habiballah Jabarin,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,RM,,,,58,62,47,53,59,35,39,active,israeli
+isr_678,Mohammed Mahamid,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,CDM,,,,59,37,35,52,42,68,56,active,israeli
+isr_679,Idan Golan,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,ST,,,,67,68,84,43,58,35,70,active,israeli
+isr_680,Karem Arshid,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,ST,,,,62,59,74,36,59,35,61,active,israeli
+isr_681,Nasser Issa,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,LW,,,,60,73,50,43,70,35,39,active,israeli
+isr_682,Eden Ben Simon,,Israel,Israel,Hapoel Umm al-Fahm,Liga Leumit,RW,,,,62,73,59,51,70,35,38,active,israeli
+isr_683,Mahmoud Sarsour,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,GK,,,,64,35,35,44,35,35,48,active,israeli
+isr_684,Anas Tibi,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,GK,,,,61,36,35,36,35,35,49,active,israeli
+isr_685,Basel Hijazi,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CB,,,,63,46,35,41,35,75,73,active,israeli
+isr_686,Walid Badir,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CB,,,,64,43,35,37,40,81,70,active,israeli
+isr_687,Mohamad Sawan,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CB,,,,66,50,35,35,37,79,77,active,israeli
+isr_688,Ali Daana,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CB,,,,61,47,35,35,35,74,72,active,israeli
+isr_689,Samer Shehadeh,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,LB,,,,62,56,35,44,39,54,45,active,israeli
+isr_690,Yusef Halabi,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,LB,,,,65,63,35,41,46,61,51,active,israeli
+isr_691,Ibrahim Natur,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,RB,,,,57,48,35,38,42,55,38,active,israeli
+isr_692,Salem Hamdan,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CDM,,,,60,39,35,54,44,70,58,active,israeli
+isr_693,Faris Abu Leil,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CDM,,,,64,45,35,61,41,68,65,active,israeli
+isr_694,Haitham Srouji,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CM,,,,64,52,48,69,50,43,48,active,israeli
+isr_695,Hamza Dawud,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CM,,,,62,48,43,64,55,38,44,active,israeli
+isr_696,Bilal Mansour,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CM,,,,69,59,45,68,58,49,46,active,israeli
+isr_697,Roni Solomon,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CAM,,,,57,44,53,66,59,35,35,active,israeli
+isr_698,Nasser Yahya,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,CAM,,,,62,48,58,71,64,35,38,active,israeli
+isr_699,Mahamid Jamal,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,LW,,,,60,69,55,48,75,35,35,active,israeli
+isr_700,Elias Natour,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,LW,,,,63,71,57,49,77,35,36,active,israeli
+isr_701,Boutros Hamdan,,Cameroon,Cameroon,Maccabi Ahi Nazareth,Liga Leumit,RW,,,,68,78,62,54,84,35,40,active,israeli
+isr_702,Brice Nakache,,France,France,Maccabi Ahi Nazareth,Liga Leumit,RW,,,,65,77,62,54,74,35,40,active,israeli
+isr_703,Ihab Sabbah,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,ST,,,,68,66,83,40,65,35,68,active,israeli
+isr_704,Ahmad Khatib,,Israel,Israel,Maccabi Ahi Nazareth,Liga Leumit,ST,,,,71,67,84,40,66,35,69,active,israeli
+isr_705,Achraf Dguig,,Morocco,Morocco,Maccabi Ahi Nazareth,Liga Leumit,ST,,,,68,67,84,41,57,35,69,active,israeli

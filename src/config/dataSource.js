@@ -1,11 +1,11 @@
 // ── Active player dataset ─────────────────────────────────────────────────────
-// Switch between 'israel' (Israeli football) and 'fifa' (global CSV dataset).
-// This is the single source of truth — change it here to swap the entire game's
-// player population: packs, opponents, squad generation, ratings, positions.
+// 'israel'     — JS module (israeliPlayers.js) — original, always available as fallback
+// 'israel-csv' — CSV file  (israeli_players.csv) — same data, ready for enrichment
+// 'fifa'       — global EA FC CSV (male_players.csv)
 //
-// To add new Israeli players: edit src/data/israeliPlayers.js
-// To revert to FIFA data:     set DATA_SOURCE = 'fifa'
-export const DATA_SOURCE = 'israel';
+// To revert to JS fallback: set DATA_SOURCE = 'israel'
+// To revert to FIFA data:   set DATA_SOURCE = 'fifa'
+export const DATA_SOURCE = 'israel-csv';
 
 // Bump this string every time you deploy a meaningful data/logic change.
 // It appears in the on-screen debug panel so you can verify the live build
