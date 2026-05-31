@@ -3,8 +3,9 @@
  * fetch-israeli-squads.mjs  —  re-run any time: node scripts/fetch-israeli-squads.mjs
  *
  * Fetches Ligat Ha'al + Liga Leumit squads from Wikipedia and generates
- * src/data/israeliPlayers.js.  Clubs without a Wikipedia squad section are
- * filled from the MANUAL_DATA table at the bottom of this file.
+ * src/data/israeliPlayers.js + src/fc_data_players/israeli_players.csv
+ * Clubs without a Wikipedia squad section are filled from MANUAL_DATA.
+ * League structure: 2025-26 season (14 Ha'al clubs, 16 Liga Leumit clubs)
  */
 
 import { writeFileSync } from 'fs';
@@ -12,7 +13,8 @@ import { join, dirname }  from 'path';
 import { fileURLToPath }  from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUT = join(__dirname, '../src/data/israeliPlayers.js');
+const OUT     = join(__dirname, '../src/data/israeliPlayers.js');
+const OUT_CSV = join(__dirname, '../src/fc_data_players/israeli_players.csv');
 
 // ── Country/ISO code → readable name ─────────────────────────────────────────
 const NAT = {
@@ -44,105 +46,167 @@ const NAT = {
   LEB:'Lebanon',   SAU:'Saudi Arabia',UAE:'United Arab Emirates',
 };
 
-// ── Rating tiers ──────────────────────────────────────────────────────────────
-const TIER = {
-  top:         { base:74, min:63, max:82 },
-  mid:         { base:70, min:60, max:78 },
-  low:         { base:66, min:56, max:74 },
-  leumit_top:  { base:64, min:55, max:71 },
-  leumit_mid:  { base:61, min:52, max:68 },
-  leumit_low:  { base:59, min:49, max:66 },
-};
+// ── Rating model v3 — Israeli football universe ───────────────────────────────
+// Philosophy: this is a closed Israeli football universe, not global FIFA.
+//   Active players cap at 90. 91+ is reserved for future Icons / Legends.
+//
+// Target bands (active players):
+//   Ligat Ha'al  top stars   : 86–90
+//   Ligat Ha'al  very good   : 81–85
+//   Ligat Ha'al  starters    : 75–80
+//   Ligat Ha'al  squad        : 68–74
+//   Liga Leumit  top stars   : 74–76  (capped at 70)
+//   Liga Leumit  starters    : 69–73  (capped at 70)
+//   Liga Leumit  regular     : 63–68
+//
+// Formula:
+//   leagueBase + clubBonus + posBonus + foreignBonus + squadBonus + noise(±6)
+//   Hard cap: Ha'al ≤ 90, Leumit ≤ 70.
+
+const TOP3_CLUBS  = new Set(["Maccabi Tel Aviv", "Maccabi Haifa", "Hapoel Be'er Sheva"]);
+const MID_CLUBS   = new Set(["Hapoel Tel Aviv", "Beitar Jerusalem"]);
+const LEUMIT_TOP  = new Set(["Hapoel Ra'anana", "Maccabi Herzliya"]);
+const LEUMIT_MID  = new Set(["Hapoel Kfar Saba"]); // Ironi Tiberias promoted to Ha'al 2025-26
+
+function getClubBonus(clubName, tier, isHaal) {
+  // Ha'al clubs
+  if (clubName === 'Maccabi Tel Aviv' || clubName === 'Maccabi Haifa') return 13;
+  if (clubName === "Hapoel Be'er Sheva") return 12;
+  if (MID_CLUBS.has(clubName))           return 10;
+  if (clubName === 'Hapoel Haifa')        return 9;
+  if (isHaal) return 5;                   // other Ha'al clubs
+  // Leumit clubs
+  if (LEUMIT_TOP.has(clubName)) return 5;
+  if (LEUMIT_MID.has(clubName)) return 3;
+  return 1;
+}
+
+// Attackers and wingers are the visible stars of Israeli football.
+// GKs are premium recruits. Midfielders valuable. Defenders less so in card terms.
+function getPosBonus(position) {
+  if (['ST', 'LW', 'RW'].includes(position)) return 5;
+  if (position === 'GK')                      return 3;
+  if (['CM', 'CAM', 'LM', 'RM'].includes(position)) return 2;
+  return 0; // CB, LB, RB, CDM
+}
+
+// Foreign players at top clubs are targeted quality recruits.
+function getForeignBonus(natCode, clubName, isHaal) {
+  if (natCode === 'ISR') return 0;
+  if (!isHaal) return LEUMIT_TOP.has(clubName) ? 2 : 1;  // top Leumit gets +2 to reach 74-76
+  return TOP3_CLUBS.has(clubName) ? 4 : 2;
+}
+
+// Squad number from Wikipedia: ≤5 = captain band, 6-11 = regular XI.
+// Kept as a minor modifier only — position + club must dominate.
+function getSquadBonus(no) {
+  if (no <= 5)  return 3;
+  if (no <= 11) return 1;
+  if (no >= 20) return -2;
+  return 0;
+}
 
 // ── Club list  (wiki = exact Wikipedia article title, url-encoded as needed) ──
+// 2025-26 season: 14 Ligat Ha'al clubs + 16 Liga Leumit clubs
 const CLUBS = [
-  // ── Ligat Ha'al ─────────────────────────────────────────────────────────────
-  { name:'Maccabi Tel Aviv',    wiki:"Maccabi_Tel_Aviv_F.C.",               league:"Ligat Ha'al", tier:'top' },
-  { name:'Maccabi Haifa',       wiki:"Maccabi_Haifa_F.C.",                  league:"Ligat Ha'al", tier:'top' },
-  { name:"Hapoel Be'er Sheva",  wiki:null, /* no squad section — see MANUAL_DATA */ league:"Ligat Ha'al", tier:'top' },
-  { name:'Hapoel Tel Aviv',     wiki:"Hapoel_Tel_Aviv_F.C.",                league:"Ligat Ha'al", tier:'mid' },
-  { name:'Beitar Jerusalem',    wiki:"Beitar_Jerusalem_F.C.",               league:"Ligat Ha'al", tier:'mid' },
-  { name:'Hapoel Haifa',        wiki:"Hapoel_Haifa_F.C.",                   league:"Ligat Ha'al", tier:'mid' },
-  { name:'Bnei Sakhnin',        wiki:"Bnei_Sakhnin_F.C.",                   league:"Ligat Ha'al", tier:'low' },
-  { name:'Hapoel Hadera',       wiki:"Hapoel_Hadera_F.C.",                  league:"Ligat Ha'al", tier:'low' },
-  { name:'Hapoel Jerusalem',    wiki:"Hapoel_Jerusalem_F.C.",               league:"Ligat Ha'al", tier:'low' },
-  { name:'Maccabi Netanya',     wiki:"Maccabi_Netanya_F.C.",      sectionHint:8,  league:"Ligat Ha'al", tier:'low' },
-  { name:'Ironi Kiryat Shmona', wiki:"Hapoel_Ironi_Kiryat_Shmona_F.C.",    league:"Ligat Ha'al", tier:'low' },
-  { name:'Maccabi Petah Tikva', wiki:"Maccabi_Petah_Tikva_F.C.",            league:"Ligat Ha'al", tier:'low' },
-  { name:'Bnei Yehuda',         wiki:"Bnei_Yehuda_Tel_Aviv_F.C.",           league:"Ligat Ha'al", tier:'low' },
-  { name:'Maccabi Bnei Raina',  wiki:"Maccabi_Bnei_Reineh_F.C.",            league:"Ligat Ha'al", tier:'low' },
-  // ── Liga Leumit ─────────────────────────────────────────────────────────────
-  { name:"Hapoel Ra'anana",     wiki:"Hapoel_Ra'anana_A.F.C.",              league:'Liga Leumit', tier:'leumit_top' },
-  { name:'Maccabi Herzliya',    wiki:"Maccabi_Herzliya_F.C.",               league:'Liga Leumit', tier:'leumit_top' },
-  { name:'Hapoel Kfar Saba',    wiki:"Hapoel_Kfar_Saba_F.C.",              league:'Liga Leumit', tier:'leumit_mid' },
-  { name:'Ironi Tiberias',      wiki:"Ironi_Tiberias_F.C.",                 league:'Liga Leumit', tier:'leumit_mid' },
-  { name:'Hapoel Acre',         wiki:"Hapoel_Acre_F.C.",                    league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Maccabi Ironi Ashdod',wiki:"Maccabi_Ironi_Ashdod_F.C.",           league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Hapoel Bnei Lod',     wiki:"Hapoel_Bnei_Lod_F.C.",               league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Sektzia Nes Ziona',   wiki:"Sektzia_Ness_Ziona_F.C.",            league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Hapoel Nof HaGalil',  wiki:"Hapoel_Nof_HaGalil_F.C.",            league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Hapoel Rishon LeZion',wiki:"Hapoel_Rishon_LeZion_F.C.",           league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Maccabi Ahi Nazareth',wiki:null, /* uses MANUAL_DATA — Wikipedia page has no {{Fs player}} */ league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Hapoel Afula',        wiki:"Hapoel_Afula_F.C.",         sectionHint:2,  league:'Liga Leumit', tier:'leumit_low' },
-  { name:'Hapoel Umm al-Fahm',  wiki:"Hapoel_Umm_al-Fahm_F.C.",            league:'Liga Leumit', tier:'leumit_low' },
+  // ── Ligat Ha'al (14 clubs) ───────────────────────────────────────────────────
+  { name:'Maccabi Tel Aviv',    wiki:"Maccabi_Tel_Aviv_F.C.",    sectionHint:32, league:"Ligat Ha'al", tier:'top' },
+  { name:'Maccabi Haifa',       wiki:"Maccabi_Haifa_F.C.",       sectionHint:22, league:"Ligat Ha'al", tier:'top' },
+  { name:"Hapoel Be'er Sheva",  wiki:null,                                       league:"Ligat Ha'al", tier:'top' }, // no squad section — MANUAL_DATA
+  { name:'Hapoel Tel Aviv',     wiki:"Hapoel_Tel_Aviv_F.C.",     sectionHint:12, league:"Ligat Ha'al", tier:'mid' },
+  { name:'Beitar Jerusalem',    wiki:"Beitar_Jerusalem_F.C.",    sectionHint:44, league:"Ligat Ha'al", tier:'mid' },
+  { name:'Hapoel Haifa',        wiki:"Hapoel_Haifa_F.C.",        sectionHint:17, league:"Ligat Ha'al", tier:'mid' },
+  { name:'Bnei Sakhnin',        wiki:"Bnei_Sakhnin_F.C.",        sectionHint:7,  league:"Ligat Ha'al", tier:'low' },
+  { name:'Hapoel Jerusalem',    wiki:"Hapoel_Jerusalem_F.C.",    sectionHint:4,  league:"Ligat Ha'al", tier:'low' },
+  { name:'Maccabi Netanya',     wiki:"Maccabi_Netanya_F.C.",     sectionHint:8,  league:"Ligat Ha'al", tier:'low' },
+  { name:'Ironi Kiryat Shmona', wiki:"Hapoel_Ironi_Kiryat_Shmona_F.C.", sectionHint:3, league:"Ligat Ha'al", tier:'low' },
+  { name:'Maccabi Bnei Raina',  wiki:"Maccabi_Bnei_Reineh_F.C.", sectionHint:3, league:"Ligat Ha'al", tier:'low' },
+  { name:'Ironi Tiberias',      wiki:"Ironi_Tiberias_F.C.",      sectionHint:2,  league:"Ligat Ha'al", tier:'low' }, // promoted from Leumit 2025-26
+  { name:'Hapoel Petah Tikva',  wiki:"Hapoel_Petah_Tikva_F.C.", sectionHint:9,  league:"Ligat Ha'al", tier:'low' }, // promoted from Leumit 2025-26
+  { name:'F.C. Ashdod',         wiki:"F.C._Ashdod",             sectionHint:3,  league:"Ligat Ha'al", tier:'low' },
+  // ── Liga Leumit (16 clubs) ───────────────────────────────────────────────────
+  { name:"Hapoel Ra'anana",     wiki:"Hapoel_Ra'anana_A.F.C.",  sectionHint:3,  league:'Liga Leumit', tier:'leumit_top' },
+  { name:'Maccabi Herzliya',    wiki:"Maccabi_Herzliya_F.C.",   sectionHint:2,  league:'Liga Leumit', tier:'leumit_top' },
+  { name:'Hapoel Kfar Saba',    wiki:"Hapoel_Kfar_Saba_F.C.",  sectionHint:3,  league:'Liga Leumit', tier:'leumit_mid' },
+  { name:'Maccabi Petah Tikva', wiki:"Maccabi_Petah_Tikva_F.C.", sectionHint:13, league:'Liga Leumit', tier:'leumit_mid' }, // relegated from Ha'al 2025-26
+  { name:'Hapoel Acre',         wiki:"Hapoel_Acre_F.C.",        sectionHint:3,  league:'Liga Leumit', tier:'leumit_low' },
+  { name:'Hapoel Nof HaGalil',  wiki:"Hapoel_Nof_HaGalil_F.C.", sectionHint:2, league:'Liga Leumit', tier:'leumit_low' },
+  { name:'Hapoel Rishon LeZion',wiki:"Hapoel_Rishon_LeZion_F.C.", sectionHint:2, league:'Liga Leumit', tier:'leumit_low' },
+  { name:'Hapoel Afula',        wiki:"Hapoel_Afula_F.C.",       sectionHint:2,  league:'Liga Leumit', tier:'leumit_low' },
+  { name:'Hapoel Hadera',       wiki:"Hapoel_Hadera_F.C.",      sectionHint:3,  league:'Liga Leumit', tier:'leumit_low' }, // relegated from Ha'al 2025-26
+  { name:'Bnei Yehuda',         wiki:"Bnei_Yehuda_Tel_Aviv_F.C.", sectionHint:6, league:'Liga Leumit', tier:'leumit_low' }, // relegated from Ha'al 2025-26
+  { name:'F.C. Kiryat Yam',     wiki:"F.C._Kiryat_Yam",        sectionHint:2,  league:'Liga Leumit', tier:'leumit_low' }, // promoted from Liga Alef 2025-26
+  { name:'Hapoel Kfar Shalem',  wiki:"Hapoel_Kfar_Shalem_F.C.", sectionHint:2, league:'Liga Leumit', tier:'leumit_low' },
+  { name:'F.C. Kafr Qasim',     wiki:"F.C._Kafr_Qasim",        sectionHint:3,  league:'Liga Leumit', tier:'leumit_low' },
+  { name:'Maccabi Jaffa',       wiki:"Maccabi_Jaffa_F.C.",      sectionHint:9,  league:'Liga Leumit', tier:'leumit_low' },
+  { name:"Ironi Modi'in",       wiki:"Ironi_Modi'in_F.C.",      sectionHint:2,  league:'Liga Leumit', tier:'leumit_low' }, // promoted from Liga Alef 2025-26
+  { name:'Hapoel Ramat Gan',    wiki:null,                                       league:'Liga Leumit', tier:'leumit_low' }, // no squad section — MANUAL_DATA
 ];
 
 // ── Manual squads for clubs whose Wikipedia pages use non-standard formats ───────
-// Based on 2024-25 Ligat Ha'al season squad (top-3 club, historically dominant).
 const MANUAL_DATA = {
+  // Hapoel Be'er Sheva — 2025-26 squad (Wikipedia page has no {{Fs player}} templates).
+  // Sources: Transfermarkt + AiScore verified May 2026.
   "Hapoel Be'er Sheva": [
-    { natCode:'ISR', wikiPos:'GK', no:1,  name:'Asaf Tzur',         onLoan:false },
-    { natCode:'ISR', wikiPos:'GK', no:31, name:'Or Gilad',           onLoan:false },
-    { natCode:'ISR', wikiPos:'GK', no:99, name:'Ben David Cohen',    onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:3,  name:'Yosef Tuaf',         onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:4,  name:'Matan Baltaxa',      onLoan:false },
-    { natCode:'BEL', wikiPos:'DF', no:5,  name:'Maximiliano Caufriez',onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:6,  name:'Barak Levi',          onLoan:false },
-    { natCode:'KOS', wikiPos:'DF', no:15, name:'Mërgim Vojvoda',     onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:23, name:'Yonatan Levi',        onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:33, name:'Lidor Cohen',        onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:55, name:'Tzah Doron',         onLoan:false },
-    { natCode:'GHA', wikiPos:'MF', no:7,  name:'Daniel Afriyie',     onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:8,  name:'Almog Cohen',        onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:10, name:'Nimrod Davidi',      onLoan:false },
-    { natCode:'BRA', wikiPos:'MF', no:14, name:'Claudemir',          onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:16, name:'Nimrod Oved',        onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:17, name:'Gal Peled',          onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:22, name:'Moshe Lugasi',        onLoan:false },
-    { natCode:'GHA', wikiPos:'MF', no:24, name:'Leeroy Owusu',       onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:77, name:'Maor Buzaglo',       onLoan:false },
-    { natCode:'ISR', wikiPos:'FW', no:9,  name:'Munas Dabbur',       onLoan:false },
-    { natCode:'ISR', wikiPos:'FW', no:11, name:'Dia Saba',           onLoan:false },
-    { natCode:'BRA', wikiPos:'FW', no:20, name:'Gustavo Boccoli',    onLoan:false },
-    { natCode:'GHA', wikiPos:'FW', no:25, name:'Patrick Twumasi',    onLoan:false },
-    { natCode:'ISR', wikiPos:'FW', no:30, name:'Tomer Hemed',        onLoan:false },
+    { natCode:'ISR', wikiPos:'GK', no:1,  name:'Ofir Marciano',      onLoan:false },
+    { natCode:'ISR', wikiPos:'GK', no:16, name:'Yonatan Shani',       onLoan:false },
+    // Ben Gordin removed — now at Hapoel Jerusalem (correctly scraped from Wikipedia)
+    { natCode:'ISR', wikiPos:'DF', no:2,  name:'Itay Kanarik',        onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:3,  name:'Or Blorian',          onLoan:false }, // pre-contract signed with Sporting KC (MLS), departs June 2026
+    { natCode:'ISR', wikiPos:'DF', no:4,  name:'Matan Baltaxa',       onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:5,  name:'Roy Levy',            onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:6,  name:'Guy Mizrahi',         onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:20, name:'Ofir Davidzada',      onLoan:false },
+    { natCode:'POR', wikiPos:'DF', no:21, name:'Miguel Vitor',        onLoan:false },
+    { natCode:'POR', wikiPos:'DF', no:33, name:'Helder Lopes',        onLoan:false },
+    { natCode:'SEN', wikiPos:'DF', no:22, name:'Djibril Diop',        onLoan:false },
+    // MF order matters: mapPosition('MF', idx) → ['CDM','CM','CM','CAM','LM','RM'][idx%6]
+    // idx 0→CDM, 1→CM, 2→CM, 3→CAM, 4→LM, 5→RM, 6→CDM, 7→CM
+    { natCode:'GHA', wikiPos:'MF', no:8,  name:'Emmanuel Osai',       onLoan:false }, // idx 0 → CDM
+    { natCode:'ZAM', wikiPos:'MF', no:17, name:'Kings Kangwa',        onLoan:false }, // idx 1 → CM (box-to-box CM)
+    { natCode:'ISR', wikiPos:'MF', no:10, name:"Mohammad Kna'an",     onLoan:false }, // idx 2 → CM
+    { natCode:'ISR', wikiPos:'MF', no:9,  name:'Eliel Peretz',        onLoan:false }, // idx 3 → CAM
+    { natCode:'ISR', wikiPos:'MF', no:14, name:'Shay Elias',          onLoan:false }, // idx 4 → LM
+    { natCode:'ISR', wikiPos:'MF', no:23, name:'Itay Hazut',          onLoan:false }, // idx 5 → RM
+    { natCode:'BRA', wikiPos:'MF', no:11, name:'Lucas Ventura',       onLoan:false }, // idx 6 → CDM
+    { natCode:'BUL', wikiPos:'MF', no:26, name:'Yoan Stoyanov',       onLoan:false }, // idx 7 → CM
+    { natCode:'ISR', wikiPos:'FW', no:7,  name:'Dan Biton',           onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:19, name:'Zahi Ahmed',          onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:24, name:'Amir Ganah',          onLoan:false },
+    { natCode:'JAM', wikiPos:'FW', no:18, name:'Javon East',          onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:27, name:'Muhammad Abu Rumi',   onLoan:false },
+    { natCode:'SRB', wikiPos:'FW', no:25, name:'Igor Zlatanovic',     onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:29, name:'Samir Farhud',        onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:32, name:'Amit Ohana',          onLoan:false },
   ],
-  // Maccabi Ahi Nazareth — Liga Leumit club from Nazareth; Wikipedia squad
-  // uses plain text (no {{Fs player}} templates).
-  'Maccabi Ahi Nazareth': [
-    { natCode:'ISR', wikiPos:'GK', no:1,  name:'Mahmoud Sarsour',  onLoan:false },
-    { natCode:'ISR', wikiPos:'GK', no:16, name:'Anas Tibi',         onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:4,  name:'Basel Hijazi',      onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:5,  name:'Walid Badir',       onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:14, name:'Mohamad Sawan',     onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:22, name:'Ali Daana',         onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:3,  name:'Samer Shehadeh',    onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:33, name:'Yusef Halabi',      onLoan:false },
-    { natCode:'ISR', wikiPos:'DF', no:2,  name:'Ibrahim Natur',     onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:6,  name:'Salem Hamdan',      onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:21, name:'Faris Abu Leil',    onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:8,  name:'Haitham Srouji',    onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:18, name:'Hamza Dawud',       onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:27, name:'Bilal Mansour',     onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:10, name:'Roni Solomon',      onLoan:false },
-    { natCode:'ISR', wikiPos:'MF', no:20, name:'Nasser Yahya',      onLoan:false },
-    { natCode:'ISR', wikiPos:'FW', no:7,  name:'Mahamid Jamal',     onLoan:false },
-    { natCode:'ISR', wikiPos:'FW', no:19, name:'Elias Natour',      onLoan:false },
-    { natCode:'CMR', wikiPos:'FW', no:11, name:'Boutros Hamdan',    onLoan:false },
-    { natCode:'FRA', wikiPos:'FW', no:77, name:'Brice Nakache',     onLoan:false },
-    { natCode:'ISR', wikiPos:'FW', no:9,  name:'Ihab Sabbah',       onLoan:false },
-    { natCode:'ISR', wikiPos:'FW', no:23, name:'Ahmad Khatib',      onLoan:false },
-    { natCode:'MAR', wikiPos:'FW', no:99, name:'Achraf Dguig',      onLoan:false },
+  // Hapoel Ramat Gan — Wikipedia page has no current squad section.
+  // Sources: Transfermarkt squad 25/26, verified May 2026.
+  'Hapoel Ramat Gan': [
+    { natCode:'ISR', wikiPos:'GK', no:22, name:'Itamar Israeli',      onLoan:false },
+    { natCode:'ISR', wikiPos:'GK', no:55, name:'Amit Reif',           onLoan:false },
+    { natCode:'ISR', wikiPos:'GK', no:25, name:'Ben Parduaro',        onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:96, name:'Nir Bardea',          onLoan:false },
+    { natCode:'GHA', wikiPos:'DF', no:4,  name:'Mohammed Adams',      onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:6,  name:'Moshe Meir',          onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:44, name:'Amit Banay',          onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:36, name:'Dudu Twitto',         onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:3,  name:'Fares Agbaria',       onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:2,  name:'Or Dadia',            onLoan:false },
+    { natCode:'ISR', wikiPos:'DF', no:18, name:'Niv Sardal',          onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:12, name:'Jay Livne',           onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:8,  name:'Amit Meir',           onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:21, name:'Degats Worko',        onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:37, name:'Ido Mizrahi',         onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:24, name:'Nadav Markovitch',    onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:26, name:'Gidi Kanyuk',         onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:15, name:'Moti Barshazky',      onLoan:false },
+    { natCode:'ISR', wikiPos:'MF', no:7,  name:'Ollie Cohen Bergman', onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:10, name:'Ravid Abergil',       onLoan:false },
+    { natCode:'NGA', wikiPos:'FW', no:77, name:'Sodiq Fatai',         onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:14, name:'Hod Messika',         onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:9,  name:'Yuval Sason',         onLoan:false },
+    { natCode:'NGA', wikiPos:'FW', no:13, name:'Ezekiel Henty',       onLoan:false },
+    { natCode:'ISR', wikiPos:'FW', no:11, name:'David Asanka',        onLoan:false },
   ],
 };
 
@@ -164,13 +228,24 @@ function hashNoise(str, range) {
   return (h % (range * 2 + 1)) - range;
 }
 
-function generateRating({ name, natCode, no, onLoan }, club) {
-  const t = TIER[club.tier];
-  const noise    = hashNoise(name + club.name, 3);
-  const foreign  = natCode !== 'ISR' ? 3 : 0;
-  const squadNum = no <= 5 ? 4 : no <= 11 ? 2 : 0;
-  const loan     = onLoan ? -3 : 0;
-  return Math.max(t.min, Math.min(t.max, t.base + noise + foreign + squadNum + loan));
+// position must be the resolved specific position (ST, CB, GK…).
+// Noise ±6 creates spread within the same club/position band — necessary
+// since Wikipedia squad numbers are the only quality proxy we have.
+function generateRating({ name, natCode, no, onLoan }, club, position) {
+  const isHaal = club.league?.includes("Ha'al");
+
+  const leagueBase = isHaal ? 65 : 60;  // Ha'al base raised so top stars hit 86-90
+  const clubBonus  = getClubBonus(club.name, club.tier, isHaal);
+  const posBonus   = getPosBonus(position);
+  const foreignBon = getForeignBonus(natCode, club.name, isHaal);
+  const squadBonus = getSquadBonus(no);
+  const loan       = onLoan ? -3 : 0;
+  const noise      = hashNoise(name + club.name, 6); // ±6 for within-club spread
+
+  const raw    = leagueBase + clubBonus + posBonus + foreignBon + squadBonus + loan + noise;
+  const maxOvr = isHaal ? 90 : 76;  // active cap 90 (Ha'al), 76 (Leumit); icons 91+
+  const minOvr = isHaal ? 58 : 50;
+  return Math.max(minOvr, Math.min(maxOvr, raw));
 }
 
 // ── Stat generation ───────────────────────────────────────────────────────────
@@ -330,7 +405,7 @@ async function main() {
     for (const [wikiPos, group] of Object.entries(groups)) {
       group.forEach((p, i) => {
         const pos    = mapPosition(wikiPos, i);
-        const rating = generateRating(p, club);
+        const rating = generateRating(p, club, pos);  // pos drives rating now
         const stats  = generateStats(pos, rating, p.name + club.name);
         const nat    = NAT[p.natCode] ?? p.natCode;
         allEntries.push({
@@ -344,7 +419,8 @@ async function main() {
           leagueName:  club.league,
           stats,
           eaId: null, image: null,
-          _source: 'israeli',
+          _source:   'israeli',
+          cardType:  'active',
         });
       });
     }
@@ -361,15 +437,25 @@ async function main() {
   }
   if (cleaned) console.log(`\n  Post-cleaned ${cleaned} remaining wiki-link artifacts`);
 
+  // ── Remove stale Wikipedia entries (player confirmed at a different club) ────
+  // Format: 'PlayerName|ClubName' — removes the stale entry without touching the
+  // correct entry at the player's actual current club.
+  const STALE_EXCLUSIONS = new Set([
+    'Mansour Badjie|Maccabi Jaffa',  // confirmed at Ironi Tiberias (Sofascore/BeSoccer May 2026)
+  ]);
+  const withoutStale = allEntries.filter(p => !STALE_EXCLUSIONS.has(`${p.name}|${p.club}`));
+  const staleCount = allEntries.length - withoutStale.length;
+  if (staleCount) console.log(`  Removed ${staleCount} stale entries (player at wrong club)`);
+
   // ── Remove exact duplicate (same name + same club) ─────────────────────────
   const seen = new Set();
-  const deduped = allEntries.filter(p => {
+  const deduped = withoutStale.filter(p => {
     const key = `${p.name}|${p.club}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
-  const dupCount = allEntries.length - deduped.length;
+  const dupCount = withoutStale.length - deduped.length;
   if (dupCount) console.log(`  Removed ${dupCount} exact duplicates (same name+club)`);
 
   // ── Summary ────────────────────────────────────────────────────────────────
@@ -416,7 +502,7 @@ async function main() {
     `nationality:${JSON.stringify(p.nationality)},country:${JSON.stringify(p.country)},` +
     `club:${JSON.stringify(p.club)},leagueName:${JSON.stringify(p.leagueName)},` +
     `stats:{pac:${p.stats.pac},sho:${p.stats.sho},pas:${p.stats.pas},dri:${p.stats.dri},def:${p.stats.def},phy:${p.stats.phy}},` +
-    `eaId:null,image:null,_source:'israeli'}`
+    `eaId:null,image:null,_source:'israeli',cardType:'active'}`
   );
 
   writeFileSync(OUT, `\
@@ -434,7 +520,22 @@ export function getAllPlayers() {
 }
 `, 'utf8');
 
-  console.log(`\n✅  Written → ${OUT}\n`);
+  console.log(`✅  JS  Written → ${OUT}`);
+
+  // ── Write CSV ──────────────────────────────────────────────────────────────
+  const CSV_HEADER = 'id,name,age,nationality,country,club,leagueName,position,alternativePositions,preferredFoot,marketValue,OVR,PAC,SHO,PAS,DRI,DEF,PHY,cardType,source';
+  function escCsv(v) {
+    const s = v == null ? '' : String(v);
+    if (s.includes(',') || s.includes('"') || s.includes('\n')) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  }
+  const csvRows = deduped.map(p =>
+    [p.id, p.name, '', p.nationality, p.country, p.club, p.leagueName, p.position,
+     '', '', '', p.rating, p.stats.pac, p.stats.sho, p.stats.pas, p.stats.dri, p.stats.def, p.stats.phy,
+     p.cardType, p._source].map(escCsv).join(',')
+  );
+  writeFileSync(OUT_CSV, [CSV_HEADER, ...csvRows].join('\n') + '\n', 'utf8');
+  console.log(`✅  CSV Written → ${OUT_CSV}\n`);
 }
 
 main().catch(e => { console.error('Fatal:', e); process.exit(1); });
